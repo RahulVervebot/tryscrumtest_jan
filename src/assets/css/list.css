@@ -1,0 +1,207 @@
+ .fish-list {
+   counter-reset: li;
+   list-style: none;
+   padding-left: 15px;
+   /* text-shadow: 0 1px 0 rgba(255,255,255,.5); */
+ }
+
+ .fish-list a {
+   position: relative;
+   display: block;
+   padding: .4em .4em .4em 2em;
+   margin: .5em 0;
+   /* background: #2da397; */
+   color: #000;
+   text-decoration: none;
+   border-radius: .3em;
+   transition: .3s ease-out;
+ }
+
+ .fish-list a:hover:before {
+   transform: rotate(0deg), #fff;
+ }
+
+ .fish-list a:before {
+   content: "✓";
+   counter-increment: li;
+   position: absolute;
+   left: -1.3em;
+   top: 50%;
+   margin-top: -1.25em;
+   background: #73b89e;
+   height: 2.5em;
+   width: 2.5em;
+   line-height: 2em;
+   border: .3em solid #fff;
+   text-align: center;
+   font-weight: bold;
+   border-radius: 4em;
+   transition: all .3s ease-out;
+   color: #fff
+ }
+
+
+ .fish-list-team {
+   counter-reset: li;
+   list-style: none;
+   padding-left: 15px;
+   /* text-shadow: 0 1px 0 rgba(255,255,255,.5); */
+ }
+
+ .fish-list-team a {
+   position: relative;
+   display: block;
+   padding: .4em .4em .4em 2em;
+   margin: .5em 0;
+   /* background: #2da397; */
+   color: #000;
+   text-decoration: none;
+   border-radius: .3em;
+   transition: .3s ease-out;
+ }
+
+ .fish-list-team a:hover:before {
+   transform: rotate(0deg), #fff;
+ }
+
+ .fish-list-team a:before {
+   content: "✓";
+   counter-increment: li;
+   position: absolute;
+   left: -1.3em;
+   top: 50%;
+   margin-top: -1.25em;
+   background: #ccde7a;
+   height: 2.5em;
+   width: 2.5em;
+   line-height: 2em;
+   border: .3em solid #fff;
+   text-align: center;
+   font-weight: bold;
+   border-radius: 4em;
+   transition: all .3s ease-out;
+   color: #fff
+ }
+
+
+ /* leadership coaching capabilities */
+
+ .fish-list-lead {
+  counter-reset: li;
+  list-style: none;
+  padding-left: 15px;
+  /* text-shadow: 0 1px 0 rgba(255,255,255,.5); */
+}
+
+.fish-list-lead a {
+  position: relative;
+  display: block;
+  padding: .4em .4em .4em 2em;
+  margin: .5em 0;
+  /* background: #2da397; */
+  color: #000;
+  text-decoration: none;
+  border-radius: .3em;
+  transition: .3s ease-out;
+}
+
+.fish-list-lead a:hover:before {
+  transform: rotate(0deg), #fff;
+}
+
+.fish-list-lead a:before {
+  content: "✓";
+  counter-increment: li;
+  position: absolute;
+  left: -1.3em;
+  top: 50%;
+  margin-top: -1.25em;
+  background: #8C91AE;
+  height: 2.5em;
+  width: 2.5em;
+  line-height: 2em;
+  border: .3em solid #fff;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 4em;
+  transition: all .3s ease-out;
+  color: #fff
+}
+
+
+ .arrow-back {
+   color: #f05457;
+   text-align: center;
+   font-size: 20px;
+ }
+
+ .arrow-left {
+   visibility: visible;
+ }
+
+ .arrow-back:hover .arrow-left {
+   visibility: visible;
+   transition: linear;
+ }
+
+
+ /* flip image */
+
+ .flip-card {
+   background-color: transparent;
+   perspective: 1000px;
+ }
+
+ .flip-card-inner {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   text-align: center;
+   transition: transform 2s;
+   transform-style: preserve-3d;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+ }
+
+ .flip-card:hover .flip-card-inner {
+   transform: rotateY(180deg);
+ }
+
+ .flip-card-front {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+ }
+
+ .flip-card-front {
+   background-color: #bbb;
+   color: black;
+ }
+
+
+
+
+ [treenavigation="checkbox"] {
+   height: 20px;
+   width: 20px;
+   accent-color: #ccde7a;
+ }
+
+ .screendisplaydesk {
+   display: block;
+ }
+
+ .screendisplaymob {
+   display: none;
+ }
+
+ @media (max-width: 1199.98px) {
+
+   .screendisplaydesk {
+     display: none;
+   }
+
+   .screendisplaymob {
+     display: block;
+   }
+
+ }

@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../../../../gatsby-blog"
+		},
+		{
+			"path": "../../../../newsliner-gatsby"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../kipso"
+		},
+		{
+			"path": "../../../../inventory-management"
+		}
+	],
+	"settings": {}
+}
