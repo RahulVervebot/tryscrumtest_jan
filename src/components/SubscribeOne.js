@@ -17,7 +17,7 @@ const SubscribeOne = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const url =
-      "https://tryscrumlive.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3209/feedback";
+      "https://tryscrumtest.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3209/feedback";
     const formData = new FormData();
     formData.append("your-email", state.email);
 

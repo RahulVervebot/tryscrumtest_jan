@@ -78,17 +78,9 @@ const BlogIndex = ({ data }) => {
 
 
 
-  const myTitle = "Practical and actionable writings to help you succeed with Agile"
-  const myDesc = "Explore our blogs to gain practical and actionable tips from our coaches to help you expand your repertoire about Agility."
+  const myTitle = "Agile Articles & Guides for Learners"
+  const myDesc = "Explore comprehensive Agile articles and guides designed for learners. Master Agile practices, frameworks, and certifications with expert insights."
 
-  // console.log(returned)
-
-  //remove particular data
-
-  // const indexuri = returned.findIndex(x => x.author_name.filterByTagName ==="Scrum Master");
-  // console.log(indexuri)
-  // const removeddata = returned.splice(indexuri,1)
-  // console.log(removeddata)
 
 
 
@@ -99,13 +91,11 @@ const BlogIndex = ({ data }) => {
       <Layout pageTitle={myTitle} metaDesc={myDesc} pageName={blogImg} pageloc="individual">
         <NavTwo />
         <div className="blog-scroll">
-          <PageBanner title_1="Blogs" title="Articles" image={banner} uri={"blogs"} padding={8} icon={<i class="fa fa-search" aria-hidden="true"></i>} search={() => showhideValue(s => !s)}/>
+          <PageBanner title_1="Articles" title="Articles" image={banner} uri={"articles"} padding={8} icon={<i class="fa fa-search" aria-hidden="true"></i>} search={() => showhideValue(s => !s)}/>
           <div className={showhide ? "drawer2" : "drawer"} >
             <div id="search" class="searchbox">
               <div class="containers text-center">
-
                 <h3>Search Articles</h3>
-
                 <div class="content-narrow">
                   <div className='input-box'>
                     <input
@@ -124,17 +114,12 @@ const BlogIndex = ({ data }) => {
               </div>
             </div>
           </div>
-
-          <Tagdata />
-
+          {/* <Tagdata /> */}
           <br />
-
           <ol style={{ listStyle: `none` }} className="">
             <section className="about-prokanban ">
               <div className="container" >
                 <div className="row">
-
-
                   {/* <ol style={{ listStyle: `none` }}> */}
                   {foundUsers && foundUsers.length > 0 ? (
                     <>
@@ -263,14 +248,13 @@ const BlogIndex = ({ data }) => {
                       })}
                     </>
                   )}
-
                 </div>
               </div>
             </section>
           </ol>
 </div>
-          <Footer />
-      </Layout>
+ <Footer />
+</Layout>
     </>
   )
 

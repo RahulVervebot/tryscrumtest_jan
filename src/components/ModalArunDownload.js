@@ -77,7 +77,7 @@ const ModalArunDownload = () => {
       debugger;
       setloader('loading');
       const url =
-        "https://tryscrumlive.vervebot.io//wp-json/contact-form-7/v1/contact-forms/7949/feedback";
+        "https://tryscrumtest.vervebot.io//wp-json/contact-form-7/v1/contact-forms/7949/feedback";
       const formData = new FormData();
       formData.append("your-name", state.name);
       formData.append("your-email", state.email);

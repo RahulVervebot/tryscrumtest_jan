@@ -78,8 +78,8 @@ const BlogIndex = ({ data }) => {
 
 
 
-  const myTitle = "Practical and actionable writings to help you succeed with Agile"
-  const myDesc = "Explore our blogs to gain practical and actionable tips from our coaches to help you expand your repertoire about Agility."
+  const myTitle = "Agile Articles & Guides for Learners"
+  const myDesc = "Explore comprehensive Agile articles and guides designed for learners. Master Agile practices, frameworks, and certifications with expert insights."
 
   // console.log(returned)
 
@@ -128,11 +128,8 @@ const BlogIndex = ({ data }) => {
               </div>
             </div>
           </div>
-
-          <Tagdata />
-
+          {/* <Tagdata /> */}
           <br />
-
           <ol style={{ listStyle: `none` }} className="">
             <section className="about-prokanban ">
               <div className="container" >

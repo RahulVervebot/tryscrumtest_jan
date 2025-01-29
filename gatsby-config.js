@@ -5,7 +5,7 @@ module.exports = {
  
       resolve: `gatsby-source-wordpress`,
       options: {
-        url:`https://tryscrumlive.vervebot.io/graphql`,
+        url:`https://tryscrumtest.vervebot.io/graphql`,
         schema: {
           perPage: 10,
           requestConcurrency: 2,

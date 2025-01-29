@@ -72,7 +72,7 @@
                <rdf:li rdf:parseType="Resource">
                   <stMfs:linkForm>EmbedByReference</stMfs:linkForm>
                   <stMfs:reference rdf:parseType="Resource">
-                     <stRef:filePath>https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/ACS-CF-Badge.png</stRef:filePath>
+                     <stRef:filePath>https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/ACS-CF-Badge.png</stRef:filePath>
                      <stRef:documentID>0</stRef:documentID>
                      <stRef:instanceID>0</stRef:instanceID>
                   </stMfs:reference>
@@ -88,7 +88,7 @@
                <rdf:li rdf:parseType="Resource">
                   <stMfs:linkForm>EmbedByReference</stMfs:linkForm>
                   <stMfs:reference rdf:parseType="Resource">
-                     <stRef:filePath>https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/csm.png</stRef:filePath>
+                     <stRef:filePath>https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/csm.png</stRef:filePath>
                      <stRef:documentID>0</stRef:documentID>
                      <stRef:instanceID>0</stRef:instanceID>
                   </stMfs:reference>
@@ -184,7 +184,7 @@
          <xmpMM:Ingredients>
             <rdf:Bag>
                <rdf:li rdf:parseType="Resource">
-                  <stRef:filePath>https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/ACS-CF-Badge.png</stRef:filePath>
+                  <stRef:filePath>https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/ACS-CF-Badge.png</stRef:filePath>
                   <stRef:documentID>0</stRef:documentID>
                   <stRef:instanceID>0</stRef:instanceID>
                </rdf:li>
@@ -194,7 +194,7 @@
                   <stRef:instanceID>0</stRef:instanceID>
                </rdf:li>
                <rdf:li rdf:parseType="Resource">
-                  <stRef:filePath>https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/csm.png</stRef:filePath>
+                  <stRef:filePath>https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/csm.png</stRef:filePath>
                   <stRef:documentID>0</stRef:documentID>
                   <stRef:instanceID>0</stRef:instanceID>
                </rdf:li>
@@ -4189,12 +4189,12 @@
 	<image overflow="visible" width="200" height="200" xlink:href="https://www.tryscrum.com/static/icp-ent-logo-02d0006cb2204908409e4ebe194be426.png" >
 	</image>
 </a>
-<image overflow="visible" width="200" height="200" xlink:href="https://tryscrumlive.vervebot.io/wp-content/uploads/2021/08/icf-acc.png"  transform="matrix(1 0 0 1 514.5879 2202)">
+<image overflow="visible" width="200" height="200" xlink:href="https://tryscrumtest.vervebot.io/wp-content/uploads/2021/08/icf-acc.png"  transform="matrix(1 0 0 1 514.5879 2202)">
 </image>
-<image overflow="visible" width="200" height="200" xlink:href="https://tryscrumlive.vervebot.io/wp-content/uploads/2021/08/ctc.png"  transform="matrix(1 0 0 1 1209.2418 2469)">
+<image overflow="visible" width="200" height="200" xlink:href="https://tryscrumtest.vervebot.io/wp-content/uploads/2021/08/ctc.png"  transform="matrix(1 0 0 1 1209.2418 2469)">
 </image>
 <a xlink:href="https://www.tryscrum.com/advanced-certified-scrummaster/"  transform="matrix(0.6409 0 0 0.6409 455.6121 615.4081)">
-<image overflow="visible" width="300" height="300" xlink:href="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/acsm.png" >
+<image overflow="visible" width="300" height="300" xlink:href="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/acsm.png" >
 </image>
 </a>
 <g>
@@ -4411,7 +4411,7 @@
 	</g>
 </g>
 <a xlink:href="https://www.tryscrum.com/certified-scrum-master/"   transform="matrix(0.3562 0 0 0.3562 405.8666 54.782)">
-<image overflow="visible" width="601" height="601" xlink:href="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/csm.png">
+<image overflow="visible" width="601" height="601" xlink:href="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/csm.png">
 </image>
 </a>
 <g>
@@ -4904,11 +4904,11 @@
 	</g>
 </g>
 <a xlink:href="https://www.tryscrum.com/certified-scrum-product-ownercspo/"   transform="matrix(0.3375 0 0 0.3375 1242.9058 879.5845)">
-<image overflow="visible" width="601" height="601" xlink:href="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/CSPO.png" >
+<image overflow="visible" width="601" height="601" xlink:href="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/CSPO.png" >
 </image>
 </a>
 <a xlink:href="https://www.tryscrum.com/certified-facilitator/"    transform="matrix(0.126 0 0 0.126 528.1977 1162.8831)">
-<image overflow="visible" width="1467" height="1288" xlink:href="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/01/ACS-CF-Badge.png">
+<image overflow="visible" width="1467" height="1288" xlink:href="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/01/ACS-CF-Badge.png">
 </image>
 </a>
 <g>

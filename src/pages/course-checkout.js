@@ -23,7 +23,7 @@ const CheckoutPage = () => {
   const gstRate = 0.18; // 18% GST rate (example)
   const gstAmount = subTotal * gstRate;
   const total = subTotal + gstAmount;
-
+  
   // Handler for billing details changes
   const handleChange = (e) => {
     const { name, value } = e.target;

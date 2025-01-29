@@ -96,7 +96,7 @@ const PostTemplate = ({ data }) => {
   const submitHandlerSubscribe = async (e) => {
     e.preventDefault();
     const url =
-      "https://tryscrumlive.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3209/feedback";
+      "https://tryscrumtest.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3209/feedback";
     const formData = new FormData();
     formData.append("your-email", stateSubscribeemail.subscribeemail);
 
@@ -144,7 +144,7 @@ const PostTemplate = ({ data }) => {
     if (state.email && state.name && state.phone && state.message) {
       debugger;
       setloader('loading');
-      const url = "https://tryscrumlive.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3477/feedback";
+      const url = "https://tryscrumtest.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3477/feedback?_wpcf7_unit_tag=wpcf7-e1a0ed5";
       const formData = new FormData();
       formData.append("your-name", state.name + " Blog " + posttitle);
       formData.append("your-phone", state.phone);
@@ -204,7 +204,7 @@ const PostTemplate = ({ data }) => {
 
   // console.log("guid is", postid)
 
-  const ACTION_URL = `https://tryscrumlive.vervebot.io/wp-json/wp/v2/comments`;
+  const ACTION_URL = `https://tryscrumtest.vervebot.io/wp-json/wp/v2/comments`;
 
   const [textAreaValue, settextAreaValue] = useState('')
   const [formErrorMessage, setformErrorMessage] = useState(null)
@@ -240,7 +240,7 @@ const PostTemplate = ({ data }) => {
       // author_url: website.value,
     });
 
-    fetch(`https://tryscrumlive.vervebot.io/wp-json/wp/v2/comments?author_name=${name}&author_email=${email}&content=${comment}&post=${postid}`, {
+    fetch(`https://tryscrumtest.vervebot.io/wp-json/wp/v2/comments?author_name=${name}&author_email=${email}&content=${comment}&post=${postid}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

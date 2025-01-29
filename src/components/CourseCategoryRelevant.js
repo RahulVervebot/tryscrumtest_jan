@@ -15,7 +15,7 @@ const CourseOne = () => {
           <Link to="/certifications/agile/scrum/product-owner/certified-scrum-product-owner-cspo/" itemProp="url">
             <img
               className="d-block w-100"
-              src="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/10/CSPO.png"
+              src="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/10/CSPO.png"
               alt="CSPO"
             />
           </Link>
@@ -29,7 +29,7 @@ const CourseOne = () => {
           <Link to="/certifications/agile/scrum/product-owner/advanced-certified-scrum-product-owner-acspo/" itemProp="url">
             <img
               className="d-block w-100"
-              src="https://tryscrumlive.vervebot.io/wp-content/uploads/2023/05/image-3.png"
+              src="https://tryscrumtest.vervebot.io/wp-content/uploads/2023/05/image-3.png"
               alt="ACSPO"
             />
           </Link>
@@ -43,7 +43,7 @@ const CourseOne = () => {
           <Link to="/certifications/agile/scrum/leadership/certified-agile-leadership-ii/" itemProp="url">
             <img
               className="d-block w-100"
-              src="https://tryscrumlive.vervebot.io/wp-content/uploads/2023/05/image-2.png"
+              src="https://tryscrumtest.vervebot.io/wp-content/uploads/2023/05/image-2.png"
               alt="CAl2"
             />
           </Link>
@@ -57,7 +57,7 @@ const CourseOne = () => {
           <Link to="/certifications/agile/scrum/scrum-master/professional-scrum-master-i-psm/" itemProp="url">
             <img
               className="d-block w-100"
-              src="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/10/PSM-1.png"
+              src="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/10/PSM-1.png"
               alt="PSM"
             />
           </Link>
@@ -71,7 +71,7 @@ const CourseOne = () => {
           <Link to="/certifications/agile/scrum/scrum-master/professional-scrum-master-ii/" itemProp="url">
             <img
               className="d-block w-100"
-              src="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/10/PSM-II.png"
+              src="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/10/PSM-II.png"
               alt="PSM-II"
             />
           </Link>

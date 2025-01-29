@@ -25,7 +25,7 @@ export default function CourseContact() {
       if (state.email && state.name && state.message) {
         debugger;
   
-      const url = "https://tryscrumlive.vervebot.io/wp-json/contact-form-7/v1/contact-forms/9705/feedback";
+      const url = "https://tryscrumtest.vervebot.io/wp-json/contact-form-7/v1/contact-forms/9705/feedback";
       const formData = new FormData();
       formData.append("your-name", state.name);
       formData.append("your-email", state.email);

@@ -16,7 +16,7 @@ const WhatsAppShare = () => {
                     <i className="fa fa-whatsapp" style={my_float}></i>
                 </a>
                 <a href="/refer-a-friend" className="referer-icon" target="_blank">
-                    <img src="https://tryscrumlive.vervebot.io/wp-content/uploads/2024/05/referer-friend.png" style={{width:"70px"}}/>
+                    <img src="https://tryscrumtest.vervebot.io/wp-content/uploads/2024/05/referer-friend.png" style={{width:"70px"}}/>
                 </a>
         </div>
     )

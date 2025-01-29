@@ -881,6 +881,11 @@ class NavTwo extends Component {
                       Resources
                     </Link>
                     <ul className="sub-menu">
+                    <li onClick={this.showHidetoggleclose}>
+                        <Link to="/articles">
+                          Articles
+                        </Link>
+                      </li>
                       <li onClick={this.showHidetoggleclose}>
                         <Link to="/agile-coach-competencies">
                           Agile Coach Competencies

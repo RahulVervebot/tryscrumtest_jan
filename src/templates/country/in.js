@@ -40,7 +40,7 @@ import icpaccBannerImg from "../../assets/images/icp-acc-02-01-01.png";
 import icpcatBannerImg from "../../assets/images/icp-cat-banner2.png";
 import icpentBannerImg from "../../assets/images/icp-ent-banner.png";
 import bundleCourseBannerImg from "../../assets/images/bundle-box-01.png";
-import csm2_02 from "../../assets/images/csm2-02.png";
+import csm2_02 from "../../assets/images/csm2-banner.png";
 import leftImgBundle from "../../assets/images/left-side-white-bundle-page.png";
 import corporate from "../../assets/images/corporate-table2-01.png";
 import csm_logo from "../../assets/images/new-logos/csm.png";
@@ -703,16 +703,13 @@ const PostTemplate = ({ data }) => {
     setErrors({ ...errors, [name]: "" });
   };
 
-  const windowScrollDown = () => {
-    window.scrollTo(2000, 2000);
-  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log("course name is ", +coursename);
-    setTimeout(windowScrollDown, 100);
     if (state.email && state.name && state.phone && state.message) {
       const url =
-        "https://tryscrumlive.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3477/feedback";
+        "https://tryscrumtest.vervebot.io//wp-json/contact-form-7/v1/contact-forms/3477/feedback?_wpcf7_unit_tag=wpcf7-e1a0ed5";
       const formData = new FormData();
       formData.append("your-name", state.name + " " + coursename);
       formData.append("your-phone", state.phone);
@@ -784,7 +781,7 @@ const PostTemplate = ({ data }) => {
       debugger;
       setloader("loading");
       const url =
-        "https://tryscrumlive.vervebot.io//wp-json/contact-form-7/v1/contact-forms/6480/feedback";
+        "https://tryscrumtest.vervebot.io//wp-json/contact-form-7/v1/contact-forms/6480/feedback";
       const formData = new FormData();
       formData.append("bundle-name", state.bundlename);
       formData.append("bundle-email", state.bundleemail);

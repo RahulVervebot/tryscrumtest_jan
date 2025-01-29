@@ -83,7 +83,7 @@ const PodcastContent = () => {
                 </p>
                 
                 <AudioPlayer
-                  src="https://tryscrumlive.vervebot.io/wp-content/uploads/2021/07/Agile_Coaching_Industry_Practices.mp3"
+                  src="https://tryscrumtest.vervebot.io/wp-content/uploads/2021/07/Agile_Coaching_Industry_Practices.mp3"
                   onPlay={e => console.log("onPlay")}
                     // other props here
                 />
@@ -102,7 +102,7 @@ Date: Feb 11th, 2021
                 </p>
                 <br/>
                 <AudioPlayer
-                  src="https://tryscrumlive.vervebot.io/wp-content/uploads/2021/07/ask-a-professional-scrum-trainer-venkatesh-rajamani.mp3"
+                  src="https://tryscrumtest.vervebot.io/wp-content/uploads/2021/07/ask-a-professional-scrum-trainer-venkatesh-rajamani.mp3"
                   onPlay={e => console.log("onPlay")}
                     // other props here
                 />

@@ -63,7 +63,7 @@ const CareerContent = () => {
       // debuggerss
       setloader("loading")
       const url =
-        "https://tryscrumlive.vervebot.io//wp-json/contact-form-7/v1/contact-forms/8258/feedback"
+        "https://tryscrumtest.vervebot.io//wp-json/contact-form-7/v1/contact-forms/8258/feedback"
       const formData = new FormData()
       formData.append("your-name", state.name)
       formData.append("your-email", state.email)
@@ -134,7 +134,7 @@ const CareerContent = () => {
       console.log(<a href="${image}">Download</a>, "imgdata")
       // axios
       //   .post(
-      //     "https://tryscrumlive.vervebot.io//wp-content/uploads/wpcf7_uploads/contact-form-7/v1/contact-forms/8258/feedback",
+      //     "https://tryscrumtest.vervebot.io//wp-content/uploads/wpcf7_uploads/contact-form-7/v1/contact-forms/8258/feedback",
 
       //     reader.result.toString()
       //   )
