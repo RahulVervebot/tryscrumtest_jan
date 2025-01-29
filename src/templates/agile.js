@@ -57,7 +57,6 @@ import Cspobanner from "../assets/images/cspobanner.png";
 import Cspol from "../assets/images/cspo.png";
 import PriceProgressBar from "../components/PricePrograss";
 
-// import "../../static/Team_coaching_Canvas_Portrait.pdf"
 ReactModal.setAppElement("#___gatsby");
 export const query = graphql`
   query($id: String!) {
