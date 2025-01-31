@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { navigate } from "gatsby"; // <-- Gatsby navigation
 
-function PricePrograss() {
+function PricePrograss({course}) {
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
   const [price, setPrice] = useState(14000);
@@ -28,7 +29,6 @@ function PricePrograss() {
       amount: price * 100, // Convert to paise
       currency: "INR",
     };
-
     axios
       .post(backendURL, data, {
         headers: { "Content-Type": "application/json" },
@@ -41,16 +41,20 @@ function PricePrograss() {
         console.error("Error creating order:", error);
       });
   };
-
+  const handleProceedToCheckout = () => {
+    const courseName = course.acfcoursePage.options.heroHeading || "";
+    // Safely encode your courseName for use in the URL
+    const courseNameEncoded = encodeURIComponent(courseName);
+    // Example: "/course-checkout?price=14000&courseName=Scrum%20Master"
+    navigate(`/course-checkout?price=${price}&courseName=${courseNameEncoded}`);
+  };
   // Open Razorpay payment screen
   const handleRazorpayScreen = async (amount, orderId) => {
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-
     if (!res) {
       alert("Failed to load Razorpay SDK.");
       return;
     }
-
     const options = {
       key: "rzp_test_eCBnZYOjhB6B6V", // Replace with your Razorpay key
       amount: price*100,
@@ -70,7 +74,6 @@ function PricePrograss() {
         color: "#F4C430",
       },
     };
-
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
@@ -137,7 +140,8 @@ function PricePrograss() {
 
       {/* Payment Button */}
       <button
-        onClick={() => createRazorpayOrder(price)}
+       // onClick={() => createRazorpayOrder(price)}
+       onClick={handleProceedToCheckout}
         style={{
           backgroundColor: "#F4C430",
           color: "#333",
