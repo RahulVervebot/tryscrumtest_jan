@@ -4,7 +4,7 @@ import "../CheckoutPage.css"; // optional for styling
 import Layout from "../components/Layout";
 import NavTwo from "../components/NavTwo";
 import Footer from "../components/Footer";
-import { useLocation } from "@reach/router";
+import { useLocation, navigate } from "@reach/router";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 const CheckoutPage = () => {
@@ -226,7 +226,7 @@ const CheckoutPage = () => {
 
       // Post to CF7 (or your custom endpoint)
       const res = await axios.post(url, formData, config);
-
+      createRazorpayOrder(total);
       // If successful, show message & reset form
       setSubmissionMessage(res?.data?.message || "Form submitted successfully!");
       setBillingDetails({
@@ -239,7 +239,9 @@ const CheckoutPage = () => {
         state: "",
         zip: "",
       });
+     
       setLoader("");
+      navigate(-1);
     } catch (error) {
       console.error(error);
       setSubmissionMessage("An error occurred. Please try again.");
@@ -349,7 +351,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* If you want the user to confirm or proceed from here */}
-            <button className="pay-button" type="submit" onClick={() => createRazorpayOrder(total)}>
+            <button className="pay-button" type="submit">
               {loader === "loading" ? "Processing..." : "Pay Now"}
             </button>
           </form>
