@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import "../CheckoutPage.css"; // optional for styling
 import Layout from "../components/Layout";
 import NavTwo from "../components/NavTwo";
 import Footer from "../components/Footer";
-import axios from "axios";
 import { useLocation } from "@reach/router";
+import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 const CheckoutPage = () => {
   // State for billing details
@@ -20,38 +21,125 @@ const CheckoutPage = () => {
     state: "",
     zip: "",
   });
+
+  const [responseId, setResponseId] = useState("");
+  const [serverMessage, setServerMessage] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
   // Extract query parameters
-  const courseprice = searchParams.get("price") || "";
-  const courseNametitle = searchParams.get("courseName") || "";
-  // For showing loader states or success/failure messages
+  const courseNametitle = searchParams.get("courseName") || "empty";
+  const priceString = searchParams.get("price");  // e.g. "14500"
+  const subTotalString = searchParams.get("subTotal"); // e.g. "2500"
+  // Convert them to a number
+  const priceflot = parseFloat(priceString) || 0;
+  const subTotal = parseFloat(subTotalString) || 0;
+
+  // Now .toFixed() works
+  const priceDisplay = priceflot;     // "14500.00"
+  const subTotalDisplay = subTotal.toFixed(2); // "2500.00"
+  const priceNum = parseFloat(priceString) || 0;
+  // Calculate subtotal, GST, and total
+  const gstRate = 0.18; // 18% GST rate (example)
+  const gstAmount = priceNum * gstRate;
+  const total = priceNum + gstAmount;
   const [loader, setLoader] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
+  const [price, setPrice] = useState(total);
+  // Backend URL
+  const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
+
+  // Check server status
+  const checkServer = () => {
+    axios
+      .get(backendURL)
+      .then((response) => {
+        setServerMessage(response.data.message);
+      })
+      .catch((error) => {
+        setServerMessage("Error connecting to server");
+        console.error(error);
+      });
+  };
+
+  // Create Razorpay order
+  const createRazorpayOrder = (price) => {
+    const data = {
+      amount: price * 100, // Convert to paise
+      currency: "INR",
+    };
+    axios
+      .post(backendURL, data, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        console.log("Order created:", response.data);
+        handleRazorpayScreen(response.data.amount, response.data.id);
+      })
+      .catch((error) => {
+        console.error("Error creating order:", error);
+      });
+  };
+
+  // Open Razorpay payment screen
+  const handleRazorpayScreen = async (amount, orderId) => {
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    if (!res) {
+      alert("Failed to load Razorpay SDK.");
+      return;
+    }
+    const options = {
+      key: "rzp_test_eCBnZYOjhB6B6V", // Replace with your Razorpay key
+      amount: price*100,
+      currency: "INR",
+      order_id: orderId,
+      name: "TryScrum",
+      description: "Payment to TryScrum",
+      image: "https://yourdomain.com/logo.png",
+      handler: function (response) {
+        setResponseId(response.razorpay_payment_id);
+      },
+      prefill: {
+        name: "Customer Name",
+        email: "customer@example.com",
+      },
+      theme: {
+        color: "#F4C430",
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
+  // Load Razorpay script
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  // Handle slider value change
+  const handleSliderChange = (event) => {
+    setPrice(Number(event.target.value));
+  };
+
 
   // For handling validation errors
   const [errors, setErrors] = useState({
     fullName: "",
     email: "",
     mobile: "",
-    coursename: "",
-    totalprice: "",
     address: "",
     state: "",
     zip: "",
   });
 
   // Example items or cart data (if you have a cart flow)
-  const cartItems = [
-    { id: 1, name: courseNametitle, price: courseprice },
-  ];
-
-  // Calculate subtotal, GST, and total
-  const subTotal = cartItems.reduce((acc, item) => acc + item.price, 0);
-  const gstRate = 0.18; // 18% GST rate (example)
-  const gstAmount = subTotal * gstRate;
-  const total = subTotal + gstAmount;
+  // Convert them to numbers
 
   // Handler for billing details changes
   const handleInputChange = (e) => {
@@ -83,14 +171,6 @@ const CheckoutPage = () => {
     }
     if (!billingDetails.mobile.trim()) {
       newErrors.mobile = "Mobile is required";
-      isValid = false;
-    }
-    if (!billingDetails.coursename.trim()) {
-      newErrors.coursename = "Course Name is required";
-      isValid = false;
-    }
-    if (!billingDetails.totalprice.trim()) {
-      newErrors.totalprice = "Total Price is required";
       isValid = false;
     }
     if (!billingDetails.address.trim()) {
@@ -133,7 +213,7 @@ const CheckoutPage = () => {
       formData.append("your-company", billingDetails.company || "");
       formData.append("your-gst", billingDetails.gst || "");
       formData.append("your-coursename", courseNametitle);
-      formData.append("your-totalprice", billingDetails.totalprice);
+      formData.append("your-totalprice", total);
       formData.append("your-address", billingDetails.address);
       formData.append("your-state", billingDetails.state);
       formData.append("your-zip", billingDetails.zip);
@@ -155,8 +235,6 @@ const CheckoutPage = () => {
         mobile: "",
         company: "",
         gst: "",
-        coursename: "",
-        totalprice: "",
         address: "",
         state: "",
         zip: "",
@@ -218,7 +296,6 @@ const CheckoutPage = () => {
               <input
                 type="text"
                 name="company"
-                value={courseNametitle}
                 onChange={handleInputChange}
                 placeholder="Example LLC"
               />
@@ -233,30 +310,6 @@ const CheckoutPage = () => {
                 onChange={handleInputChange}
                 placeholder="123ABC4567Z"
               />
-            </div>
-
-            <div className="form-group">
-              <label>Course Name <span style={{ color: "red" }}>*</span>:</label>
-              <input
-                type="text"
-                name="coursename"
-                value={billingDetails.coursename}
-                onChange={handleInputChange}
-                placeholder="Scrum Master Class"
-              />
-              {errors.coursename && <span className="error">{errors.coursename}</span>}
-            </div>
-
-            <div className="form-group">
-              <label>Total Price <span style={{ color: "red" }}>*</span>:</label>
-              <input
-                type="text"
-                name="totalprice"
-                value={billingDetails.totalprice}
-                onChange={handleInputChange}
-                placeholder="999"
-              />
-              {errors.totalprice && <span className="error">{errors.totalprice}</span>}
             </div>
 
             <div className="form-group">
@@ -296,7 +349,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* If you want the user to confirm or proceed from here */}
-            <button className="pay-button" type="submit">
+            <button className="pay-button" type="submit" onClick={() => createRazorpayOrder(total)}>
               {loader === "loading" ? "Processing..." : "Pay Now"}
             </button>
           </form>
@@ -309,7 +362,7 @@ const CheckoutPage = () => {
           <h2>Payment Summary</h2>
           <div className="summary-item">
             <span>Subtotal:</span>
-            <span>${subTotal.toFixed(2)}</span>
+            <span>${priceDisplay}</span>
           </div>
           <div className="summary-item">
             <span>GST (18%):</span>
@@ -317,7 +370,8 @@ const CheckoutPage = () => {
           </div>
           <div className="summary-item total">
             <span>Total:</span>
-            <span>${total.toFixed(2)}</span>
+            
+            <span>${total}</span>
           </div>
         </div>
       </div>

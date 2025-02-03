@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { navigate } from "gatsby"; // <-- Gatsby navigation
-
 function PricePrograss({course}) {
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
   const [price, setPrice] = useState(14000);
-
   // Backend URL
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
 
@@ -41,6 +39,7 @@ function PricePrograss({course}) {
         console.error("Error creating order:", error);
       });
   };
+
   const handleProceedToCheckout = () => {
     const courseName = course.acfcoursePage.options.heroHeading || "";
     // Safely encode your courseName for use in the URL
@@ -48,6 +47,7 @@ function PricePrograss({course}) {
     // Example: "/course-checkout?price=14000&courseName=Scrum%20Master"
     navigate(`/course-checkout?price=${price}&courseName=${courseNameEncoded}`);
   };
+
   // Open Razorpay payment screen
   const handleRazorpayScreen = async (amount, orderId) => {
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
