@@ -721,6 +721,7 @@ class CourseEnrollTable extends React.Component {
                         // this.getUrlType2(filtered[2].url)
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                       )}
+                        <PriceProgressBar course={course}/>
                     </center>
                  
                   </div>
@@ -1151,6 +1152,7 @@ class CourseEnrollTable extends React.Component {
                         // this.getUrlType2(filtered[2].url)
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                       )}
+                        <PriceProgressBar course={course}/>
                     </center>
                   </div>
                 </div>
@@ -1330,6 +1332,7 @@ class CourseEnrollTable extends React.Component {
                                   filtered.enrolltext
                                 )
                               )}
+                                <PriceProgressBar course={course}/>
                             </center>
                           </div>
                         </div>
@@ -1598,6 +1601,7 @@ class CourseEnrollTable extends React.Component {
                           // this.getUrlType2(filtered[2].url)
                           this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                         )}
+                          <PriceProgressBar course={course}/>
                       </center>
                     </div>
                   </div>
@@ -1777,6 +1781,7 @@ class CourseEnrollTable extends React.Component {
                               )
                             )}
                           </center>
+                          <PriceProgressBar course={course}/>
                         </div>
                       </div>
                     </div>
