@@ -82,3 +82,39 @@
     display: block;
     margin-bottom: 20px;
   }
+
+  @media (max-width: 768px) {
+    /* Make checkout layout single-column */
+    .checkout-container {
+      flex-direction: column;
+      width: 90%; /* you can adjust this if you want more or less horizontal space */
+    }
+  
+    .checkout-left {
+      border-right: none; /* remove the right border in single column layout */
+    }
+  
+    .checkout-right {
+      margin-left: 0;    /* remove left margin so it stacks directly under left */
+      margin-top: 20px;  /* add top margin to separate from left section */
+    }
+  
+    /* For "two-column-row", switch to single column */
+    .two-column-row {
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+  /* Mobile and smaller (max-width: 480px) */
+  @media (max-width: 480px) {
+    /* You can keep or further refine your single-column layout here */
+    .checkout-container {
+      padding: 10px; /* smaller padding for mobile if desired */
+    }
+  
+    .checkout-left,
+    .checkout-right {
+      padding: 10px;
+    }
+  }

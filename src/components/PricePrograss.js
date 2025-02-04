@@ -101,8 +101,8 @@ function PricePrograss({course}) {
       <div style={{ marginBottom: "20px" }}>
         <input
           type="range"
-          min="14500"
-          max="90000"
+          min="16500"
+          max="19500"
           step="500"
           value={price}
           onChange={handleSliderChange}
@@ -123,14 +123,14 @@ function PricePrograss({course}) {
               appearance: none;
               width: 20px;
               height: 20px;
-              background: #F4C430;
+              background: #Ff0000;
               border: 2px solid #333;
               border-radius: 50%;
               cursor: pointer;
               transition: background 0.3s;
             }
             input[type="range"]::-webkit-slider-thumb:hover {
-              background: #e3b320;
+              background: #ff0000;
             }
           `}
         </style>
@@ -144,8 +144,8 @@ function PricePrograss({course}) {
        // onClick={() => createRazorpayOrder(price)}
        onClick={handleProceedToCheckout}
         style={{
-          backgroundColor: "#F4C430",
-          color: "#333",
+          backgroundColor: "#Ff0000",
+          color: "#fff",
           border: "none",
           borderRadius: "5px",
           padding: "10px 20px",

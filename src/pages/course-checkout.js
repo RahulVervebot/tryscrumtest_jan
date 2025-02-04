@@ -257,114 +257,98 @@ const CheckoutPage = () => {
       <div className="checkout-container">
         {/* Left side: Billing Details */}
         <div className="checkout-left">
-          <h2>Billing Details</h2>
+          <h3>Billing Details</h3>
           <form onSubmit={submitHandler}>
           <div class="two-column-row">
 
             <div className="form-group">
-
-              <label>Full Name <span style={{ color: "red" }}>*</span>:</label>
               <input
                 type="text"
                 name="fullName"
                 value={billingDetails.fullName}
                 onChange={handleInputChange}
-                placeholder="John Doe"
+                placeholder="Full Name*"
               />
               {errors.fullName && <span className="error">{errors.fullName}</span>}
             </div>
 
             <div className="form-group">
-              <label>Email <span style={{ color: "red" }}>*</span>:</label>
               <input
                 type="email"
                 name="email"
                 value={billingDetails.email}
                 onChange={handleInputChange}
-                placeholder="john@example.com"
+                placeholder="Email*"
               />
               {errors.email && <span className="error">{errors.email}</span>}
             </div>
 
             <div className="form-group">
-              <label>Mobile <span style={{ color: "red" }}>*</span>:</label>
               <input
                 type="text"
                 name="mobile"
                 value={billingDetails.mobile}
                 onChange={handleInputChange}
-                placeholder="0000000000"
+                placeholder="Mobile Number*"
               />
               {errors.mobile && <span className="error">{errors.mobile}</span>}
             </div>
 
             <div className="form-group">
-              <label>Company Name (optional):</label>
               <input
                 type="text"
                 name="company"
                 onChange={handleInputChange}
-                placeholder="Example LLC"
+                placeholder="Company Name (optional)"
               />
             </div>
 </div>
 <div class="single-column-row">
             <div className="form-group">
-              <label>GST Number (optional):</label>
               <input
                 type="text"
                 name="gst"
                 value={billingDetails.gst}
                 onChange={handleInputChange}
-                placeholder="123ABC4567Z"
+                placeholder="GST Number (optional)"
               />
             </div>
 
             <div className="form-group">
-              <label>Address <span style={{ color: "red" }}>*</span>:</label>
               <input
                 type="text"
                 name="address"
                 value={billingDetails.address}
                 onChange={handleInputChange}
-                placeholder="123 Main Street"
+                placeholder="Address"
               />
               {errors.address && <span className="error">{errors.address}</span>}
             </div>
-
+</div>  
+<div class="two-column-row">
             <div className="form-group">
-              <label>State <span style={{ color: "red" }}>*</span>:</label>
               <input
                 type="text"
                 name="state"
                 value={billingDetails.state}
                 onChange={handleInputChange}
-                placeholder="NY"
+                placeholder="State"
               />
               {errors.state && <span className="error">{errors.state}</span>}
             </div>
-
             <div className="form-group">
-              <label>Zip <span style={{ color: "red" }}>*</span>:</label>
               <input
                 type="text"
                 name="zip"
                 value={billingDetails.zip}
                 onChange={handleInputChange}
-                placeholder="10001"
+                placeholder="Zip Code"
               />
               {errors.zip && <span className="error">{errors.zip}</span>}
             </div>
-            <div className="form-group">
-              <label>
-              <input
-          type="checkbox"
-          id="useTotalCheckbox"
-          checked={useTotal}
-          onChange={(e) => setUseTotal(e.target.checked)}
-        /> check if you want GST invoice
-        </label>
             </div>
+            <div class="single-column-row">
+       
             {/* If you want the user to confirm or proceed from here */}
             <button className="pay-button" type="submit">
               {loader === "loading" ? "Processing..." : "Pay Now"}
@@ -377,24 +361,37 @@ const CheckoutPage = () => {
 
         {/* Right side: Payment Summary */}
         <div className="checkout-right">
-        <h3>Course: {courseNametitle}</h3>
-          <h2>Payment Summary</h2>
+        <div class="two-column-row">
+        <h5>{courseNametitle} </h5>
+        {/* <img src={csm_logo} alt="" style={{ width: 120, height: 120 }} /> */}
+        </div>
+          <h3>Payment Summary</h3>
           <div className="summary-item">
             <span>Subtotal:</span>
-            <span>${priceDisplay}</span>
+            <span>₹{priceDisplay}</span>
           </div>
           <div className="summary-item">
           {useTotal ?
           <>
             <span>GST (18%):</span>
-            <span>${gstAmount.toFixed(2)}</span>
+            <span>₹{gstAmount.toFixed(2)}</span>
             </>
             :""
           }
           </div>
+          <div className="form-group">
+              <label>
+              <input
+          type="checkbox"
+          id="useTotalCheckbox"
+          checked={useTotal}
+          onChange={(e) => setUseTotal(e.target.checked)}
+        /> check if you want GST invoice
+        </label>
+            </div>
           <div className="summary-item total">
             <span>Total:</span>
-            <span>${useTotal ? total : priceDisplay}</span>
+            <span>₹{useTotal ? total : priceDisplay}</span>
           </div>
         </div>
       </div>
