@@ -706,21 +706,21 @@ class CourseEnrollTable extends React.Component {
                       </p>
                     </ul>
                     <center>
-                      {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
+                      {/* {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
                         <button
                           type="submit"
                           className="enroll-button"
                           id="example-widget-trigger"
                           onClick={() => this.eventBrite(filtered.url)}
                         >
-                          {/* Enroll */}
+                      
                           {filtered.enrolltext}
                         </button>
                        
                       ) : (
-                        // this.getUrlType2(filtered[2].url)
+                     
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
-                      )}
+                      )} */}
                         <PriceProgressBar course={course}/>
                     </center>
                  
@@ -872,7 +872,7 @@ class CourseEnrollTable extends React.Component {
                           </p>
                         </ul>
                         <center>
-                          {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
+                          {/* {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
                             <td>
                         
                               <button
@@ -881,17 +881,17 @@ class CourseEnrollTable extends React.Component {
                                 id="example-widget-trigger"
                                 onClick={() => this.eventBrite(filtered.url)}
                               >
-                                {/* Enroll */}
+                               
                                 {filtered.enrolltext}
                               </button>
                             </td>
                           ) : (
-                            // this.getUrlType2(filtered[2].url)
+                           
                             this.getUrlTypeNew(
                               filtered.url,
                               filtered.enrolltext
                             )
-                          )}
+                          )} */}
                             <PriceProgressBar course={course}/>
                         </center>
                       </div>
@@ -1138,20 +1138,20 @@ class CourseEnrollTable extends React.Component {
                       </p>
                     </ul>
                     <center>
-                      {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
+                      {/* {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
                         <button
                           type="submit"
                           className="enroll-button"
                           id="example-widget-trigger"
                           onClick={() => this.eventBrite(filtered.url)}
                         >
-                          {/* Enroll */}
+                       
                           {filtered.enrolltext}
                         </button>
                       ) : (
                         // this.getUrlType2(filtered[2].url)
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
-                      )}
+                      )} */}
                         <PriceProgressBar course={course}/>
                     </center>
                   </div>
@@ -1312,7 +1312,7 @@ class CourseEnrollTable extends React.Component {
                               </p>
                             </ul>
                             <center>
-                              {filtered.url[0] == "E" ||
+                              {/* {filtered.url[0] == "E" ||
                               filtered.url[0] == "e" ? (
                                 <td>
                                   <button
@@ -1331,7 +1331,7 @@ class CourseEnrollTable extends React.Component {
                                   filtered.url,
                                   filtered.enrolltext
                                 )
-                              )}
+                              )} */}
                                 <PriceProgressBar course={course}/>
                             </center>
                           </div>
@@ -1585,7 +1585,7 @@ class CourseEnrollTable extends React.Component {
                         </p>
                       </ul>
                       <center>
-                        {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
+                        {/* {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
                           <td>
                             <button
                               type="submit"
@@ -1593,14 +1593,14 @@ class CourseEnrollTable extends React.Component {
                               id="example-widget-trigger"
                               onClick={() => this.eventBrite(filtered.url)}
                             >
-                              {/* Enroll */}
+                            
                               {filtered.enrolltext}
                             </button>
                           </td>
                         ) : (
                           // this.getUrlType2(filtered[2].url)
                           this.getUrlTypeNew(filtered.url, filtered.enrolltext)
-                        )}
+                        )} */}
                           <PriceProgressBar course={course}/>
                       </center>
                     </div>
@@ -1760,7 +1760,7 @@ class CourseEnrollTable extends React.Component {
                             </p>
                           </ul>
                           <center>
-                            {filtered.url[0] == "E" ||
+                            {/* {filtered.url[0] == "E" ||
                             filtered.url[0] == "e" ? (
                               <td>
                                 <button
@@ -1769,7 +1769,7 @@ class CourseEnrollTable extends React.Component {
                                   id="example-widget-trigger"
                                   onClick={() => this.eventBrite(filtered.url)}
                                 >
-                                  {/* Enroll */}
+                             
                                   {filtered.enrolltext}
                                 </button>
                               </td>
@@ -1779,9 +1779,10 @@ class CourseEnrollTable extends React.Component {
                                 filtered.url,
                                 filtered.enrolltext
                               )
-                            )}
+                            )} */}
+                               <PriceProgressBar course={course}/>
                           </center>
-                          <PriceProgressBar course={course}/>
+                       
                         </div>
                       </div>
                     </div>
