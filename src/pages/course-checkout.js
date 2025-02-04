@@ -26,6 +26,7 @@ const CheckoutPage = () => {
   const [serverMessage, setServerMessage] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const [useTotal, setUseTotal] = useState(false);
 
   // Extract query parameters
   const courseNametitle = searchParams.get("courseName") || "empty";
@@ -213,7 +214,7 @@ const CheckoutPage = () => {
       formData.append("your-company", billingDetails.company || "");
       formData.append("your-gst", billingDetails.gst || "");
       formData.append("your-coursename", courseNametitle);
-      formData.append("your-totalprice", total);
+      formData.append("your-totalprice", useTotal ? total : priceDisplay);
       formData.append("your-address", billingDetails.address);
       formData.append("your-state", billingDetails.state);
       formData.append("your-zip", billingDetails.zip);
@@ -223,10 +224,11 @@ const CheckoutPage = () => {
           "content-type": "application/x-www-form-urlencoded",
         },
       };
+      
 
       // Post to CF7 (or your custom endpoint)
       const res = await axios.post(url, formData, config);
-      createRazorpayOrder(total);
+      createRazorpayOrder(useTotal ? total : priceDisplay);
       // If successful, show message & reset form
       setSubmissionMessage(res?.data?.message || "Form submitted successfully!");
       setBillingDetails({
@@ -353,7 +355,16 @@ const CheckoutPage = () => {
               />
               {errors.zip && <span className="error">{errors.zip}</span>}
             </div>
-
+            <div className="form-group">
+              <label>
+              <input
+          type="checkbox"
+          id="useTotalCheckbox"
+          checked={useTotal}
+          onChange={(e) => setUseTotal(e.target.checked)}
+        /> check if you want GST invoice
+        </label>
+            </div>
             {/* If you want the user to confirm or proceed from here */}
             <button className="pay-button" type="submit">
               {loader === "loading" ? "Processing..." : "Pay Now"}
@@ -373,12 +384,17 @@ const CheckoutPage = () => {
             <span>${priceDisplay}</span>
           </div>
           <div className="summary-item">
+          {useTotal ?
+          <>
             <span>GST (18%):</span>
             <span>${gstAmount.toFixed(2)}</span>
+            </>
+            :""
+          }
           </div>
           <div className="summary-item total">
             <span>Total:</span>
-            <span>${total}</span>
+            <span>${useTotal ? total : priceDisplay}</span>
           </div>
         </div>
       </div>
