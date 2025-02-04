@@ -257,7 +257,10 @@ const CheckoutPage = () => {
         <div className="checkout-left">
           <h2>Billing Details</h2>
           <form onSubmit={submitHandler}>
+          <div class="two-column-row">
+
             <div className="form-group">
+
               <label>Full Name <span style={{ color: "red" }}>*</span>:</label>
               <input
                 type="text"
@@ -302,7 +305,8 @@ const CheckoutPage = () => {
                 placeholder="Example LLC"
               />
             </div>
-
+</div>
+<div class="single-column-row">
             <div className="form-group">
               <label>GST Number (optional):</label>
               <input
@@ -354,6 +358,7 @@ const CheckoutPage = () => {
             <button className="pay-button" type="submit">
               {loader === "loading" ? "Processing..." : "Pay Now"}
             </button>
+            </div>
           </form>
           {/* Success / Error message */}
           {submissionMessage && <p className="submission-message">{submissionMessage}</p>}
@@ -361,6 +366,7 @@ const CheckoutPage = () => {
 
         {/* Right side: Payment Summary */}
         <div className="checkout-right">
+        <h3>Course: {courseNametitle}</h3>
           <h2>Payment Summary</h2>
           <div className="summary-item">
             <span>Subtotal:</span>
@@ -372,7 +378,6 @@ const CheckoutPage = () => {
           </div>
           <div className="summary-item total">
             <span>Total:</span>
-            
             <span>${total}</span>
           </div>
         </div>

@@ -1079,7 +1079,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                             __html: course.acfcoursePage.options.heroContent,
                           }}
                    />
-                     <PriceProgressBar course={course} />
+                     {/* <PriceProgressBar course={course} /> */}
                 </div>
               </div>
             </div>
@@ -2536,7 +2536,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                       src={rightImg}
                       style={{ width: "50%", height: "40%" }}
                     />
-                        <PriceProgressBar  course={course}/>
+                        {/* <PriceProgressBar  course={course}/> */}
                   </div>
                 </div>
               </div>
@@ -8427,7 +8427,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                       style={{ width: "50%", height: "40%" }}
                     />
                   </div>
-                 < PriceProgressBar course={course}/>
+                 {/* < PriceProgressBar course={course}/> */}
                 </div>
               </div>
               <div className="col-md-6">

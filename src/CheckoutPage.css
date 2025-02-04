@@ -1,4 +1,5 @@
 .checkout-container {
+  color: #000;
     display: flex;
     flex-direction: row;
     width: 80%;
@@ -71,4 +72,13 @@
   .pay-button:hover {
     background-color: #0056b3;
   }
-  
+  .two-column-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+    gap: 20px; /* Space between columns */
+    margin-bottom: 20px;
+  }
+  .single-column-row {
+    display: block;
+    margin-bottom: 20px;
+  }
