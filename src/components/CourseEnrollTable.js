@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import Carousel, { consts } from "react-elastic-carousel";
 import "./Chat/style.css";
 import "./Chat/townscript.css";
+import PriceProgressBar from "./../components/PricePrograss";
 import { set } from "lodash";
 
 ReactModal.setAppElement("#___gatsby");
@@ -223,14 +224,6 @@ class CourseEnrollTable extends React.Component {
     );
   }
 
-  // scrollToBottom() {
-  //   var element = document.getElementById("gatsby-focus-wrapper");
-  //   element.scrollIntoView({ behavior: "smooth" });
-  // }
-
-  // componentDidUpdate() {
-  //   this.scrollToBottom();
-  // }
 
   getUrlType2(value) {
     if (
@@ -259,6 +252,7 @@ class CourseEnrollTable extends React.Component {
             className="enroll-button"
             onClick={() => window.open(value, "_blank")}
           >
+
             Enroll
           </button>
         </td>
@@ -722,11 +716,13 @@ class CourseEnrollTable extends React.Component {
                           {/* Enroll */}
                           {filtered.enrolltext}
                         </button>
+                       
                       ) : (
                         // this.getUrlType2(filtered[2].url)
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                       )}
                     </center>
+                 
                   </div>
                 </div>
               ))}
@@ -877,6 +873,7 @@ class CourseEnrollTable extends React.Component {
                         <center>
                           {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
                             <td>
+                        
                               <button
                                 type="submit"
                                 className="enroll-button"
@@ -894,8 +891,10 @@ class CourseEnrollTable extends React.Component {
                               filtered.enrolltext
                             )
                           )}
+                            <PriceProgressBar course={course}/>
                         </center>
                       </div>
+             
                     </div>
                   ))}
                 </Carousel>

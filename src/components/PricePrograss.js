@@ -41,7 +41,8 @@ function PricePrograss({course}) {
   };
 
   const handleProceedToCheckout = () => {
-    const courseName = course.acfcoursePage.options.heroHeading || "";
+ //   const courseName = course.acfcoursePage.options.heroHeading || "";
+    const courseName = course.title || "";
     // Safely encode your courseName for use in the URL
     const courseNameEncoded = encodeURIComponent(courseName);
     // Example: "/course-checkout?price=14000&courseName=Scrum%20Master"
