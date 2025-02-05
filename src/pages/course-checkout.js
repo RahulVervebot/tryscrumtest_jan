@@ -30,6 +30,7 @@ const CheckoutPage = () => {
 
   // Extract query parameters
   const courseNametitle = searchParams.get("courseName") || "empty";
+  const courseDate = searchParams.get("courseDate") || ""
   const priceString = searchParams.get("price");  // e.g. "14500"
   const subTotalString = searchParams.get("subTotal"); // e.g. "2500"
   // Convert them to a number
@@ -43,7 +44,11 @@ const CheckoutPage = () => {
   // Calculate subtotal, GST, and total
   const gstRate = 0.18; // 18% GST rate (example)
   const gstAmount = priceNum * gstRate;
-  const total = priceNum + gstAmount;
+  let total;
+  useTotal ? 
+   total = priceNum + gstAmount
+   :
+   total = priceDisplay
   const [loader, setLoader] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
   const [price, setPrice] = useState(total);
@@ -91,7 +96,7 @@ const CheckoutPage = () => {
     }
     const options = {
       key: "rzp_test_eCBnZYOjhB6B6V", // Replace with your Razorpay key
-      amount: price*100,
+      amount: total*100,
       currency: "INR",
       order_id: orderId,
       name: "TryScrum",
@@ -214,7 +219,8 @@ const CheckoutPage = () => {
       formData.append("your-company", billingDetails.company || "");
       formData.append("your-gst", billingDetails.gst || "");
       formData.append("your-coursename", courseNametitle);
-      formData.append("your-totalprice", useTotal ? total : priceDisplay);
+      formData.append("your-coursedate", courseDate);
+      formData.append("your-totalprice", total);
       formData.append("your-address", billingDetails.address);
       formData.append("your-state", billingDetails.state);
       formData.append("your-zip", billingDetails.zip);
@@ -228,7 +234,8 @@ const CheckoutPage = () => {
 
       // Post to CF7 (or your custom endpoint)
       const res = await axios.post(url, formData, config);
-      createRazorpayOrder(useTotal ? total : priceDisplay);
+      console.log('total', total);
+      createRazorpayOrder(total);
       // If successful, show message & reset form
       setSubmissionMessage(res?.data?.message || "Form submitted successfully!");
       setBillingDetails({
@@ -350,7 +357,7 @@ const CheckoutPage = () => {
             <div class="single-column-row">
        
             {/* If you want the user to confirm or proceed from here */}
-            <button className="pay-button" type="submit">
+            <button className="pay-button" type="submit" style={{background: "#ff0000"}}>
               {loader === "loading" ? "Processing..." : "Pay Now"}
             </button>
             </div>
@@ -360,7 +367,7 @@ const CheckoutPage = () => {
         </div>
 
         {/* Right side: Payment Summary */}
-        <div className="checkout-right">
+        <div className="checkout-right-top">
         <div class="two-column-row">
         <h5>{courseNametitle} </h5>
         {/* <img src={csm_logo} alt="" style={{ width: 120, height: 120 }} /> */}
@@ -391,7 +398,7 @@ const CheckoutPage = () => {
             </div>
           <div className="summary-item total">
             <span>Total:</span>
-            <span>₹{useTotal ? total : priceDisplay}</span>
+            <span>₹{total}</span>
           </div>
         </div>
       </div>

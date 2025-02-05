@@ -11,16 +11,19 @@
   }
   
   .checkout-left,
-  .checkout-right {
+  .checkout-right-top {
     flex: 1;
     padding: 20px;
   }
   
   .checkout-left {
-    border-right: 1px solid #ddd;
+    border-radius: 5%;
+    background: #ff000012;
   }
   
-  .checkout-right {
+  .checkout-right-top {
+    background-color: #46aa9f1f;
+    border-radius: 5%;
     margin-left: 20px;
   }
   
@@ -94,7 +97,7 @@
       border-right: none; /* remove the right border in single column layout */
     }
   
-    .checkout-right {
+    .checkout-right-top {
       margin-left: 0;    /* remove left margin so it stacks directly under left */
       margin-top: 20px;  /* add top margin to separate from left section */
     }
@@ -114,7 +117,7 @@
     }
   
     .checkout-left,
-    .checkout-right {
+    .checkout-right-top {
       padding: 10px;
     }
   }
