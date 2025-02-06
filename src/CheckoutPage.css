@@ -11,7 +11,7 @@
   }
   
   .checkout-left,
-  .checkout-right-top, .checkout-right-middle {
+  .checkout-right-top{
     flex: 1;
     padding: 20px;
   }
@@ -28,8 +28,9 @@
   }
   .checkout-right-middle {
     background-color: #f4b03229;
-    border-radius: 5%;
+    border-radius: 20px;
     margin-left: 20px;
+    padding: 40px;;
   }
   
   h2 {
@@ -109,6 +110,7 @@
     .checkout-right-middle{
       margin-left: 0;    /* remove left margin so it stacks directly under left */
       margin-top: 20px;
+      padding: 20px;;
     }
     /* For "two-column-row", switch to single column */
     .two-column-row {

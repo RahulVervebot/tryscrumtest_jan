@@ -27,7 +27,6 @@ const CheckoutPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const [useTotal, setUseTotal] = useState(false);
-
   // Extract query parameters
   const courseNametitle = searchParams.get("courseName") || "empty";
   const courseDate = searchParams.get("courseDate") || ""
@@ -261,11 +260,12 @@ const CheckoutPage = () => {
   return (
     <Layout pageTitle="tryScrum | Checkout" pageName="checkout">
       <NavTwo />
+      <form onSubmit={submitHandler}>
       <div className="checkout-container">
         {/* Left side: Billing Details */}
         <div className="checkout-left">
           <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#ff0000", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>1</span> Billing Details</h4>
-          <form onSubmit={submitHandler}>
+        
           <div class="two-column-row">
 
             <div className="form-group">
@@ -354,30 +354,15 @@ const CheckoutPage = () => {
               {errors.zip && <span className="error">{errors.zip}</span>}
             </div>
             </div>
-            <div class="single-column-row">
-       
-            {/* If you want the user to confirm or proceed from here */}
-            <button className="pay-button" type="submit" style={{background: "#ff0000"}}>
-              {loader === "loading" ? "Processing..." : "Pay Now"}
-            </button>
-            </div>
-          </form>
-          {/* Success / Error message */}
-          {submissionMessage && <p className="submission-message">{submissionMessage}</p>}
+         
         </div>
-        <div className="checkout-right-middle">
-        <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#F4B032", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>2</span> Secure Payment</h4>
-       <img src={imgsecurepayment} style={{width:"200px"}} />
-
-        <h6><br/>Your payments are processed securely via Razorpay, ensuring that every transaction is protected by advanced encryption and robust security protocols.</h6>
-          </div>
+        
         {/* Right side: Payment Summary */}
         <div className="checkout-right-top">
         <div class="two-column-row">
-       
         {/* <img src={csm_logo} alt="" style={{ width: 120, height: 120 }} /> */}
         </div>
-        <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#46AA9F", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>3</span> Payment Summary</h4>
+        <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#46AA9F", color : "#fff", padding: "5px 10px", borderRadius: "20px", fontSize:"16px"}}>2</span> Payment Summary</h4>
         <h5 style={{fontWeight: "600", marginBottom: "5%"}}>{courseNametitle} </h5>
           <div className="summary-item">
             <span>Subtotal:</span>
@@ -399,15 +384,34 @@ const CheckoutPage = () => {
           id="useTotalCheckbox"
           checked={useTotal}
           onChange={(e) => setUseTotal(e.target.checked)}
-        /> check if you want GST invoice
+        /> Check if you want GST invoice
         </label>
             </div>
           <div className="summary-item total">
             <span>Total:</span>
             <span>₹{total}</span>
           </div>
+          <div class="single-column-row">
+       
+       {/* If you want the user to confirm or proceed from here */}
+       <button className="pay-button" type="submit" style={{background: "#ff0000"}}>
+         {loader === "loading" ? "Processing..." : "Pay Now"}
+       </button>
+       </div>
+   
+     {/* Success / Error message */}
+     {submissionMessage && <p className="submission-message">{submissionMessage}</p>}
         </div>
       </div>
+      </form>
+      <div className="checkout-container">
+        <div className="checkout-right-middle">
+        <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#F4B032", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>3</span> Secure Payment</h4>
+       <img src={imgsecurepayment} style={{width:"200px"}} />
+
+        <h6><br/>Your payments are processed securely via Razorpay, ensuring that every transaction is protected by advanced encryption and robust security protocols.</h6>
+          </div>
+          </div>
       <Footer />
     </Layout>
   );
