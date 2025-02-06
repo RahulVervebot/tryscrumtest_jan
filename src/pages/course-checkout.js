@@ -6,7 +6,7 @@ import NavTwo from "../components/NavTwo";
 import Footer from "../components/Footer";
 import { useLocation, navigate } from "@reach/router";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
-
+import imgsecurepayment from '../assets/images/razorpay-payment.jpeg'
 const CheckoutPage = () => {
   // State for billing details
   const [billingDetails, setBillingDetails] = useState({
@@ -264,7 +264,7 @@ const CheckoutPage = () => {
       <div className="checkout-container">
         {/* Left side: Billing Details */}
         <div className="checkout-left">
-          <h3>Billing Details</h3>
+          <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#ff0000", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>1</span> Billing Details</h4>
           <form onSubmit={submitHandler}>
           <div class="two-column-row">
 
@@ -365,14 +365,20 @@ const CheckoutPage = () => {
           {/* Success / Error message */}
           {submissionMessage && <p className="submission-message">{submissionMessage}</p>}
         </div>
+        <div className="checkout-right-middle">
+        <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#F4B032", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>2</span> Secure Payment</h4>
+       <img src={imgsecurepayment} style={{width:"200px"}} />
 
+        <h6><br/>Your payments are processed securely via Razorpay, ensuring that every transaction is protected by advanced encryption and robust security protocols.</h6>
+          </div>
         {/* Right side: Payment Summary */}
         <div className="checkout-right-top">
         <div class="two-column-row">
-        <h5>{courseNametitle} </h5>
+       
         {/* <img src={csm_logo} alt="" style={{ width: 120, height: 120 }} /> */}
         </div>
-          <h3>Payment Summary</h3>
+        <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#46AA9F", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>3</span> Payment Summary</h4>
+        <h5 style={{fontWeight: "600", marginBottom: "5%"}}>{courseNametitle} </h5>
           <div className="summary-item">
             <span>Subtotal:</span>
             <span>₹{priceDisplay}</span>
