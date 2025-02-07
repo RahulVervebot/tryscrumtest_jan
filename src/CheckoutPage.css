@@ -9,6 +9,18 @@
     border-radius: 8px;
     padding: 20px;
   }
+
+  .checkout-container-secure{
+    color: #000;
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    max-width: 1200px;
+    margin: 40px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+  }
   
   .checkout-left,
   .checkout-right-top{
@@ -29,7 +41,6 @@
   .checkout-right-middle {
     background-color: #f4b03229;
     border-radius: 20px;
-    margin-left: 20px;
     padding: 40px;;
   }
   
@@ -98,10 +109,16 @@
       flex-direction: column;
       width: 90%; /* you can adjust this if you want more or less horizontal space */
     }
-  
+    .checkout-container-secure{
+      flex-direction: column;
+      width: 90%; 
+
+    }
+
     .checkout-left {
       border-right: none; /* remove the right border in single column layout */
     }
+
   
     .checkout-right-top {
       margin-left: 0;    /* remove left margin so it stacks directly under left */
@@ -111,6 +128,7 @@
       margin-left: 0;    /* remove left margin so it stacks directly under left */
       margin-top: 20px;
       padding: 20px;;
+      
     }
     /* For "two-column-row", switch to single column */
     .two-column-row {
@@ -125,9 +143,19 @@
     .checkout-container {
       padding: 10px; /* smaller padding for mobile if desired */
     }
+    .checkout-container-secure{
+      padding: 10px;
+
+    }
   
     .checkout-left,
     .checkout-right-top {
       padding: 10px;
     }
+  }
+  .proceed-button.show {
+    display: block;
+  }
+  .proceed-button {
+    display: none;
   }

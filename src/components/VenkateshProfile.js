@@ -17,9 +17,8 @@ import agileBadges from "../assets/images/agile-badges.jpeg"
 import apacBadges from "../assets/images/apac-badges.jpeg"
 import cst from "../assets/images/CST.png"
 import CSP from "../assets/images/csp.png"
-// import venkasteshimg from "../assets/images/venkatesh.png";
-import venkasteshimg from "../assets/images/venkat_tryscrum.jpg"
-// import venkasteshimg from "../assets/images/venket.png";
+//import venkasteshimg from "../assets/images/venkat_tryscrum.jpg"
+import venkasteshimg from "../assets/images/Profile-Venkatesh-Rajamani.jpg"
 import linkedin from "../assets/images/favicons/linkedin.png"
 import slack from "../assets/images/favicons/slack.png"
 import meetup from "../assets/images/favicons/meetup.png"
@@ -168,7 +167,7 @@ const VenkateshProfile = () => {
                 <p className="lead" style={{ textAlign: "justify" }}>
    <ul>
    <li>
-Bachelor of Engineering in Computer Science from Anna University
+   Bachelor of Engineering in Computer Science from Anna University
 </li>
 <li>
 Master of Business Administration from the University of Madras
@@ -177,11 +176,14 @@ Master of Business Administration from the University of Madras
 Master of Science in Digital Transformation from Nexford University
 </li>
 <li>
-CXO Leadership Education from Cornell University 
+Executive MBA from Quantic School of Business and Technology
 </li>
 <li>
-Doctor of Philosophy in Business and Management from Girne American University & Metropolitan Business School
+Post Graduate Diploma in Strategic Management from Metropolitan Business School
 </li>
+<li>CXO Leadership Education from Cornell University
+</li>
+<li>Doctor of Philosophy in Business and Management from Girne American University</li>
 </ul>
                 </p>
                 <br />

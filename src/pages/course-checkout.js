@@ -21,7 +21,7 @@ const CheckoutPage = () => {
     state: "",
     zip: "",
   });
-
+  
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
   const location = useLocation();
@@ -194,7 +194,17 @@ const CheckoutPage = () => {
     setErrors(newErrors);
     return isValid;
   };
+  const proceedHandler = async (e) => {
+    e.preventDefault();
 
+    // 1. Check if required fields are valid
+    if (!validateFields()) {
+      return; // Stop if validation fails
+    } else{
+      document.querySelector('.proceed-button').classList.add('show');
+
+    }
+  }
   // Handler for form submission
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -223,7 +233,6 @@ const CheckoutPage = () => {
       formData.append("your-address", billingDetails.address);
       formData.append("your-state", billingDetails.state);
       formData.append("your-zip", billingDetails.zip);
-
       const config = {
         headers: {
           "content-type": "application/x-www-form-urlencoded",
@@ -309,6 +318,7 @@ const CheckoutPage = () => {
                 placeholder="Company Name (optional)"
               />
             </div>
+          
 </div>
 <div class="single-column-row">
             <div className="form-group">
@@ -331,7 +341,8 @@ const CheckoutPage = () => {
               />
               {errors.address && <span className="error">{errors.address}</span>}
             </div>
-</div>  
+           
+</div>
 <div class="two-column-row">
             <div className="form-group">
               <input
@@ -354,9 +365,10 @@ const CheckoutPage = () => {
               {errors.zip && <span className="error">{errors.zip}</span>}
             </div>
             </div>
-         
+            <button className="pay-button" style={{background: "#ff0000", float: "right"}} onClick={proceedHandler} >
+   proceed
+       </button>
         </div>
-        
         {/* Right side: Payment Summary */}
         <div className="checkout-right-top">
         <div class="two-column-row">
@@ -392,29 +404,30 @@ const CheckoutPage = () => {
             <span>₹{total}</span>
           </div>
           <div class="single-column-row">
-       
        {/* If you want the user to confirm or proceed from here */}
-       <button className="pay-button" type="submit" style={{background: "#ff0000"}}>
-         {loader === "loading" ? "Processing..." : "Pay Now"}
-       </button>
-       </div>
    
+       </div>
      {/* Success / Error message */}
-     {submissionMessage && <p className="submission-message">{submissionMessage}</p>}
+ 
         </div>
       </div>
-      </form>
-      <div className="checkout-container">
-        <div className="checkout-right-middle">
+      
+      <div className="checkout-container-secure" >
+        <div className="checkout-right-middle" style={{width: "50%"}}>
         <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#F4B032", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>3</span> Secure Payment</h4>
+      <div className="proceed-button">
        <img src={imgsecurepayment} style={{width:"200px"}} />
-
-        <h6><br/>Your payments are processed securely via Razorpay, ensuring that every transaction is protected by advanced encryption and robust security protocols.</h6>
+        <h6><br/>Your payments ₹{total} are processed securely via Razorpay, ensuring that every transaction is protected by advanced encryption and robust security protocols.</h6>
+        <button className="pay-button" type="submit" style={{background: "#ff0000"}}>
+         {loader === "loading" ? "Processing..." : "Pay Now"}
+       </button>
+       {submissionMessage && <p className="submission-message">{submissionMessage}</p>}
           </div>
           </div>
+          </div>
+          </form>
       <Footer />
     </Layout>
   );
 };
-
 export default CheckoutPage;

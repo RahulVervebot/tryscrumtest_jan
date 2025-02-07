@@ -20,7 +20,6 @@ const Leadership = () => {
 
           <div className="col-lg-6">
             <div className="card h-70 border-0">
-                
                   <Venkateshsmall />
                   
                 <div className="card-body text-center">
