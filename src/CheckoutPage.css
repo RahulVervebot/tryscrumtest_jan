@@ -39,6 +39,7 @@
     margin-left: 20px;
   }
   .checkout-right-middle {
+    width: 50%;
     background-color: #f4b03229;
     border-radius: 20px;
     padding: 40px;;
@@ -147,7 +148,10 @@
       padding: 10px;
 
     }
-  
+    .checkout-right-middle {
+      width: 100%;
+   
+    }
     .checkout-left,
     .checkout-right-top {
       padding: 10px;

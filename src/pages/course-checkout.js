@@ -413,7 +413,7 @@ const CheckoutPage = () => {
       </div>
       
       <div className="checkout-container-secure" >
-        <div className="checkout-right-middle" style={{width: "50%"}}>
+        <div className="checkout-right-middle">
         <h4 style={{fontWeight: "700", marginBottom: "5%"}}><span style={{backgroundColor:"#F4B032", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>3</span> Secure Payment</h4>
       <div className="proceed-button">
        <img src={imgsecurepayment} style={{width:"200px"}} />
