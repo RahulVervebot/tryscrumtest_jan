@@ -1,165 +1,174 @@
+.checkout-main-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* This is the main container with two columns */
 .checkout-container {
+  display: flex;
+  align-items: flex-start; /* ensures right column fits content, no equal height forcing */
+  width: 80%;
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+/* Left column (70%) */
+.checkout-left-col {
+  width: 70%;
+  margin-right: 20px; /* space between columns */
+}
+
+/* Right column (30%) */
+.checkout-right-col {
+  padding: 2%;
   color: #000;
-    display: flex;
-    flex-direction: row;
-    width: 80%;
-    max-width: 1200px;
-    margin: 40px auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
+  background: #73B89D;
+  width: 30%;
+}
+
+/* First row on left column */
+.checkout-left-row1 {
+  background-color: #ff000012;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+/* Second row on left column */
+.checkout-left-row2 {
+  background-color: #f4b03229;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Payment summary box on the right column can be styled as you like */
+.checkout-right-col h4,
+.checkout-right-col h5 {
+  color: #000;
+  margin-bottom: 16px;
+}
+h4,h5{
+  color: #000;
+}
+/* Original form grouping & layout */
+.form-group {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group input {
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.summary-item.total {
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 16px;
+}
+
+/* Buttons */
+.pay-button {
+  background-color: #007bff; 
+  color: #fff;
+  padding: 12px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 25px;
+  margin-top: 20px;
+}
+
+.pay-button:hover {
+  background-color: #0056b3;
+}
+
+/* Two-column row inside the form */
+.two-column-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+  gap: 10px;
+}
+
+.single-column-row {
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .checkout-container {
+    flex-direction: column;
+    width: 90%;
   }
 
-  .checkout-container-secure{
-    color: #000;
-    display: flex;
-    flex-direction: row;
-    width: 80%;
-    max-width: 1200px;
-    margin: 40px auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
+  .checkout-left-col {
+    width: 100%;
+    margin-right: 0;
   }
   
-  .checkout-left,
-  .checkout-right-top{
-    flex: 1;
-    padding: 20px;
-  }
-  
-  .checkout-left {
-    border-radius: 5%;
-    background: #ff000012;
-  }
-  
-  .checkout-right-top {
-    background-color: #46aa9f1f;
-    border-radius: 5%;
-    margin-left: 20px;
-  }
-  .checkout-right-middle {
-    width: 50%;
-    background-color: #f4b03229;
-    border-radius: 20px;
-    padding: 40px;;
-  }
-  
-  h2 {
-    margin-bottom: 16px;
-  }
-  
-  .form-group {
-    margin-bottom: 12px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group label {
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-  
-  .form-group input {
-    margin-right: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-  }
-  
-  .summary-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 16px;
-  }
-  
-  .summary-item.total {
-    font-weight: 700;
-    font-size: 18px;
-    margin-top: 16px;
-  }
-  
-  .pay-button {
-    border-radius: 25px;
-    background-color: #007bff;
-    color: #fff;
-    padding: 12px 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
+  .checkout-right-col {
+    width: 100%;
     margin-top: 20px;
   }
-  
-  .pay-button:hover {
-    background-color: #0056b3;
-  }
+
   .two-column-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
-  }
-  .single-column-row {
-    display: block;
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: 768px) {
-    /* Make checkout layout single-column */
-    .checkout-container {
-      flex-direction: column;
-      width: 90%; /* you can adjust this if you want more or less horizontal space */
-    }
-    .checkout-container-secure{
-      flex-direction: column;
-      width: 90%; 
-
-    }
-
-    .checkout-left {
-      border-right: none; /* remove the right border in single column layout */
-    }
-
-  
-    .checkout-right-top {
-      margin-left: 0;    /* remove left margin so it stacks directly under left */
-      margin-top: 20px;  /* add top margin to separate from left section */
-    }
-    .checkout-right-middle{
-      margin-left: 0;    /* remove left margin so it stacks directly under left */
-      margin-top: 20px;
-      padding: 20px;;
-      
-    }
-    /* For "two-column-row", switch to single column */
-    .two-column-row {
-      display: block;
-      margin-bottom: 20px;
-    }
-  }
-  
-  /* Mobile and smaller (max-width: 480px) */
-  @media (max-width: 480px) {
-    /* You can keep or further refine your single-column layout here */
-    .checkout-container {
-      padding: 10px; /* smaller padding for mobile if desired */
-    }
-    .checkout-container-secure{
-      padding: 10px;
-
-    }
-    .checkout-right-middle {
-      width: 100%;
-   
-    }
-    .checkout-left,
-    .checkout-right-top {
-      padding: 10px;
-    }
-  }
-  .proceed-button.show {
     display: block;
   }
-  .proceed-button {
-    display: none;
+}
+
+@media (max-width: 480px) {
+  .checkout-container {
+    padding: 10px;
   }
+  
+  .checkout-left-row1,
+  .checkout-left-row2 {
+    padding: 10px;
+  }
+
+  .pay-button {
+    margin-top: 12px;
+  }
+}
+
+/* Proceed button & form toggling */
+.proceed-button.show {
+  display: block;
+}
+.proceed-button {
+  display: none;
+}
+.billing-edit.show {
+  cursor: pointer;
+  display: block;
+}
+.billing-edit{
+  display: none;
+}
+
+.proceed-form.hide {
+  display: none;
+}
+
+/* Errors and messages */
+.error {
+  color: red;
+  font-size: 14px;
+}
+.submission-message {
+  margin-top: 10px;
+  color: #007bff;
+  font-weight: 600;
+}
