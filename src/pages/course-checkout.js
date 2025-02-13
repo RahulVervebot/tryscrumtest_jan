@@ -8,28 +8,34 @@ import { useLocation, navigate } from "@reach/router";
 import imgsecurepayment from "../assets/images/razorpay-payment.jpeg";
 
 const CheckoutPage = () => {
-  // Single source for blank fields of one ticket
-  const blankDetails = {
+  // Repeated fields: Only fullName, email, mobile
+  const blankParticipant = {
     fullName: "",
     email: "",
     mobile: "",
+  };
+
+  // Single object: company, gst, address, state, zip
+  const [otherDetails, setOtherDetails] = useState({
     company: "",
     gst: "",
     address: "",
     state: "",
     zip: "",
-  };
+  });
 
-  // Instead of single object, store an array for multiple tickets
-  const [billingDetailsArray, setBillingDetailsArray] = useState([blankDetails]);
+  // Participants array
+  const [participants, setParticipants] = useState([blankParticipant]);
 
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
   const [loader, setLoader] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
 
-  // For handling validation errors per ticket
-  const [errors, setErrors] = useState([]);
+  // Validation errors
+  // We'll store errors for participants in an array, and for otherDetails in an object
+  const [participantErrors, setParticipantErrors] = useState([]);
+  const [otherDetailsErrors, setOtherDetailsErrors] = useState({});
 
   // For GST checkbox
   const [useTotal, setUseTotal] = useState(false);
@@ -47,12 +53,11 @@ const CheckoutPage = () => {
 
   // GST calculation
   const gstRate = 0.18;
-  const subTotal = priceNum * billingDetailsArray.length;
+  const subTotal = priceNum * participants.length;
   const gstAmount = subTotal * gstRate;
 
   // If 'useTotal' is true, we add GST. Otherwise just show subTotal
-  let total;
-  useTotal ? (total = subTotal + gstAmount) : (total = subTotal);
+  const total = useTotal ? subTotal + gstAmount : subTotal;
 
   // Back-end or CF7
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
@@ -130,27 +135,33 @@ const CheckoutPage = () => {
     });
   };
 
-  // Handle the number of tickets (participants)
+  // --- TICKET HANDLERS ---
+
+  // Increase participants (repeated fields)
   const handleTicketIncrement = () => {
-    setBillingDetailsArray((prev) => [...prev, { ...blankDetails }]);
+    setParticipants((prev) => [...prev, { ...blankParticipant }]);
+    // If you want to jump back to edit mode
+    setIsProceedClicked(false);
   };
 
+  // Decrease participants (repeated fields)
   const handleTicketDecrement = () => {
-    setBillingDetailsArray((prev) =>
+    setParticipants((prev) =>
       prev.length > 1 ? prev.slice(0, prev.length - 1) : prev
     );
+    setIsProceedClicked(false);
   };
 
-  // Generic input handler for multiple tickets
-  const handleInputChange = (e, index) => {
+  // Handle repeated field changes
+  const handleParticipantChange = (e, index) => {
     const { name, value } = e.target;
-    setBillingDetailsArray((prev) => {
+    setParticipants((prev) => {
       const updated = [...prev];
       updated[index] = { ...updated[index], [name]: value };
       return updated;
     });
-    // Clear the error for that particular ticket & field
-    setErrors((prevErrors) => {
+    // Clear the error for that particular participant & field
+    setParticipantErrors((prevErrors) => {
       const newErrors = [...prevErrors];
       if (!newErrors[index]) {
         newErrors[index] = {};
@@ -160,51 +171,64 @@ const CheckoutPage = () => {
     });
   };
 
-  // Validation
+  // --- SINGLE FIELDS HANDLER ---
+  const handleOtherDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setOtherDetails((prev) => ({ ...prev, [name]: value }));
+    setOtherDetailsErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
+  // --- VALIDATION ---
   const validateFields = () => {
     let allValid = true;
-    const newErrors = [];
 
-    billingDetailsArray.forEach((ticket, index) => {
-      const ticketErrors = {};
-      // Required fields
-      if (!ticket.fullName.trim()) {
-        ticketErrors.fullName = "Full Name is required";
+    // 1) Participants array
+    const newParticipantErrors = [];
+    participants.forEach((p, index) => {
+      const partErr = {};
+      if (!p.fullName.trim()) {
+        partErr.fullName = "Full Name is required";
         allValid = false;
       }
-      if (!ticket.email.trim()) {
-        ticketErrors.email = "Email is required";
+      if (!p.email.trim()) {
+        partErr.email = "Email is required";
         allValid = false;
       }
-      if (!ticket.mobile.trim()) {
-        ticketErrors.mobile = "Mobile is required";
+      if (!p.mobile.trim()) {
+        partErr.mobile = "Mobile is required";
         allValid = false;
       }
-      if (!ticket.address.trim()) {
-        ticketErrors.address = "Address is required";
-        allValid = false;
-      }
-      if (!ticket.state.trim()) {
-        ticketErrors.state = "State is required";
-        allValid = false;
-      }
-      if (!ticket.zip.trim()) {
-        ticketErrors.zip = "Zip is required";
-        allValid = false;
-      }
-
-      newErrors[index] = ticketErrors;
+      newParticipantErrors[index] = partErr;
     });
+    setParticipantErrors(newParticipantErrors);
 
-    setErrors(newErrors);
+    // 2) Other details
+    const newOtherErrors = {};
+    if (!otherDetails.address.trim()) {
+      newOtherErrors.address = "Address is required";
+      allValid = false;
+    }
+    if (!otherDetails.state.trim()) {
+      newOtherErrors.state = "State is required";
+      allValid = false;
+    }
+    if (!otherDetails.zip.trim()) {
+      newOtherErrors.zip = "Zip code is required";
+      allValid = false;
+    }
+    setOtherDetailsErrors(newOtherErrors);
+
     return allValid;
   };
 
-  // "Proceed" button (Step 1 -> Step 2) toggling
+  // Step 1 -> Step 2
   const proceedHandler = (e) => {
     e.preventDefault();
     if (!validateFields()) return;
-    setIsProceedClicked(true); // Hide the form portion and show the payment portion
+    setIsProceedClicked(true);
   };
 
   // Edit details (go back)
@@ -215,7 +239,6 @@ const CheckoutPage = () => {
   // Final Submit
   const submitHandler = async (e) => {
     e.preventDefault();
-    // Validate again in case user changed something
     if (!validateFields()) return;
 
     try {
@@ -228,41 +251,28 @@ const CheckoutPage = () => {
       // Build the formData
       const formData = new FormData();
 
-      // Prepare joined strings for each field
-      const allFullNames = billingDetailsArray
-        .map((bd, i) => `Ticket ${i + 1}: ${bd.fullName}`)
+      // Flatten repeated fields
+      const allFullNames = participants
+        .map((p, i) => `Ticket ${i + 1}: ${p.fullName}`)
         .join(", ");
-      const allEmails = billingDetailsArray
-        .map((bd) => bd.email)
+      const allEmails = participants
+        .map((p, i) => `Ticket ${i + 1}: ${p.email}`)
         .join(", ");
-      const allMobiles = billingDetailsArray
-        .map((bd) => bd.mobile)
-        .join(", ");
-      const allCompanies = billingDetailsArray
-        .map((bd) => bd.company)
-        .join(", ");
-      const allGst = billingDetailsArray
-        .map((bd) => bd.gst)
-        .join(", ");
-      const allAddress = billingDetailsArray
-        .map((bd) => bd.address)
-        .join(", ");
-      const allStates = billingDetailsArray
-        .map((bd) => bd.state)
-        .join(", ");
-      const allZips = billingDetailsArray
-        .map((bd) => bd.zip)
+      const allMobiles = participants
+        .map((p, i) => `Ticket ${i + 1}: ${p.mobile}`)
         .join(", ");
 
-      // Append them to formData
+      // Append participant data to formData
       formData.append("your-fullName", allFullNames);
       formData.append("your-email", allEmails);
       formData.append("your-mobile", allMobiles);
-      formData.append("your-company", allCompanies);
-      formData.append("your-gst", allGst);
-      formData.append("your-address", allAddress);
-      formData.append("your-state", allStates);
-      formData.append("your-zip", allZips);
+
+      // Append single fields
+      formData.append("your-company", otherDetails.company || "");
+      formData.append("your-gst", otherDetails.gst || "");
+      formData.append("your-address", otherDetails.address);
+      formData.append("your-state", otherDetails.state);
+      formData.append("your-zip", otherDetails.zip);
 
       // Append course info
       formData.append("your-coursename", courseNametitle);
@@ -277,6 +287,7 @@ const CheckoutPage = () => {
 
       // Submit to CF7
       const res = await axios.post(url, formData, config);
+      console.log("form res", res);
       console.log("total", total);
 
       // Next, create the Razorpay order
@@ -284,12 +295,19 @@ const CheckoutPage = () => {
 
       // If successful, show message & reset
       setSubmissionMessage(res?.data?.message || "Form submitted successfully!");
-      setBillingDetailsArray([blankDetails]); // reset to 1 ticket
+      setParticipants([blankParticipant]); // reset to 1 participant
+      setOtherDetails({
+        company: "",
+        gst: "",
+        address: "",
+        state: "",
+        zip: "",
+      });
       setIsProceedClicked(false);
       setLoader("");
 
       // Optionally navigate
-      navigate(-1);
+      // navigate(-1);
     } catch (error) {
       console.error(error);
       setSubmissionMessage("An error occurred. Please try again.");
@@ -306,7 +324,6 @@ const CheckoutPage = () => {
           <div className="checkout-container">
             {/* LEFT Column (70%) */}
             <div className="checkout-left-col">
-
               {/* Row 1: Basic Details (red-ish background) */}
               <div className="checkout-left-row1">
                 <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
@@ -321,141 +338,137 @@ const CheckoutPage = () => {
                   >
                     1
                   </span>
-                  &nbsp;Basic Details
+                  &nbsp;Billing Details
                 </h4>
-                {/* Edit button toggles the forms to be visible again */}
                 {isProceedClicked && (
                   <div className="billing-edit" onClick={editDetails}>
                     Edit Details
                   </div>
                 )}
 
-                {/* The multiple forms for each ticket */}
+                {/* Show form only if not proceeded */}
                 {!isProceedClicked && (
                   <div className="proceed-form">
-                    {billingDetailsArray.map((ticketData, index) => (
+                    {/* Participants (repeating fields) */}
+                    {participants.map((participant, index) => (
                       <div key={index} style={{ marginBottom: "20px" }}>
                         <h5>Ticket {index + 1}</h5>
-                        {/* Two-column row #1 */}
+
                         <div className="two-column-row">
-                          {/* Full Name */}
                           <div className="form-group">
                             <input
                               type="text"
                               name="fullName"
-                              value={ticketData.fullName}
-                              onChange={(e) => handleInputChange(e, index)}
+                              value={participant.fullName}
+                              onChange={(e) => handleParticipantChange(e, index)}
                               placeholder="Full Name*"
                             />
-                            {errors[index]?.fullName && (
-                              <span className="error">{errors[index].fullName}</span>
+                            {participantErrors[index]?.fullName && (
+                              <span className="error">
+                                {participantErrors[index].fullName}
+                              </span>
                             )}
                           </div>
 
-                          {/* Email */}
                           <div className="form-group">
                             <input
                               type="email"
                               name="email"
-                              value={ticketData.email}
-                              onChange={(e) => handleInputChange(e, index)}
+                              value={participant.email}
+                              onChange={(e) => handleParticipantChange(e, index)}
                               placeholder="Email*"
                             />
-                            {errors[index]?.email && (
-                              <span className="error">{errors[index].email}</span>
+                            {participantErrors[index]?.email && (
+                              <span className="error">
+                                {participantErrors[index].email}
+                              </span>
                             )}
                           </div>
 
-                          {/* Mobile */}
                           <div className="form-group">
                             <input
                               type="text"
                               name="mobile"
-                              value={ticketData.mobile}
-                              onChange={(e) => handleInputChange(e, index)}
+                              value={participant.mobile}
+                              onChange={(e) => handleParticipantChange(e, index)}
                               placeholder="Mobile Number*"
                             />
-                            {errors[index]?.mobile && (
-                              <span className="error">{errors[index].mobile}</span>
-                            )}
-                          </div>
-
-                          {/* Company */}
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              name="company"
-                              value={ticketData.company}
-                              onChange={(e) => handleInputChange(e, index)}
-                              placeholder="Company Name (optional)"
-                            />
-                          </div>
-                        </div>
-                        
-                        {/* Single-column row */}
-                        <div className="single-column-row">
-                          {/* GST */}
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              name="gst"
-                              value={ticketData.gst}
-                              onChange={(e) => handleInputChange(e, index)}
-                              placeholder="GST Number (optional)"
-                            />
-                          </div>
-
-                          {/* Address */}
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              name="address"
-                              value={ticketData.address}
-                              onChange={(e) => handleInputChange(e, index)}
-                              placeholder="Address"
-                            />
-                            {errors[index]?.address && (
-                              <span className="error">{errors[index].address}</span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Two-column row #2 */}
-                        <div className="two-column-row">
-                          {/* State */}
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              name="state"
-                              value={ticketData.state}
-                              onChange={(e) => handleInputChange(e, index)}
-                              placeholder="State"
-                            />
-                            {errors[index]?.state && (
-                              <span className="error">{errors[index].state}</span>
-                            )}
-                          </div>
-                          {/* Zip */}
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              name="zip"
-                              value={ticketData.zip}
-                              onChange={(e) => handleInputChange(e, index)}
-                              placeholder="Zip Code"
-                            />
-                            {errors[index]?.zip && (
-                              <span className="error">{errors[index].zip}</span>
+                            {participantErrors[index]?.mobile && (
+                              <span className="error">
+                                {participantErrors[index].mobile}
+                              </span>
                             )}
                           </div>
                         </div>
                       </div>
                     ))}
 
-                    {/* One Proceed button at the end */}
+                    {/* Single (non-repeating) details */}
+                    <div style={{ marginTop: "2rem" }}>
+                      <h5>Billing Info</h5>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          name="company"
+                          value={otherDetails.company}
+                          onChange={handleOtherDetailsChange}
+                          placeholder="Company Name (optional)"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          name="gst"
+                          value={otherDetails.gst}
+                          onChange={handleOtherDetailsChange}
+                          placeholder="GST Number (optional)"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          name="address"
+                          value={otherDetails.address}
+                          onChange={handleOtherDetailsChange}
+                          placeholder="Address*"
+                        />
+                        {otherDetailsErrors.address && (
+                          <span className="error">{otherDetailsErrors.address}</span>
+                        )}
+                      </div>
+
+                      <div className="two-column-row">
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            name="state"
+                            value={otherDetails.state}
+                            onChange={handleOtherDetailsChange}
+                            placeholder="State*"
+                          />
+                          {otherDetailsErrors.state && (
+                            <span className="error">{otherDetailsErrors.state}</span>
+                          )}
+                        </div>
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            name="zip"
+                            value={otherDetails.zip}
+                            onChange={handleOtherDetailsChange}
+                            placeholder="Zip Code*"
+                          />
+                          {otherDetailsErrors.zip && (
+                            <span className="error">{otherDetailsErrors.zip}</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Proceed button */}
                     <button
                       className="pay-button"
-                      style={{ background: "#ff0000" }}
+                      style={{ background: "#ff0000", marginTop: "20px" }}
                       onClick={proceedHandler}
                     >
                       Proceed
@@ -481,7 +494,6 @@ const CheckoutPage = () => {
                   &nbsp;Secure Payment
                 </h4>
 
-                {/* Only visible after 'Proceed' is clicked */}
                 {isProceedClicked && (
                   <div className="proceed-button show">
                     <img
@@ -507,7 +519,6 @@ const CheckoutPage = () => {
                   </div>
                 )}
 
-                {/* If you want an empty placeholder when not proceeded */}
                 {!isProceedClicked && (
                   <div style={{ padding: "10px 0", color: "#555" }}>
                     Please fill out basic details & click Proceed.
@@ -534,11 +545,19 @@ const CheckoutPage = () => {
 
               {/* Ticket quantity UI */}
               <div className="ticket-quantity">
-                <button type="button" onClick={handleTicketDecrement}>-</button>
-                <span style={{ margin: "0 10px" }}>
-                  {billingDetailsArray.length}
-                </span>
-                <button type="button" onClick={handleTicketIncrement}>+</button>
+                <button
+                  type="button"
+                  onClick={handleTicketDecrement}
+                >
+                  -
+                </button>
+                <span style={{ margin: "0 10px" }}>{participants.length}</span>
+                <button
+                  type="button"
+                  onClick={handleTicketIncrement}
+                >
+                  +
+                </button>
               </div>
 
               <div className="summary-item">

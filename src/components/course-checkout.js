@@ -1,67 +1,63 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import "../CheckoutPage.css"; // your updated CSS file
 import Layout from "../components/Layout";
 import NavTwo from "../components/NavTwo";
 import Footer from "../components/Footer";
 import { useLocation, navigate } from "@reach/router";
-import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
-import imgsecurepayment from '../assets/images/razorpay-payment.jpeg'
+import imgsecurepayment from "../assets/images/razorpay-payment.jpeg";
 
 const CheckoutPage = () => {
-  // State for billing details
-  const [billingDetails, setBillingDetails] = useState({
+  // Single source for blank fields of one ticket
+  const blankDetails = {
     fullName: "",
     email: "",
     mobile: "",
     company: "",
     gst: "",
-    coursename: "",
-    totalprice: "",
     address: "",
     state: "",
     zip: "",
-  });
-  
+  };
+
+  // Instead of single object, store an array for multiple tickets
+  const [billingDetailsArray, setBillingDetailsArray] = useState([blankDetails]);
+
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const [useTotal, setUseTotal] = useState(false);
-
-  // Extract query parameters
-  const courseNametitle = searchParams.get("courseName") || "empty";
-  const courseDate = searchParams.get("courseDate") || ""
-  const priceString = searchParams.get("price");  // e.g. "14500"
-  const subTotalString = searchParams.get("subTotal"); // e.g. "2500"
-  
-  // Convert them to a number
-  const priceflot = parseFloat(priceString) || 0;
-  const subTotal = parseFloat(subTotalString) || 0;
-  
-  // Now .toFixed() works
-  const priceDisplay = priceflot; // "14500.00"
-  const subTotalDisplay = subTotal.toFixed(2); // "2500.00"
-  const priceNum = parseFloat(priceString) || 0;
-
-  // Calculate subtotal, GST, and total
-  const gstRate = 0.18; // 18% GST rate (example)
-  const gstAmount = priceNum * gstRate;
-
-  let total;
-  useTotal ? 
-    total = priceNum + gstAmount
-    :
-    total = priceDisplay
-
   const [loader, setLoader] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
-  const [price, setPrice] = useState(total);
 
-  // Backend URL
+  // For handling validation errors per ticket
+  const [errors, setErrors] = useState([]);
+
+  // For GST checkbox
+  const [useTotal, setUseTotal] = useState(false);
+
+  // For toggling step screens
+  const [isProceedClicked, setIsProceedClicked] = useState(false);
+
+  // Extract query params
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const courseNametitle = searchParams.get("courseName") || "empty";
+  const courseDate = searchParams.get("courseDate") || "";
+  const priceString = searchParams.get("price"); // e.g. "14500"
+  const priceNum = parseFloat(priceString) || 0;
+
+  // GST calculation
+  const gstRate = 0.18;
+  const subTotal = priceNum * billingDetailsArray.length;
+  const gstAmount = subTotal * gstRate;
+
+  // If 'useTotal' is true, we add GST. Otherwise just show subTotal
+  let total;
+  useTotal ? (total = subTotal + gstAmount) : (total = subTotal);
+
+  // Back-end or CF7
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
 
-  // Check server status
+  // Utility to check server
   const checkServer = () => {
     axios
       .get(backendURL)
@@ -74,7 +70,7 @@ const CheckoutPage = () => {
       });
   };
 
-  // Create Razorpay order
+  // Create RZP order
   const createRazorpayOrder = (price) => {
     const data = {
       amount: price * 100, // Convert to paise
@@ -93,7 +89,7 @@ const CheckoutPage = () => {
       });
   };
 
-  // Open Razorpay payment screen
+  // Open the RZP payment
   const handleRazorpayScreen = async (amount, orderId) => {
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
     if (!res) {
@@ -101,7 +97,7 @@ const CheckoutPage = () => {
       return;
     }
     const options = {
-      key: "rzp_test_eCBnZYOjhB6B6V", // Replace with your Razorpay key
+      key: "rzp_test_eCBnZYOjhB6B6V", // replace with your Razorpay key
       amount: total * 100,
       currency: "INR",
       order_id: orderId,
@@ -123,7 +119,7 @@ const CheckoutPage = () => {
     paymentObject.open();
   };
 
-  // Load Razorpay script
+  // Load script for RZP
   const loadScript = (src) => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -134,113 +130,144 @@ const CheckoutPage = () => {
     });
   };
 
-  // Handle slider value change
-  const handleSliderChange = (event) => {
-    setPrice(Number(event.target.value));
+  // Handle the number of tickets (participants)
+  const handleTicketIncrement = () => {
+    setBillingDetailsArray((prev) => [...prev, { ...blankDetails }]);
   };
 
-  // For handling validation errors
-  const [errors, setErrors] = useState({
-    fullName: "",
-    email: "",
-    mobile: "",
-    address: "",
-    state: "",
-    zip: "",
-  });
+  const handleTicketDecrement = () => {
+    setBillingDetailsArray((prev) =>
+      prev.length > 1 ? prev.slice(0, prev.length - 1) : prev
+    );
+  };
 
-  // Handler for billing details changes
-  const handleInputChange = (e) => {
+  // Generic input handler for multiple tickets
+  const handleInputChange = (e, index) => {
     const { name, value } = e.target;
-    setBillingDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-    }));
-    // Clear the error for this field if it exists
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: "",
-    }));
+    setBillingDetailsArray((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [name]: value };
+      return updated;
+    });
+    // Clear the error for that particular ticket & field
+    setErrors((prevErrors) => {
+      const newErrors = [...prevErrors];
+      if (!newErrors[index]) {
+        newErrors[index] = {};
+      }
+      newErrors[index][name] = "";
+      return newErrors;
+    });
   };
 
-  // Validate required fields
+  // Validation
   const validateFields = () => {
-    const newErrors = {};
-    let isValid = true;
+    let allValid = true;
+    const newErrors = [];
 
-    // Required fields: fullName, email, mobile, address, state, zip
-    if (!billingDetails.fullName.trim()) {
-      newErrors.fullName = "Full Name is required";
-      isValid = false;
-    }
-    if (!billingDetails.email.trim()) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    }
-    if (!billingDetails.mobile.trim()) {
-      newErrors.mobile = "Mobile is required";
-      isValid = false;
-    }
-    if (!billingDetails.address.trim()) {
-      newErrors.address = "Address is required";
-      isValid = false;
-    }
-    if (!billingDetails.state.trim()) {
-      newErrors.state = "State is required";
-      isValid = false;
-    }
-    if (!billingDetails.zip.trim()) {
-      newErrors.zip = "Zip is required";
-      isValid = false;
-    }
+    billingDetailsArray.forEach((ticket, index) => {
+      const ticketErrors = {};
+      // Required fields
+      if (!ticket.fullName.trim()) {
+        ticketErrors.fullName = "Full Name is required";
+        allValid = false;
+      }
+      if (!ticket.email.trim()) {
+        ticketErrors.email = "Email is required";
+        allValid = false;
+      }
+      if (!ticket.mobile.trim()) {
+        ticketErrors.mobile = "Mobile is required";
+        allValid = false;
+      }
+      if (!ticket.address.trim()) {
+        ticketErrors.address = "Address is required";
+        allValid = false;
+      }
+      if (!ticket.state.trim()) {
+        ticketErrors.state = "State is required";
+        allValid = false;
+      }
+      if (!ticket.zip.trim()) {
+        ticketErrors.zip = "Zip is required";
+        allValid = false;
+      }
+
+      newErrors[index] = ticketErrors;
+    });
 
     setErrors(newErrors);
-    return isValid;
+    return allValid;
   };
 
-  const proceedHandler = async (e) => {
+  // "Proceed" button (Step 1 -> Step 2) toggling
+  const proceedHandler = (e) => {
     e.preventDefault();
-    // 1. Check if required fields are valid
-    if (!validateFields()) {
-      return; // Stop if validation fails
-    } else {
-      document.querySelector('.proceed-button').classList.add('show');
-      document.querySelector('.proceed-form').classList.add('hide');
-      document.querySelector('.billing-edit').classList.add('show');
-    }
-  }
-const editDetails  = async () => {
-  document.querySelector('.proceed-button').classList.remove('show');
-  document.querySelector('.proceed-form').classList.remove('hide');
-  document.querySelector('.billing-edit').classList.remove('show');
-}
-  // Handler for form submission
+    if (!validateFields()) return;
+    setIsProceedClicked(true); // Hide the form portion and show the payment portion
+  };
+
+  // Edit details (go back)
+  const editDetails = () => {
+    setIsProceedClicked(false);
+  };
+
+  // Final Submit
   const submitHandler = async (e) => {
     e.preventDefault();
-    // 1. Check if required fields are valid
-    if (!validateFields()) {
-      return; // Stop if validation fails
-    }
+    // Validate again in case user changed something
+    if (!validateFields()) return;
 
     try {
-      setLoader("loading"); // or setLoader(true);
+      setLoader("loading");
 
-      // Example: Submitting to a Contact Form 7 endpoint (adjust as needed)
-      const url = "https://tryscrumlive.vervebot.io/wp-json/contact-form-7/v1/contact-forms/12456/feedback?_wpcf7_unit_tag=wpcf7-8d74a4f";
+      // CF7 endpoint
+      const url =
+        "https://tryscrumlive.vervebot.io/wp-json/contact-form-7/v1/contact-forms/12456/feedback?_wpcf7_unit_tag=wpcf7-8d74a4f";
 
-      // Prepare form data (field names depend on your backend or CF7 setup)
+      // Build the formData
       const formData = new FormData();
-      formData.append("your-fullName", billingDetails.fullName);
-      formData.append("your-email", billingDetails.email);
-      formData.append("your-mobile", billingDetails.mobile);
-      formData.append("your-company", billingDetails.company || "");
-      formData.append("your-gst", billingDetails.gst || "");
+
+      // Prepare joined strings for each field
+      const allFullNames = billingDetailsArray
+        .map((bd, i) => `Ticket ${i + 1}: ${bd.fullName}`)
+        .join(", ");
+      const allEmails = billingDetailsArray
+      .map((bd, i) => `Ticket ${i + 1}: ${bd.email}`)
+        .join(", ");
+      const allMobiles = billingDetailsArray
+      .map((bd, i) => `Ticket ${i + 1}: ${bd.mobile}`)
+        .join(", ");
+      const allCompanies = billingDetailsArray
+      .map((bd, i) => `Ticket ${i + 1}: ${bd.company}`)
+        .join(", ");
+      const allGst = billingDetailsArray
+      .map((bd, i) => `Ticket ${i + 1}: ${bd.gst}`)
+        .join(", ");
+      const allAddress = billingDetailsArray
+      .map((bd, i) =>`Ticket ${i + 1}: ${bd.address}`)
+        .join(", ");
+      const allStates = billingDetailsArray
+      .map((bd, i)=> `Ticket ${i + 1}: ${bd.state}`)
+        .join(", ");
+      const allZips = billingDetailsArray
+      .map((bd, i) => `Ticket ${i + 1}: ${bd.zip}`)
+        .join(", ");
+
+      // Append them to formData
+      formData.append("your-fullName", allFullNames);
+      formData.append("your-email", allEmails);
+      formData.append("your-mobile", allMobiles);
+      formData.append("your-company", allCompanies);
+      formData.append("your-gst", allGst);
+      formData.append("your-address", allAddress);
+      formData.append("your-state", allStates);
+      formData.append("your-zip", allZips);
+
+      // Append course info
       formData.append("your-coursename", courseNametitle);
       formData.append("your-coursedate", courseDate);
       formData.append("your-totalprice", total);
-      formData.append("your-address", billingDetails.address);
-      formData.append("your-state", billingDetails.state);
-      formData.append("your-zip", billingDetails.zip);
 
       const config = {
         headers: {
@@ -248,27 +275,22 @@ const editDetails  = async () => {
         },
       };
 
-      // Post to CF7 (or your custom endpoint)
+      // Submit to CF7
       const res = await axios.post(url, formData, config);
-      console.log('total', total);
+      console.log('form res', res);
+      console.log("total", total);
 
+      // Next, create the Razorpay order
       createRazorpayOrder(total);
 
-      // If successful, show message & reset form
+      // If successful, show message & reset
       setSubmissionMessage(res?.data?.message || "Form submitted successfully!");
-      setBillingDetails({
-        fullName: "",
-        email: "",
-        mobile: "",
-        company: "",
-        gst: "",
-        address: "",
-        state: "",
-        zip: "",
-      });
-     
+      setBillingDetailsArray([blankDetails]); // reset to 1 ticket
+      setIsProceedClicked(false);
       setLoader("");
-      navigate(-1);
+
+      // Optionally navigate
+      // navigate(-1);
     } catch (error) {
       console.error(error);
       setSubmissionMessage("An error occurred. Please try again.");
@@ -281,168 +303,263 @@ const editDetails  = async () => {
       <NavTwo />
       <form onSubmit={submitHandler}>
         <div className="checkout-main-container">
-
-          {/** Main wrapper with two columns: Left 70%, Right 30% */}
+          {/* Main wrapper with two columns: Left 70%, Right 30% */}
           <div className="checkout-container">
-
-            {/** LEFT Column (70%) */}
+            {/* LEFT Column (70%) */}
             <div className="checkout-left-col">
 
-              {/** Row 1: Billing details (red-ish background) */}
+              {/* Row 1: Basic Details (red-ish background) */}
               <div className="checkout-left-row1">
                 <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
-                  <span style={{backgroundColor:"#ff0000", color: "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>
-                    1
-                  </span> 
-                  &nbsp;Basic Details
-                </h4>
-             <div className="billing-edit" onClick={editDetails}>
-              Edit Details
-             </div>
-                <div className="proceed-form">
-                  <div className="two-column-row">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={billingDetails.fullName}
-                        onChange={handleInputChange}
-                        placeholder="Full Name*"
-                      />
-                      {errors.fullName && <span className="error">{errors.fullName}</span>}
-                    </div>
-
-                    <div className="form-group">
-                      <input
-                        type="email"
-                        name="email"
-                        value={billingDetails.email}
-                        onChange={handleInputChange}
-                        placeholder="Email*"
-                      />
-                      {errors.email && <span className="error">{errors.email}</span>}
-                    </div>
-
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="mobile"
-                        value={billingDetails.mobile}
-                        onChange={handleInputChange}
-                        placeholder="Mobile Number*"
-                      />
-                      {errors.mobile && <span className="error">{errors.mobile}</span>}
-                    </div>
-
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="company"
-                        onChange={handleInputChange}
-                        placeholder="Company Name (optional)"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="single-column-row">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="gst"
-                        value={billingDetails.gst}
-                        onChange={handleInputChange}
-                        placeholder="GST Number (optional)"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="address"
-                        value={billingDetails.address}
-                        onChange={handleInputChange}
-                        placeholder="Address"
-                      />
-                      {errors.address && <span className="error">{errors.address}</span>}
-                    </div>
-                  </div>
-
-                  <div className="two-column-row">
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="state"
-                        value={billingDetails.state}
-                        onChange={handleInputChange}
-                        placeholder="State"
-                      />
-                      {errors.state && <span className="error">{errors.state}</span>}
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        name="zip"
-                        value={billingDetails.zip}
-                        onChange={handleInputChange}
-                        placeholder="Zip Code"
-                      />
-                      {errors.zip && <span className="error">{errors.zip}</span>}
-                    </div>
-                  </div>
-
-                  <button
-                    className="pay-button"
-                    style={{ background: "#ff0000" }}
-                    onClick={proceedHandler}
+                  <span
+                    style={{
+                      backgroundColor: "#ff0000",
+                      color: "#fff",
+                      padding: "1% 2%",
+                      borderRadius: "20px",
+                      fontSize: "16px",
+                    }}
                   >
-                    Proceed
-                  </button>
-                </div>
+                    1
+                  </span>
+                  &nbsp;Billing Details
+                </h4>
+                {/* Edit button toggles the forms to be visible again */}
+                {isProceedClicked && (
+                  <div className="billing-edit" onClick={editDetails}>
+                    Edit Details
+                  </div>
+                )}
+
+                {/* The multiple forms for each ticket */}
+                {!isProceedClicked && (
+                  <div className="proceed-form">
+                    {billingDetailsArray.map((ticketData, index) => (
+                      <div key={index} style={{ marginBottom: "20px" }}>
+                        <h5>Ticket {index + 1}</h5>
+                        {/* Two-column row #1 */}
+                        <div className="two-column-row">
+                          {/* Full Name */}
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              name="fullName"
+                              value={ticketData.fullName}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="Full Name*"
+                            />
+                            {errors[index]?.fullName && (
+                              <span className="error">{errors[index].fullName}</span>
+                            )}
+                          </div>
+
+                          {/* Email */}
+                          <div className="form-group">
+                            <input
+                              type="email"
+                              name="email"
+                              value={ticketData.email}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="Email*"
+                            />
+                            {errors[index]?.email && (
+                              <span className="error">{errors[index].email}</span>
+                            )}
+                          </div>
+
+                          {/* Mobile */}
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              name="mobile"
+                              value={ticketData.mobile}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="Mobile Number*"
+                            />
+                            {errors[index]?.mobile && (
+                              <span className="error">{errors[index].mobile}</span>
+                            )}
+                          </div>
+
+                          {/* Company */}
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              name="company"
+                              value={ticketData.company}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="Company Name (optional)"
+                            />
+                          </div>
+                        </div>
+                        
+                        {/* Single-column row */}
+                        <div className="single-column-row">
+                          {/* GST */}
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              name="gst"
+                              value={ticketData.gst}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="GST Number (optional)"
+                            />
+                          </div>
+
+                          {/* Address */}
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              name="address"
+                              value={ticketData.address}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="Address"
+                            />
+                            {errors[index]?.address && (
+                              <span className="error">{errors[index].address}</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Two-column row #2 */}
+                        <div className="two-column-row">
+                          {/* State */}
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              name="state"
+                              value={ticketData.state}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="State"
+                            />
+                            {errors[index]?.state && (
+                              <span className="error">{errors[index].state}</span>
+                            )}
+                          </div>
+                          {/* Zip */}
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              name="zip"
+                              value={ticketData.zip}
+                              onChange={(e) => handleInputChange(e, index)}
+                              placeholder="Zip Code"
+                            />
+                            {errors[index]?.zip && (
+                              <span className="error">{errors[index].zip}</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* One Proceed button at the end */}
+                    <button
+                      className="pay-button"
+                      style={{ background: "#ff0000" }}
+                      onClick={proceedHandler}
+                    >
+                      Proceed
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {/** Row 2: Secure Payment (yellow-ish background) */}
+              {/* Row 2: Secure Payment (yellow-ish background) */}
               <div className="checkout-left-row2">
                 <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
-                  <span style={{backgroundColor:"#F4B032", color : "#fff", padding: "1% 2%", borderRadius: "20px", fontSize:"16px"}}>
+                  <span
+                    style={{
+                      backgroundColor: "#F4B032",
+                      color: "#fff",
+                      padding: "1% 2%",
+                      borderRadius: "20px",
+                      fontSize: "16px",
+                    }}
+                  >
                     2
-                  </span> 
+                  </span>
                   &nbsp;Secure Payment
                 </h4>
 
-                <div className="proceed-button">
-                  <img src={imgsecurepayment} style={{width:"200px"}} alt="secure-payment" />
-                  <h6 style={{ marginTop: "1rem" }}>
-                    Your payments ₹{total} are processed securely via Razorpay, ensuring that every transaction is protected by advanced encryption and robust security protocols.
-                  </h6>
-                  <button className="pay-button" type="submit" style={{ background: "#ff0000" }}>
-                    {loader === "loading" ? "Processing..." : "Pay Now"}
-                  </button>
-                  {submissionMessage && <p className="submission-message">{submissionMessage}</p>}
-                </div>
+                {/* Only visible after 'Proceed' is clicked */}
+                {isProceedClicked && (
+                  <div className="proceed-button show">
+                    <img
+                      src={imgsecurepayment}
+                      style={{ width: "200px" }}
+                      alt="secure-payment"
+                    />
+                    <h6 style={{ marginTop: "1rem" }}>
+                      Your payments ₹{total} are processed securely via Razorpay,
+                      ensuring that every transaction is protected by advanced
+                      encryption and robust security protocols.
+                    </h6>
+                    <button
+                      className="pay-button"
+                      type="submit"
+                      style={{ background: "#ff0000" }}
+                    >
+                      {loader === "loading" ? "Processing..." : "Pay Now"}
+                    </button>
+                    {submissionMessage && (
+                      <p className="submission-message">{submissionMessage}</p>
+                    )}
+                  </div>
+                )}
+
+                {/* If you want an empty placeholder when not proceeded */}
+                {!isProceedClicked && (
+                  <div style={{ padding: "10px 0", color: "#555" }}>
+                    Please fill out basic details & click Proceed.
+                  </div>
+                )}
               </div>
             </div>
-            {/** RIGHT Column (30%) */}
+
+            {/* RIGHT Column (30%) */}
             <div className="checkout-right-col">
-              <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>Payment Summary</h4>
-              <h5 style={{ fontWeight: "600", marginBottom: "5%" }}>{courseNametitle}</h5>
-              
-              <div className="summary-item">
-                <span>{courseDate}</span>
+              <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
+                Payment Summary
+              </h4>
+              <h5 style={{ fontWeight: "600", marginBottom: "5%" }}>
+                {courseNametitle}
+              </h5>
+
+              {/* Show the courseDate if needed */}
+              {courseDate && (
+                <div className="summary-item">
+                  <span>{courseDate}</span>
+                </div>
+              )}
+
+              {/* Ticket quantity UI */}
+              <div className="ticket-quantity">
+                <button type="button" onClick={() => {
+    handleTicketDecrement();
+    editDetails();
+  }}>-</button>
+                <span style={{ margin: "0 10px" }}>
+                  {billingDetailsArray.length}
+                </span>
+                <button type="button" onClick={() => {
+    handleTicketIncrement();
+    editDetails();
+  }}>+</button>
               </div>
 
               <div className="summary-item">
                 <span>Subtotal:</span>
-                <span>₹{priceDisplay}</span>
+                <span>₹{subTotal.toFixed(2)}</span>
               </div>
 
-              <div className="summary-item">
-                {useTotal ? (
-                  <>
-                    <span>GST (18%):</span>
-                    <span>₹{gstAmount.toFixed(2)}</span>
-                  </>
-                ) : null}
-              </div>
+              {/* Only show GST if user wants it */}
+              {useTotal && (
+                <div className="summary-item">
+                  <span>GST (18%):</span>
+                  <span>₹{gstAmount.toFixed(2)}</span>
+                </div>
+              )}
 
               <div className="form-group">
                 <label>
@@ -458,7 +575,7 @@ const editDetails  = async () => {
 
               <div className="summary-item total">
                 <span>Total:</span>
-                <span>₹{total}</span>
+                <span>₹{total.toFixed(2)}</span>
               </div>
             </div>
           </div>

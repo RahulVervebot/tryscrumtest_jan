@@ -15,7 +15,7 @@
 
 /* Left column (70%) */
 .checkout-left-col {
-  width: 70%;
+  width: 60%;
   margin-right: 20px; /* space between columns */
 }
 
@@ -23,8 +23,8 @@
 .checkout-right-col {
   padding: 2%;
   color: #000;
-  background: #73B89D;
-  width: 30%;
+  background: #73b89d6b;
+  width: 40%;
 }
 
 /* First row on left column */
@@ -150,12 +150,12 @@ h4,h5{
 .proceed-button {
   display: none;
 }
-.billing-edit.show {
+/* .billing-edit.show {
   cursor: pointer;
   display: block;
-}
+} */
 .billing-edit{
-  display: none;
+  cursor: pointer;
 }
 
 .proceed-form.hide {
