@@ -48,6 +48,8 @@ const CheckoutPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const courseNametitle = searchParams.get("courseName") || "empty";
   const courseDate = searchParams.get("courseDate") || "";
+  const CourseTime = searchParams.get("time") || "";
+  const CourseLocation = searchParams.get("location") || "";
   const priceString = searchParams.get("price"); // e.g. "14500"
   const priceNum = parseFloat(priceString) || 0;
 
@@ -538,9 +540,17 @@ const CheckoutPage = () => {
 
               {/* Show the courseDate if needed */}
               {courseDate && (
+                <>
                 <div className="summary-item">
-                  <span>{courseDate}</span>
+                  <span>{courseDate}</span><br/>
                 </div>
+                <div className="summary-item">
+                <span>{CourseTime}</span><br/>
+              </div>
+              <div className="summary-item">
+              <span>{CourseLocation}</span>
+            </div>
+            </>
               )}
 
               {/* Ticket quantity UI */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { navigate } from "gatsby"; // <-- Gatsby navigation
-function PricePrograss({course, date}) {
+function PricePrograss({course, date, location, time}) {
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
   const [price, setPrice] = useState(16500);
@@ -46,8 +46,10 @@ function PricePrograss({course, date}) {
     // Safely encode your courseName for use in the URL
     const courseNameEncoded = encodeURIComponent(courseName);
     const coursedate = encodeURIComponent(date);
+    const coursetime = encodeURIComponent(time);
+    const courelocaton = encodeURIComponent(location);
     // Example: "/course-checkout?price=14000&courseName=Scrum%20Master"
-    navigate(`/course-checkout?price=${price}&courseName=${courseNameEncoded}&courseDate=${coursedate}`);
+    navigate(`/course-checkout?price=${price}&courseName=${courseNameEncoded}&courseDate=${coursedate}&location=${courelocaton}&time=${coursetime}`);
   };
 
   // Open Razorpay payment screen
