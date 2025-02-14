@@ -57,11 +57,11 @@ const CheckoutPage = () => {
   const gstAmount = subTotal * gstRate;
 
   // If 'useTotal' is true, we add GST. Otherwise just show subTotal
-  const total = useTotal ? subTotal + gstAmount : subTotal;
-
+  //const total = useTotal ? subTotal + gstAmount : subTotal;
+  const total = subTotal + gstAmount;
   // Back-end or CF7
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
-
+  
   // Utility to check server
   const checkServer = () => {
     axios
@@ -566,14 +566,17 @@ const CheckoutPage = () => {
               </div>
 
               {/* Only show GST if user wants it */}
-              {useTotal && (
+              {/* {useTotal && (
                 <div className="summary-item">
                   <span>GST (18%):</span>
                   <span>₹{gstAmount.toFixed(2)}</span>
                 </div>
-              )}
-
-              <div className="form-group">
+              )} */}
+                <div className="summary-item">
+                  <span>GST (18%):</span>
+                  <span>₹{gstAmount.toFixed(2)}</span>
+                </div>
+              {/* <div className="form-group">
                 <label>
                   <input
                     type="checkbox"
@@ -583,7 +586,7 @@ const CheckoutPage = () => {
                   />{" "}
                   Check if you want GST invoice
                 </label>
-              </div>
+              </div> */}
 
               <div className="summary-item total">
                 <span>Total:</span>

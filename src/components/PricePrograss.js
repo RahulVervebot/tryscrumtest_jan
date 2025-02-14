@@ -4,7 +4,7 @@ import { navigate } from "gatsby"; // <-- Gatsby navigation
 function PricePrograss({course, date}) {
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
-  const [price, setPrice] = useState(14000);
+  const [price, setPrice] = useState(16500);
   // Backend URL
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
 
