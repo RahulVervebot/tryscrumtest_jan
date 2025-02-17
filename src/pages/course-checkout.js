@@ -63,7 +63,8 @@ const CheckoutPage = () => {
 
   // If 'useTotal' is true, we add GST. Otherwise just show subTotal
   //const total = useTotal ? subTotal + gstAmount : subTotal;
-  const total = subTotal + gstAmount - couponValue;
+  //const total = subTotal + gstAmount - couponValue;
+  const total = subTotal - couponValue;
   // Back-end or CF7
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
   
@@ -603,10 +604,10 @@ const CheckoutPage = () => {
                   <span>₹{gstAmount.toFixed(2)}</span>
                 </div>
               )} */}
-                <div className="summary-item">
+                {/* <div className="summary-item">
                   <span>GST (18%):</span>
                   <span>₹{gstAmount.toFixed(2)}</span>
-                </div>
+                </div> */}
               {/* <div className="form-group">
                 <label>
                   <input
