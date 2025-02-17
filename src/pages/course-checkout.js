@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import axios from "axios";
 import "../CheckoutPage.css"; // your updated CSS file
 import Layout from "../components/Layout";
@@ -6,7 +6,7 @@ import NavTwo from "../components/NavTwo";
 import Footer from "../components/Footer";
 import { useLocation, navigate } from "@reach/router";
 import imgsecurepayment from "../assets/images/razorpay-payment.jpeg";
-
+import editprofile from "../assets/images/edit-profile.png"
 const CheckoutPage = () => {
   // Repeated fields: Only fullName, email, mobile
   const blankParticipant = {
@@ -31,12 +31,15 @@ const CheckoutPage = () => {
   const [serverMessage, setServerMessage] = useState("");
   const [loader, setLoader] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
+  const inputRef = useRef(null);
 
   // Validation errors
   // We'll store errors for participants in an array, and for otherDetails in an object
   const [participantErrors, setParticipantErrors] = useState([]);
   const [otherDetailsErrors, setOtherDetailsErrors] = useState({});
-
+  const [couponValue, setCouponValue] = useState(0);
+  const [couponerror, setCouponError] = useState('');
+  const [coupon, setCoupon] = useState(''); 
   // For GST checkbox
   const [useTotal, setUseTotal] = useState(false);
 
@@ -60,7 +63,7 @@ const CheckoutPage = () => {
 
   // If 'useTotal' is true, we add GST. Otherwise just show subTotal
   //const total = useTotal ? subTotal + gstAmount : subTotal;
-  const total = subTotal + gstAmount;
+  const total = subTotal + gstAmount - couponValue;
   // Back-end or CF7
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
   
@@ -126,6 +129,20 @@ const CheckoutPage = () => {
     paymentObject.open();
   };
 
+  const submitPromo = () => {
+    const trimmedCoupon = coupon.trim();
+    if (trimmedCoupon === 'TRY-CSPO-SPL') {
+
+      setCouponValue(1000);
+      setCouponError('');
+      alert('Coupon applied! You got 1000 off');
+      setCoupon('');
+    } else {
+      setCouponValue(0);
+      setCouponError('Invalid code');
+      alert('Invalid code');
+    }
+  };
   // Load script for RZP
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -239,6 +256,7 @@ const CheckoutPage = () => {
   };
 
   // Final Submit
+ 
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!validateFields()) return;
@@ -297,14 +315,14 @@ const CheckoutPage = () => {
 
       // If successful, show message & reset
       setSubmissionMessage(res?.data?.message || "Form submitted successfully!");
-      setParticipants([blankParticipant]); // reset to 1 participant
-      setOtherDetails({
-        company: "",
-        gst: "",
-        address: "",
-        state: "",
-        zip: "",
-      });
+     // setParticipants([blankParticipant]); // reset to 1 participant
+      // setOtherDetails({
+      //   company: "",
+      //   gst: "",
+      //   address: "",
+      //   state: "",
+      //   zip: "",
+      // });
       setIsProceedClicked(false);
       setLoader("");
 
@@ -328,7 +346,8 @@ const CheckoutPage = () => {
             <div className="checkout-left-col">
               {/* Row 1: Basic Details (red-ish background) */}
               <div className="checkout-left-row1">
-                <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
+                <div className="checkout-billing-head">
+                <h4 style={{ fontWeight: "700", marginBottom: "5%", width:"100%"}}>
                   <span
                     style={{
                       backgroundColor: "#ff0000",
@@ -344,17 +363,21 @@ const CheckoutPage = () => {
                 </h4>
                 {isProceedClicked && (
                   <div className="billing-edit" onClick={editDetails}>
-                    Edit Details
+                    <img
+                      src={editprofile}
+                      style={{ width: "20px" }}
+                      alt="edit-profle"
+                    />
                   </div>
                 )}
-
+</div>
                 {/* Show form only if not proceeded */}
                 {!isProceedClicked && (
                   <div className="proceed-form">
                     {/* Participants (repeating fields) */}
                     {participants.map((participant, index) => (
                       <div key={index} style={{ marginBottom: "20px" }}>
-                        <h5>Ticket {index + 1}</h5>
+                        <h5>Attendee {index + 1}</h5>
 
                         <div className="two-column-row">
                           <div className="form-group">
@@ -515,9 +538,6 @@ const CheckoutPage = () => {
                     >
                       {loader === "loading" ? "Processing..." : "Pay Now"}
                     </button>
-                    {submissionMessage && (
-                      <p className="submission-message">{submissionMessage}</p>
-                    )}
                   </div>
                 )}
 
@@ -531,6 +551,7 @@ const CheckoutPage = () => {
 
             {/* RIGHT Column (30%) */}
             <div className="checkout-right-col">
+              <div className="checkout-right-row1">
               <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
                 Payment Summary
               </h4>
@@ -603,6 +624,32 @@ const CheckoutPage = () => {
                 <span>₹{total.toFixed(2)}</span>
               </div>
             </div>
+            <div className="checkout-right-row2 ">
+            <h4 style={{ fontWeight: "700", marginBottom: "5%", }}>
+                Promo Code
+              </h4>
+              <div style={{ display: 'flex' }}>
+              <div className="form-group">
+                            <input
+                              type="text"
+                              name="Enter Coupon Code"
+                              placeholder="Enter Coupon"
+                              value={coupon}            // Controlled: value comes from state
+                              onChange={(e) => setCoupon(e.target.value)}
+                        style={{borderRadius:"10px"}}/>
+                          </div>
+                          <button
+                          type="button"
+                      className="promo-button"
+                      onClick={submitPromo}
+                      style={{ background: "#ff0000", color:"#fff", borderRadius:"10px", border:"none", width:"40%", height:"50px"}}
+                    >
+
+                      Submit
+                    </button>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       </form>

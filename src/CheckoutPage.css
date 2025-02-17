@@ -25,21 +25,35 @@
   color: #000;
   background: #73b89d6b;
   width: 40%;
+  border-radius: 15px;
 }
-
+.checkout-right-row1 {
+  background: #73b89d6b;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+}
+.checkout-right-row2 {
+  background: #73b89d6b;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+}
 /* First row on left column */
 .checkout-left-row1 {
   background-color: #ff000012;
   padding: 20px;
   margin-bottom: 20px;
-  border-radius: 5px;
+  border-radius: 15px;
 }
-
+.checkout-billing-head{
+  display: flex;
+}
 /* Second row on left column */
 .checkout-left-row2 {
   background-color: #f4b03229;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 15px;
 }
 
 /* Payment summary box on the right column can be styled as you like */
