@@ -135,13 +135,17 @@ const CheckoutPage = () => {
     if (trimmedCoupon === 'TRY-CSPO-SPL') {
 
       setCouponValue(1000);
-      setCouponError('');
-      alert('Coupon applied! You got 1000 off');
-      setCoupon('');
+      setCouponError("");
+      setCoupon("");
+      // Show success message for 5 seconds
+      setSubmissionMessage("Discount successfully applied!");
+      setTimeout(() => {
+        setSubmissionMessage("");
+      }, 5000);
     } else {
       setCouponValue(0);
-      setCouponError('Invalid code');
-      alert('Invalid code');
+      setCouponError("Invalid code");
+      setSubmissionMessage("");
     }
   };
   // Load script for RZP
@@ -597,6 +601,13 @@ const CheckoutPage = () => {
                 <span>₹{subTotal.toFixed(2)}</span>
               </div>
 
+             {/* If the coupon is applied, show discount above the total */}
+             {couponValue > 0 && (
+                  <div className="summary-item discount">
+                    <span>Discount:</span>
+                    <span style={{ color: "green" }}>- ₹{couponValue}</span>
+                  </div>
+                )}
               {/* Only show GST if user wants it */}
               {/* {useTotal && (
                 <div className="summary-item">
@@ -621,6 +632,7 @@ const CheckoutPage = () => {
               </div> */}
 
               <div className="summary-item total">
+
                 <span>Total:</span>
                 <span>₹{total.toFixed(2)}</span>
               </div>
@@ -645,10 +657,20 @@ const CheckoutPage = () => {
                       onClick={submitPromo}
                       style={{ background: "#ff0000", color:"#fff", borderRadius:"10px", border:"none", width:"40%", height:"50px"}}
                     >
-
                       Submit
                     </button>
+                  
               </div>
+              {couponerror && (
+                  <p style={{ color: "red", marginTop: "5px" }}>{couponerror}</p>
+                )}
+
+                {/* Show success message for discount (visible for 5s) */}
+                {submissionMessage && (
+                  <p style={{ color: "green", marginTop: "5px" }}>
+                    {submissionMessage}
+                  </p>
+                )}
             </div>
           </div>
           </div>
