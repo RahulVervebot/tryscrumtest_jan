@@ -42,21 +42,21 @@ const TermCondition = () => {
   <p>
   Welcome to tryScrum! These terms and conditions outline the rules and regulations for the use of our website www.tryscrum.com and our services.
   </p>
-<h2 style={{color:"red"}}>   
-1. Introduction
-</h2>
+<h3 style={{color:"red"}}>   
+ Introduction
+</h3>
 <p>
 By accessing this website and using our services, you agree to be bound by these terms and conditions. If you disagree with any part of these terms, you may not access our services.
 </p>
-<h2 style={{color:"red"}}>
-2. Services
-</h2> 
+<h3 style={{color:"red"}}>
+Services
+</h3> 
 <p>
 tryScrum provides training, coaching, and certification programs in Agile, Scrum, and related areas.
 </p>
-<h2 style={{color:"red"}}>
-3. Payments & Refunds
-</h2>
+<h3 style={{color:"red"}}>
+ Payments & Refunds
+</h3>
 <li>
 All course purchases are final unless otherwise stated.
 </li>
@@ -67,23 +67,23 @@ If a participant is unable to attend a course, a reschedule option is available 
 Refunds will be provided only as per our refund policy.
 </li>
 
-<h2 style={{color:"red"}}>
-4. Intellectual Property
-</h2>
+<h3 style={{color:"red"}}>
+Intellectual Property
+</h3>
 <li>
 All course materials, content, and resources provided are the intellectual property of tryScrum and cannot be copied, shared, or reproduced without permission.</li>
-<h2 style={{color:"red"}}>
-5. Limitation of Liability
-</h2>
+<h3 style={{color:"red"}}>
+ Limitation of Liability
+</h3>
 <li>
 We strive to provide high-quality training, but we do not guarantee specific results.
 </li>
 <li>
 tryScrum is not responsible for any indirect losses due to service unavailability or disruptions.
 </li>
-<h2 style={{color:"red"}}>
-6. Modifications to Terms
-</h2>
+<h3 style={{color:"red"}}>
+ Modifications to Terms
+</h3>
 <p>
 We reserve the right to modify these terms at any time. The updated terms will be effective upon posting on our website.    
  </p>

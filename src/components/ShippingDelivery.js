@@ -39,9 +39,9 @@ const ShippingDelivery = () => {
  <p className="blog-one__text">
   <p>
   At tryScrum, we primarily offer digital training, coaching, and certification services. As such, our services are delivered electronically, in live-virtual, or in person.  </p>
-<h2 style={{color:"red"}}>   
-1. Digital Course Delivery
-</h2>
+<h3 style={{color:"red"}}>   
+Digital Course Delivery
+</h3>
 
 <li>
 Upon successful registration and payment, confirmation for the course will be sent to the registered email.
@@ -56,15 +56,15 @@ Access to the course materials will be sent to the registered email address afte
 Users should ensure that the email provided is accurate to avoid delivery issues.
 </li>
 
-<h2 style={{color:"red"}}>
+<h3 style={{color:"red"}}>
 Physical Shipment 
-</h2> 
+</h3> 
 <li>
 We do not make any physical shipments.
 </li>
-<h2 style={{color:"red"}}>
-3. Issues with Delivery
-</h2>
+<h3 style={{color:"red"}}>
+Issues with Delivery
+</h3>
 <li>
 If you do not receive course access details within 24 hours of course completion, please contact us at support@tryscrum.com.
 </li>
