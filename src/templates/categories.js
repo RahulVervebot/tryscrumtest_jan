@@ -8,7 +8,6 @@ import NavTwo from "../components/NavTwo";
 import Footer from "../components/Footer";
 import blogImg from "../assets/images/socialbanners/blogs.png";
 import "../assets/css/searchbox.css"
-import Tagdata from "../components/Tagdata";
 import NewCategoryBanner from "../components/NewCategoryBanner";
 import banner from "../assets/images/blog-banner.jpg";
 import { useLocation } from '@reach/router';
@@ -96,17 +95,17 @@ const matchedSEO = bannerData[0]?.seo || {};
  const myDesc = matchedSEO.metaDesc || defaultDesc;
  console.log('matchedSEO', matchedSEO);
 
-
   // Group nodes by URL
   const groupedNodes = returned.allWpCourseCategory.nodes.reduce((acc, node) => {
-    const url = node.course_categories.coursesIncludes.courseDetails.url;
+const url = node.course_categories.coursesIncludes.courseDetails.url;
+console.log('course_categories',node.course_categories);
+
     if (!acc[url]) {
       acc[url] = [];
     }
     acc[url].push(node);
     return acc;
   }, {});
-
   // console.log("location-->", groupedNodes, Object.keys(groupedNodes))
   const SelectedNavTwo = location.pathname.startsWith('/in/') ? inNavTwo : NavTwo;
   const SelectedFooter = location.pathname.startsWith('/in/') ? inFooter : Footer;
@@ -135,6 +134,7 @@ const matchedSEO = bannerData[0]?.seo || {};
   //     document.querySelectorAll('[data-custom-meta="true"]').forEach((el) => el.remove());
   //   };
   // }, [coursecustommeta]);
+  
   return (
     <>
       {/* <Layout pageTitle="Practical and actionable writings to help you succeed with Agile"  metaDesc="Explore our blogs to gain practical and actionable tips from our coaches to help you expand your repertoire about Agility." pageName="blogs">  */}
@@ -188,7 +188,9 @@ const matchedSEO = bannerData[0]?.seo || {};
                   let condition = "/" + url + "/";
 
                   return (
-                    ((location.pathname === "/" + url + "/") ) && (
+                             
+               ((location.pathname === "/" + url + "/") ) && (
+                      
                     <div key={index}>
 
                       <div style={{color: "#000",fontFamily:"verdana"}} dangerouslySetInnerHTML={{ __html: firstHeading }} />
@@ -248,8 +250,13 @@ const matchedSEO = bannerData[0]?.seo || {};
                           </div>
                         );
                       })}
+                      
                     </div>)
+                  
+                    
+            
                   );
+                  
                 })}
               </div>
             </section>

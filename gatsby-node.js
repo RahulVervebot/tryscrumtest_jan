@@ -376,10 +376,10 @@ const coursesCategory = result.data.allWpCourseCategory.nodes
     const incoursecategory = item.course_categories.coursesIncludes.courseDetails.url;
   
     // Check if incoursecategory contains "/in/" anywhere in the URL
-    const componentPath = incoursecategory.includes('/in/')
+    const componentPath = incoursecategory.includes('in/')
       ? require.resolve("./src/templates/country/categories.js")
       : require.resolve("./src/templates/categories.js");
-  
+
     actions.createPage({
       path: incoursecategory,
       component: componentPath,

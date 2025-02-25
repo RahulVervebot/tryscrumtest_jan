@@ -6,7 +6,6 @@ import NavTwo from "../../components/header/NavIn";
 import Footer from "../../components/footer/InFooter";
 import blogImg from "../../assets/images/socialbanners/blogs.png";
 import "../../assets/css/searchbox.css"
-import Tagdata from "../components/Tagdata";
 import NewCategoryBanner from "../../components/NewCategoryBanner";
 import banner from "../../assets/images/blog-banner.jpg";
 import { useLocation } from '@reach/router';
@@ -68,7 +67,7 @@ export default function CatgoriesIndex(props) {
     courseHeader.mainPageUrl;
   }
   );
-console.log('bannerDatas', bannerData);
+console.log('location.pathname', location.pathname);
 const matchedSEO = bannerData[0]?.seo || {};
   const bannerheading = bannerData[0]?.course_categories.coursesIncludes.courseHeader.heading || "";
   const bannerBreadcrumb = bannerData[0]?.course_categories.coursesIncludes.courseHeader.breadcrumb || "";
@@ -189,6 +188,7 @@ const matchedSEO = bannerData[0]?.seo || {};
                                 <div>
                                   <p style={{ fontSize: "16px", marginBottom: "40px", textAlign: "left", color:"#000", fontFamily:"verdana" }}>
                                     <div dangerouslySetInnerHTML={{ __html: courseDescription }} />
+                              
                                   </p>
                                 </div>
                                 <div className="new_readmore">
@@ -211,8 +211,10 @@ const matchedSEO = bannerData[0]?.seo || {};
                         );
                       })}
                     </div>)
+                    
                   );
                 })}
+                                              
               </div>
             </section>
           </ol>
