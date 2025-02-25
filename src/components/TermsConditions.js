@@ -64,7 +64,7 @@ All course purchases are final unless otherwise stated.
 If a participant is unable to attend a course, a reschedule option is available based on availability.
 </li>
 <li>
-Refunds will be provided only as per our refund policy.
+Refunds will be provided only as per our <a href="/refund-policies/">refund policy.</a>
 </li>
 
 <h3 style={{color:"red"}}>
@@ -88,7 +88,7 @@ tryScrum is not responsible for any indirect losses due to service unavailabilit
 We reserve the right to modify these terms at any time. The updated terms will be effective upon posting on our website.    
  </p>
 
- <p>For any questions, contact us at support@trycrum.com </p>
+ <p>For any questions, contact us at support@tryscrum.com</p>
 
 </p>
            
