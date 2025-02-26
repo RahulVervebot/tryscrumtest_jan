@@ -62,12 +62,12 @@ const CheckoutPage = () => {
   const gstAmount = subTotal * gstRate;
 
   // If 'useTotal' is true, we add GST. Otherwise just show subTotal
-  const total = useTotal ? subTotal + gstAmount - couponValue : subTotal - couponValue;
+ // const total = useTotal ? subTotal + gstAmount - couponValue : subTotal - couponValue;
  // const total = subTotal + gstAmount - couponValue;
- // const total = subTotal - couponValue;
+ const total = subTotal - couponValue;
   // Back-end or CF7
-  const backendURL = useTotal ? "https://tryscrumlive.vervebot.io/create-order.php" : "https://tryscrumlive.vervebot.io/create-order-venkat.php";
-  
+  //const backendURL = useTotal ? "https://tryscrumlive.vervebot.io/create-order.php" : "https://tryscrumlive.vervebot.io/create-order-venkat.php";
+  const backendURL = "https://tryscrumlive.vervebot.io/create-order-venkat.php";
   // Utility to check server
   const checkServer = () => {
     axios
@@ -108,7 +108,8 @@ const CheckoutPage = () => {
       return;
     }  
     const options = {
-      key: useTotal? "rzp_test_eCBnZYOjhB6B6V" :"rzp_test_dkMfA9xnfpsfI5", // replace with your Razorpay key
+    //  key: useTotal? "rzp_test_eCBnZYOjhB6B6V" :"rzp_test_dkMfA9xnfpsfI5",
+      key: "rzp_test_dkMfA9xnfpsfI5",
       amount: total * 100,
       currency: "INR",
       order_id: orderId,
@@ -610,17 +611,17 @@ const CheckoutPage = () => {
                   </div>
                 )}
               {/* Only show GST if user wants it */}
-              {useTotal && (
+              {/* {useTotal && (
                 <div className="summary-item">
                   <span>GST (18%):</span>
                   <span>₹{gstAmount.toFixed(2)}</span>
                 </div>
-              )}
+              )} */}
                 {/* <div className="summary-item">
                   <span>GST (18%):</span>
                   <span>₹{gstAmount.toFixed(2)}</span>
                 </div> */}
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>
                   <input
                     type="checkbox"
@@ -630,7 +631,7 @@ const CheckoutPage = () => {
                   />{" "}
                   Check if you want GST invoice
                 </label>
-              </div>
+              </div> */}
 
               <div className="summary-item total">
 
@@ -667,11 +668,11 @@ const CheckoutPage = () => {
                 )}
 
                 {/* Show success message for discount (visible for 5s) */}
-                {submissionMessage && (
+                {/* {submissionMessage && (
                   <p style={{ color: "green", marginTop: "5px" }}>
                     {submissionMessage}
                   </p>
-                )}
+                )} */}
             </div>
           </div>
           </div>
