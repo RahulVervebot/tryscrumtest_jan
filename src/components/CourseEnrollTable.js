@@ -722,7 +722,7 @@ class CourseEnrollTable extends React.Component {
                      
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                       )} */}
-                        <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} />
+                        <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
                     </center>
                  
                   </div>
@@ -893,7 +893,7 @@ class CourseEnrollTable extends React.Component {
                               filtered.enrolltext
                             )
                           )} */}
-                            <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location}/>
+                              <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
                         </center>
                       </div>
              
@@ -1153,7 +1153,7 @@ class CourseEnrollTable extends React.Component {
                         // this.getUrlType2(filtered[2].url)
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                       )} */}
-                        <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location}/>
+                          <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
                     </center>
                   </div>
                 </div>
@@ -1333,7 +1333,7 @@ class CourseEnrollTable extends React.Component {
                                   filtered.enrolltext
                                 )
                               )} */}
-                                <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location}/>
+                                  <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
                             </center>
                           </div>
                         </div>
@@ -1602,7 +1602,7 @@ class CourseEnrollTable extends React.Component {
                           // this.getUrlType2(filtered[2].url)
                           this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                         )} */}
-                          <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} />
+                           <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
                       </center>
                     </div>
                   </div>
@@ -1781,7 +1781,7 @@ class CourseEnrollTable extends React.Component {
                                 filtered.enrolltext
                               )
                             )} */}
-                               <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location}/>
+                                <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
                           </center>
                        
                         </div>

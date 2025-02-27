@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { navigate } from "gatsby"; // <-- Gatsby navigation
-function PricePrograss({course, date, location, time}) {
+function PricePrograss({course, date, location, time, courseprice}) {
   const [responseId, setResponseId] = useState("");
   const [serverMessage, setServerMessage] = useState("");
-  const [price, setPrice] = useState(16500);
+  const [price, setPrice] = useState();
+  const [mycurrency, setMycurrency] = useState();
   // Backend URL
   const backendURL = "https://tryscrumtest.vervebot.io/create-order.php";
 
-  // Check server status
+  useEffect(() => {
+    if (!courseprice) return;
+    
+    // If your courseprice is in the format "17000 INR",
+    // you probably don't need encodeURIComponent here.
+    // But if it might contain special characters, handle carefully.
+    const [amountString, currency] = courseprice.split(" ");
+    setPrice(parseInt(amountString, 10));  // => 17000
+    setMycurrency(currency);               // => 'INR'
+  }, [courseprice]);
   const checkServer = () => {
     axios
       .get(backendURL)
@@ -49,7 +59,7 @@ function PricePrograss({course, date, location, time}) {
     const coursetime = encodeURIComponent(time);
     const courelocaton = encodeURIComponent(location);
     // Example: "/course-checkout?price=14000&courseName=Scrum%20Master"
-    navigate(`/course-checkout?price=${price}&courseName=${courseNameEncoded}&courseDate=${coursedate}&location=${courelocaton}&time=${coursetime}`);
+    navigate(`/course-checkout?price=${price}&courseName=${courseNameEncoded}&courseDate=${coursedate}&location=${courelocaton}&time=${coursetime}&currency=${mycurrency}`);
   };
 
   // Open Razorpay payment screen
@@ -94,14 +104,14 @@ function PricePrograss({course, date, location, time}) {
   };
 
   // Handle slider value change
-  const handleSliderChange = (event) => {
-    setPrice(Number(event.target.value));
-  };
+  // const handleSliderChange = (event) => {
+  //   setPrice(Number(event.target.value));
+  // };
 
   return (
     <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
       {/* Payment Amount Slider */}
-      <div style={{ marginBottom: "20px" }}>
+      {/* <div style={{ marginBottom: "20px" }}>
         <input
           type="range"
           min="16500"
@@ -140,7 +150,7 @@ function PricePrograss({course, date, location, time}) {
         <p style={{ fontSize: "18px", textAlign: "center", color: "#fff" }}>
           Selected Amount: <span style={{ fontWeight: "bold" }}>₹{price}</span>
         </p>
-      </div>
+      </div> */}
 
       {/* Payment Button */}
       <button

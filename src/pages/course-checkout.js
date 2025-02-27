@@ -55,6 +55,8 @@ const CheckoutPage = () => {
   const CourseLocation = searchParams.get("location") || "";
   const priceString = searchParams.get("price"); // e.g. "14500"
   const priceNum = parseFloat(priceString) || 0;
+  const curencyString = searchParams.get("mycurrency");
+
 
   // GST calculation
   const gstRate = 0.18;
@@ -85,7 +87,7 @@ const CheckoutPage = () => {
   const createRazorpayOrder = (price) => {
     const data = {
       amount: price * 100, // Convert to paise
-      currency: "INR",
+      currency: curencyString,
     };
     axios
       .post(backendURL, data, {
@@ -118,6 +120,7 @@ const CheckoutPage = () => {
       image: "https://yourdomain.com/logo.png",
       handler: function (response) {
         setResponseId(response.razorpay_payment_id);
+        navigate("/");
       },
       prefill: {
         name: "Customer Name",
