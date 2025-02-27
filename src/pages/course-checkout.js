@@ -603,7 +603,7 @@ const CheckoutPage = () => {
 
               <div className="summary-item">
                 <span>Subtotal:</span>
-                <span>₹{subTotal.toFixed(2)}</span>
+                <span>{curencyString}{subTotal.toFixed(2)}</span>
               </div>
 
              {/* If the coupon is applied, show discount above the total */}
@@ -639,7 +639,7 @@ const CheckoutPage = () => {
               <div className="summary-item total">
 
                 <span>Total:</span>
-                <span>₹{total.toFixed(2)}</span>
+                <span>{curencyString}{total.toFixed(2)}</span>
               </div>
             </div>
             <div className="checkout-right-row2 ">
