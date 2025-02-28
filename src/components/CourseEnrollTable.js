@@ -232,7 +232,7 @@ class CourseEnrollTable extends React.Component {
       value.charAt(8) !== "f"
     ) {
       return (
-        <td>
+        <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
           <button
             type="submit"
             className="enroll-button"
@@ -240,13 +240,13 @@ class CourseEnrollTable extends React.Component {
           >
             Enroll
           </button>
-        </td>
+        </div>
       );
     }
 
     if (value.charAt(8) === "f") {
       return (
-        <td>
+        <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
           <button
             type="submit"
             className="enroll-button"
@@ -255,7 +255,7 @@ class CourseEnrollTable extends React.Component {
 
             Enroll
           </button>
-        </td>
+        </div>
       );
     }
   }
@@ -267,7 +267,7 @@ class CourseEnrollTable extends React.Component {
       value.charAt(8) !== "f"
     ) {
       return (
-        <td>
+        <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
           <button
             type="submit"
             className="enroll-button"
@@ -276,13 +276,13 @@ class CourseEnrollTable extends React.Component {
             {/* Enroll */}
             <div>{enrolltext}</div>
           </button>
-        </td>
+        </div>
       );
     }
 
     if (value.charAt(8) === "f") {
       return (
-        <td>
+        <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
           <button
             type="submit"
             className="enroll-button"
@@ -291,7 +291,7 @@ class CourseEnrollTable extends React.Component {
             {/* Enroll */}
             {enrolltext}
           </button>
-        </td>
+        </div>
       );
     }
   }
@@ -707,6 +707,31 @@ class CourseEnrollTable extends React.Component {
                       </p>
                     </ul>
                     <center>
+                    {filtered.salePrice.includes("INR") ? (
+     <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+  ) :
+
+  filtered.url[0] == "E" |
+    filtered.url[0] == "e" ? (
+      <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+        <button
+          type="submit"
+          className="enroll-button"
+          id="example-widget-trigger"
+          onClick={() => this.eventBrite(filtered.url)}
+        >
+     
+          {filtered.enrolltext}
+        </button>
+      </div>
+    ) : (
+      // this.getUrlType2(filtered[2].url)
+      this.getUrlTypeNew(
+        filtered.url,
+        filtered.enrolltext
+      )
+    )
+  }
                       {/* {filtered.url[0] == "E" || filtered.url[0] == "e" ? (
                         <button
                           type="submit"
@@ -722,7 +747,8 @@ class CourseEnrollTable extends React.Component {
                      
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                       )} */}
-                        <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+                  
+                      
                     </center>
                  
                   </div>
@@ -893,7 +919,31 @@ class CourseEnrollTable extends React.Component {
                               filtered.enrolltext
                             )
                           )} */}
-                              <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+                            {filtered.salePrice.includes("INR") ? (
+     <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+  ) :
+
+  filtered.url[0] == "E" |
+    filtered.url[0] == "e" ? (
+      <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+        <button
+          type="submit"
+          className="enroll-button"
+          id="example-widget-trigger"
+          onClick={() => this.eventBrite(filtered.url)}
+        >
+     
+          {filtered.enrolltext}
+        </button>
+      </div>
+    ) : (
+      // this.getUrlType2(filtered[2].url)
+      this.getUrlTypeNew(
+        filtered.url,
+        filtered.enrolltext
+      )
+    )
+  }
                         </center>
                       </div>
              
@@ -1153,7 +1203,31 @@ class CourseEnrollTable extends React.Component {
                         // this.getUrlType2(filtered[2].url)
                         this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                       )} */}
-                          <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+                     {filtered.salePrice.includes("INR") ? (
+     <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+  ) :
+
+  filtered.url[0] == "E" |
+    filtered.url[0] == "e" ? (
+      <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+        <button
+          type="submit"
+          className="enroll-button"
+          id="example-widget-trigger"
+          onClick={() => this.eventBrite(filtered.url)}
+        >
+     
+          {filtered.enrolltext}
+        </button>
+      </div>
+    ) : (
+      // this.getUrlType2(filtered[2].url)
+      this.getUrlTypeNew(
+        filtered.url,
+        filtered.enrolltext
+      )
+    )
+  }
                     </center>
                   </div>
                 </div>
@@ -1333,7 +1407,31 @@ class CourseEnrollTable extends React.Component {
                                   filtered.enrolltext
                                 )
                               )} */}
-                                  <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+                        {filtered.salePrice.includes("INR") ? (
+     <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+  ) :
+
+  filtered.url[0] == "E" |
+    filtered.url[0] == "e" ? (
+      <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+        <button
+          type="submit"
+          className="enroll-button"
+          id="example-widget-trigger"
+          onClick={() => this.eventBrite(filtered.url)}
+        >
+     
+          {filtered.enrolltext}
+        </button>
+      </div>
+    ) : (
+      // this.getUrlType2(filtered[2].url)
+      this.getUrlTypeNew(
+        filtered.url,
+        filtered.enrolltext
+      )
+    )
+  }
                             </center>
                           </div>
                         </div>
@@ -1602,7 +1700,31 @@ class CourseEnrollTable extends React.Component {
                           // this.getUrlType2(filtered[2].url)
                           this.getUrlTypeNew(filtered.url, filtered.enrolltext)
                         )} */}
-                           <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+             {filtered.salePrice.includes("INR") ? (
+     <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+  ) :
+
+  filtered.url[0] == "E" |
+    filtered.url[0] == "e" ? (
+      <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+        <button
+          type="submit"
+          className="enroll-button"
+          id="example-widget-trigger"
+          onClick={() => this.eventBrite(filtered.url)}
+        >
+     
+          {filtered.enrolltext}
+        </button>
+      </div>
+    ) : (
+      // this.getUrlType2(filtered[2].url)
+      this.getUrlTypeNew(
+        filtered.url,
+        filtered.enrolltext
+      )
+    )
+  }
                       </center>
                     </div>
                   </div>
@@ -1781,7 +1903,31 @@ class CourseEnrollTable extends React.Component {
                                 filtered.enrolltext
                               )
                             )} */}
-                                <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+     {filtered.salePrice.includes("INR") ? (
+     <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
+  ) :
+
+  filtered.url[0] == "E" |
+    filtered.url[0] == "e" ? (
+      <div className="App" style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+        <button
+          type="submit"
+          className="enroll-button"
+          id="example-widget-trigger"
+          onClick={() => this.eventBrite(filtered.url)}
+        >
+     
+          {filtered.enrolltext}
+        </button>
+      </div>
+    ) : (
+      // this.getUrlType2(filtered[2].url)
+      this.getUrlTypeNew(
+        filtered.url,
+        filtered.enrolltext
+      )
+    )
+  }
                           </center>
                        
                         </div>

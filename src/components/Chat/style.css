@@ -78,29 +78,18 @@
 
 
 .enroll-button {
-    position: static;
-    bottom: 2.5rem;
     display: flex;
     justify-content: center;
     justify-content: space-around;
     align-items: center;
+    border-radius: 5px;
     background: none;
     border: none;
     color: #ffffff ;
-    background-color: #ff3547;
+    background-color: #ff0000;
     box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
-    /* padding: 13px 20px; */
-    font-size: .81rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    width: 10rem;
-    height: 46px;
-    left: 0;
-    right: 0;
-    margin-left:auto;
-    margin-right:auto;
-    transition: ease-in;
-    transition-duration: 0.5s;
+    padding: 10px 20px;
+    justify-self: center;
 }
 
 .card-title-color{
