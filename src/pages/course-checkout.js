@@ -120,7 +120,10 @@ const CheckoutPage = () => {
       image: "https://yourdomain.com/logo.png",
       handler: function (response) {
         setResponseId(response.razorpay_payment_id);
-        navigate("/");
+        navigate(`/thankyou?razorpay_payment_id=${response.razorpay_payment_id}`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
       },
       prefill: {
         name: "Customer Name",

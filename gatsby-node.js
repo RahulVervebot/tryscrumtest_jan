@@ -161,6 +161,7 @@ const path = require(`path`)
     }
   `)
 
+
   const posts = result.data.allWpNews.nodes
   const articlespost = result.data.allWpArticles.nodes
 
@@ -386,6 +387,7 @@ const coursesCategory = result.data.allWpCourseCategory.nodes
     });
   });
 
+  
     courseslist.forEach(courseslist => {
       actions.createPage({
         path: `public-events`,
