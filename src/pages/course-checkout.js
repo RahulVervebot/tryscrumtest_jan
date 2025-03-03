@@ -3,6 +3,7 @@ import axios from "axios";
 import "../CheckoutPage.css"; // your updated CSS file
 import Layout from "../components/Layout";
 import NavTwo from "../components/NavTwo";
+import logo from "../assets/images/logo-dark.png";
 import Footer from "../components/Footer";
 import { useLocation, navigate } from "@reach/router";
 import imgsecurepayment from "../assets/images/razorpay-payment.jpeg";
@@ -117,7 +118,7 @@ const CheckoutPage = () => {
       order_id: orderId,
       name: "TryScrum",
       description: "Payment to TryScrum",
-      image: "https://yourdomain.com/logo.png",
+      image: logo,
       handler: function (response) {
         setResponseId(response.razorpay_payment_id);
         navigate(`/thankyou?razorpay_payment_id=${response.razorpay_payment_id}`);

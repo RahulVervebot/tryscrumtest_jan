@@ -91,7 +91,7 @@ We reserve the right to modify these terms at any time. The updated terms will b
  <p>For any questions, contact us at support@tryscrum.com</p>
 
 </p>
-           
+
               </div>
 
               
