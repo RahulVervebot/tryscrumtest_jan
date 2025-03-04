@@ -241,15 +241,14 @@ const CheckoutPage = () => {
         // 1) Grab the transaction id
         const paymentId = response.razorpay_payment_id;
         setResponseId(paymentId);
-
-        // 2) Now submit CF7 (including transaction id)
-        await submitToCF7(paymentId);
-
-        // 3) Navigate to thank you
         navigate(`/thankyou?razorpay_payment_id=${paymentId}`);
         setTimeout(() => {
           window.location.reload();
         }, 100);
+        // 2) Now submit CF7 (including transaction id)
+        await submitToCF7(paymentId);
+
+        // 3) Navigate to thank you
       },
       prefill: {
         name: "Customer Name",
