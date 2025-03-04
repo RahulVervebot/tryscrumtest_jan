@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState,useRef } from "react";
 import axios from "axios";
 import "../CheckoutPage.css"; // your updated CSS file
 import Layout from "../components/Layout";
@@ -7,8 +7,7 @@ import logo from "../assets/images/logo-dark.png";
 import Footer from "../components/Footer";
 import { useLocation, navigate } from "@reach/router";
 import imgsecurepayment from "../assets/images/razorpay-payment.jpeg";
-import editprofile from "../assets/images/edit-profile.png";
-
+import editprofile from "../assets/images/edit-profile.png"
 const CheckoutPage = () => {
   // Repeated fields: Only fullName, email, mobile
   const blankParticipant = {
@@ -36,13 +35,14 @@ const CheckoutPage = () => {
   const inputRef = useRef(null);
 
   // Validation errors
+  // We'll store errors for participants in an array, and for otherDetails in an object
   const [participantErrors, setParticipantErrors] = useState([]);
   const [otherDetailsErrors, setOtherDetailsErrors] = useState({});
-
-  // Coupon
   const [couponValue, setCouponValue] = useState(0);
   const [couponerror, setCouponError] = useState('');
   const [coupon, setCoupon] = useState(''); 
+  // For GST checkbox
+  const [useTotal, setUseTotal] = useState(false);
 
   // For toggling step screens
   const [isProceedClicked, setIsProceedClicked] = useState(false);
@@ -58,20 +58,125 @@ const CheckoutPage = () => {
   const priceNum = parseFloat(priceString) || 0;
   const curencyString = searchParams.get("mycurrency");
 
-  // Subtotal, total
-  const subTotal = priceNum * participants.length;
-  // For illustration, we do subTotal minus coupon. (Adjust logic as needed.)
-  const total = subTotal - couponValue;
 
-  // We'll always use the same backend URL:
+  // GST calculation
+  const gstRate = 0.18;
+  const subTotal = priceNum * participants.length;
+  const gstAmount = subTotal * gstRate;
+
+  // If 'useTotal' is true, we add GST. Otherwise just show subTotal
+ // const total = useTotal ? subTotal + gstAmount - couponValue : subTotal - couponValue;
+ // const total = subTotal + gstAmount - couponValue;
+ const total = subTotal - couponValue;
+  // Back-end or CF7
+  //const backendURL = useTotal ? "https://tryscrumlive.vervebot.io/create-order.php" : "https://tryscrumlive.vervebot.io/create-order-venkat.php";
   const backendURL = "https://tryscrumlive.vervebot.io/create-order-venkat.php";
+  // Utility to check server
+  const checkServer = () => {
+    axios
+      .get(backendURL)
+      .then((response) => {
+        setServerMessage(response.data.message);
+      })
+      .catch((error) => {
+        setServerMessage("Error connecting to server");
+        console.error(error);
+      });
+  };
+
+  // Create RZP order
+  const createRazorpayOrder = (price) => {
+    const data = {
+      amount: price * 100, // Convert to paise
+      currency: curencyString,
+    };
+    axios
+      .post(backendURL, data, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        console.log("Order created:", response.data);
+        handleRazorpayScreen(response.data.amount, response.data.id);
+      })
+      .catch((error) => {
+        console.error("Error creating order:", error);
+      });
+  };
+
+  // Open the RZP payment
+  const handleRazorpayScreen = async (amount, orderId) => {
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    if (!res) {
+      alert("Failed to load Razorpay SDK.");
+      return;
+    }  
+    const options = {
+    //  key: useTotal? "rzp_test_eCBnZYOjhB6B6V" :"rzp_test_dkMfA9xnfpsfI5",
+      key: "rzp_test_dkMfA9xnfpsfI5",
+      amount: total * 100,
+      currency: "INR",
+      order_id: orderId,
+      name: "TryScrum",
+      description: "Payment to TryScrum",
+      image: logo,
+      handler: function (response) {
+        setResponseId(response.razorpay_payment_id);
+        navigate(`/thankyou?razorpay_payment_id=${response.razorpay_payment_id}`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+      },
+      prefill: {
+        name: "Customer Name",
+        email: "customer@example.com",
+      },
+      theme: {
+        color: "#F4C430",
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
+  const submitPromo = () => {
+    const trimmedCoupon = coupon.trim();
+    if (trimmedCoupon === 'TRY-CSPO-SPL') {
+
+      setCouponValue(1000);
+      setCouponError("");
+      setCoupon("");
+      // Show success message for 5 seconds
+      setSubmissionMessage("Discount successfully applied!");
+      setTimeout(() => {
+        setSubmissionMessage("");
+      }, 5000);
+    } else {
+      setCouponValue(0);
+      setCouponError("Invalid code");
+      setSubmissionMessage("");
+    }
+  };
+  // Load script for RZP
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
   // --- TICKET HANDLERS ---
+
+  // Increase participants (repeated fields)
   const handleTicketIncrement = () => {
     setParticipants((prev) => [...prev, { ...blankParticipant }]);
+    // If you want to jump back to edit mode
     setIsProceedClicked(false);
   };
 
+  // Decrease participants (repeated fields)
   const handleTicketDecrement = () => {
     setParticipants((prev) =>
       prev.length > 1 ? prev.slice(0, prev.length - 1) : prev
@@ -79,7 +184,7 @@ const CheckoutPage = () => {
     setIsProceedClicked(false);
   };
 
-  // --- FIELD HANDLERS ---
+  // Handle repeated field changes
   const handleParticipantChange = (e, index) => {
     const { name, value } = e.target;
     setParticipants((prev) => {
@@ -98,6 +203,7 @@ const CheckoutPage = () => {
     });
   };
 
+  // --- SINGLE FIELDS HANDLER ---
   const handleOtherDetailsChange = (e) => {
     const { name, value } = e.target;
     setOtherDetails((prev) => ({ ...prev, [name]: value }));
@@ -157,119 +263,26 @@ const CheckoutPage = () => {
     setIsProceedClicked(true);
   };
 
+  // Edit details (go back)
   const editDetails = () => {
     setIsProceedClicked(false);
   };
 
-  // --- COUPON SUBMIT ---
-  const submitPromo = () => {
-    const trimmedCoupon = coupon.trim();
-    if (trimmedCoupon === 'TRY-CSPO-SPL') {
-      setCouponValue(1000);
-      setCouponError("");
-      setCoupon("");
-      // Show success message for 5 seconds
-      setSubmissionMessage("Discount successfully applied!");
-      setTimeout(() => {
-        setSubmissionMessage("");
-      }, 5000);
-    } else {
-      setCouponValue(0);
-      setCouponError("Invalid code");
-      setSubmissionMessage("");
-    }
-  };
-
-  // --- RAZORPAY LOGIC ---
-
-  // 1) Called by "Pay Now" button
-  const payNowHandler = async (e) => {
+  // Final Submit
+ 
+  const submitHandler = async (e) => {
+    console.log('backendURL',backendURL);
     e.preventDefault();
     if (!validateFields()) return;
 
-    setLoader("loading");
     try {
-      // First create the RZP order with your backend
-      createRazorpayOrder(total);
-    } catch (error) {
-      console.error(error);
-      setSubmissionMessage("An error occurred. Please try again.");
-      setLoader("");
-    }
-  };
+      setLoader("loading");
 
-  // 2) Create order in the backend
-  const createRazorpayOrder = (price) => {
-    const data = {
-      amount: price * 100, // Convert to paise
-      currency: curencyString || "INR",
-    };
-
-    axios
-      .post(backendURL, data, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        console.log("Order created:", response.data);
-        handleRazorpayScreen(response.data.amount, response.data.id);
-      })
-      .catch((error) => {
-        console.error("Error creating order:", error);
-        setLoader("");
-      });
-  };
-
-  // 3) Load the RZP script & open the RZP modal
-  const handleRazorpayScreen = async (amount, orderId) => {
-    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-    if (!res) {
-      alert("Failed to load Razorpay SDK.");
-      setLoader("");
-      return;
-    }
-
-    const options = {
-      key: "rzp_test_dkMfA9xnfpsfI5", // or your test key
-      amount: total * 100,
-      currency: "INR",
-      order_id: orderId,
-      name: "TryScrum",
-      description: "Payment to TryScrum",
-      image: logo,
-      // On successful payment:
-      handler: async (response) => {
-        // 1) Grab the transaction id
-        const paymentId = response.razorpay_payment_id;
-        setResponseId(paymentId);
-
-        // 2) Now submit CF7 (including transaction id)
-        await submitToCF7(paymentId);
-
-        // 3) Navigate to thank you
-        navigate(`/thankyou?razorpay_payment_id=${paymentId}`);
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
-      },
-      prefill: {
-        name: "Customer Name",
-        email: "customer@example.com",
-      },
-      theme: {
-        color: "#F4C430",
-      },
-    };
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
-  };
-
-  // 4) The actual form submission to CF7, now that we have a transaction ID
-  const submitToCF7 = async (transactionId) => {
-    try {
+      // CF7 endpoint
       const url =
         "https://tryscrumlive.vervebot.io/wp-json/contact-form-7/v1/contact-forms/12456/feedback?_wpcf7_unit_tag=wpcf7-8d74a4f";
 
-      // Build the FormData
+      // Build the formData
       const formData = new FormData();
 
       // Flatten repeated fields
@@ -283,24 +296,22 @@ const CheckoutPage = () => {
         .map((p, i) => `Ticket ${i + 1}: ${p.mobile}`)
         .join(", ");
 
+      // Append participant data to formData
       formData.append("your-fullName", allFullNames);
       formData.append("your-email", allEmails);
       formData.append("your-mobile", allMobiles);
 
-      // Single fields
+      // Append single fields
       formData.append("your-company", otherDetails.company || "");
       formData.append("your-gst", otherDetails.gst || "");
       formData.append("your-address", otherDetails.address);
       formData.append("your-state", otherDetails.state);
       formData.append("your-zip", otherDetails.zip);
 
-      // Course info
+      // Append course info
       formData.append("your-coursename", courseNametitle);
       formData.append("your-coursedate", courseDate);
       formData.append("your-totalprice", total);
-
-      // --------------- ADD TRANSACTION ID HERE ---------------
-      formData.append("transaction-id", transactionId);
 
       const config = {
         headers: {
@@ -308,72 +319,76 @@ const CheckoutPage = () => {
         },
       };
 
-      // Post to CF7
+      // Submit to CF7
       const res = await axios.post(url, formData, config);
-      console.log("CF7 submission response:", res);
+      console.log("form res", res);
+      console.log("total", total);
 
+      // Next, create the Razorpay order
+      createRazorpayOrder(total);
+
+      // If successful, show message & reset
       setSubmissionMessage(res?.data?.message || "Form submitted successfully!");
+     // setParticipants([blankParticipant]); // reset to 1 participant
+      // setOtherDetails({
+      //   company: "",
+      //   gst: "",
+      //   address: "",
+      //   state: "",
+      //   zip: "",
+      // });
+      setIsProceedClicked(false);
       setLoader("");
+
+      // Optionally navigate
+      // navigate(-1);
     } catch (error) {
       console.error(error);
-      setSubmissionMessage("An error occurred while submitting form data.");
+      setSubmissionMessage("An error occurred. Please try again.");
       setLoader("");
     }
-  };
-
-  // Utility to load the external script
-  const loadScript = (src) => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = src;
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
   };
 
   return (
     <Layout pageTitle="tryScrum | Checkout" pageName="checkout">
       <NavTwo />
-
-      {/* We can keep or remove form 'onSubmit'—just ensure it doesn't cause default submit */}
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={submitHandler}>
         <div className="checkout-main-container">
+          {/* Main wrapper with two columns: Left 70%, Right 30% */}
           <div className="checkout-container">
             {/* LEFT Column (70%) */}
             <div className="checkout-left-col">
-              {/* Row 1: Billing Details */}
+              {/* Row 1: Basic Details (red-ish background) */}
               <div className="checkout-left-row1">
                 <div className="checkout-billing-head">
-                  <h4 style={{ fontWeight: "700", marginBottom: "5%", width:"100%"}}>
-                    <span
-                      style={{
-                        backgroundColor: "#ff0000",
-                        color: "#fff",
-                        padding: "1% 2%",
-                        borderRadius: "20px",
-                        fontSize: "16px",
-                      }}
-                    >
-                      1
-                    </span>
-                    &nbsp;Billing Details
-                  </h4>
-                  {isProceedClicked && (
-                    <div className="billing-edit" onClick={editDetails}>
-                      <img
-                        src={editprofile}
-                        style={{ width: "20px" }}
-                        alt="edit-profle"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* If we haven't proceeded, show the form */}
+                <h4 style={{ fontWeight: "700", marginBottom: "5%", width:"100%"}}>
+                  <span
+                    style={{
+                      backgroundColor: "#ff0000",
+                      color: "#fff",
+                      padding: "1% 2%",
+                      borderRadius: "20px",
+                      fontSize: "16px",
+                    }}
+                  >
+                    1
+                  </span>
+                  &nbsp;Billing Details
+                </h4>
+                {isProceedClicked && (
+                  <div className="billing-edit" onClick={editDetails}>
+                    <img
+                      src={editprofile}
+                      style={{ width: "20px" }}
+                      alt="edit-profle"
+                    />
+                  </div>
+                )}
+</div>
+                {/* Show form only if not proceeded */}
                 {!isProceedClicked && (
                   <div className="proceed-form">
-                    {/* Participants */}
+                    {/* Participants (repeating fields) */}
                     {participants.map((participant, index) => (
                       <div key={index} style={{ marginBottom: "20px" }}>
                         <h5>Attendee {index + 1}</h5>
@@ -457,9 +472,7 @@ const CheckoutPage = () => {
                           placeholder="Address*"
                         />
                         {otherDetailsErrors.address && (
-                          <span className="error">
-                            {otherDetailsErrors.address}
-                          </span>
+                          <span className="error">{otherDetailsErrors.address}</span>
                         )}
                       </div>
 
@@ -473,9 +486,7 @@ const CheckoutPage = () => {
                             placeholder="State*"
                           />
                           {otherDetailsErrors.state && (
-                            <span className="error">
-                              {otherDetailsErrors.state}
-                            </span>
+                            <span className="error">{otherDetailsErrors.state}</span>
                           )}
                         </div>
                         <div className="form-group">
@@ -487,9 +498,7 @@ const CheckoutPage = () => {
                             placeholder="Zip Code*"
                           />
                           {otherDetailsErrors.zip && (
-                            <span className="error">
-                              {otherDetailsErrors.zip}
-                            </span>
+                            <span className="error">{otherDetailsErrors.zip}</span>
                           )}
                         </div>
                       </div>
@@ -507,7 +516,7 @@ const CheckoutPage = () => {
                 )}
               </div>
 
-              {/* Row 2: Secure Payment */}
+              {/* Row 2: Secure Payment (yellow-ish background) */}
               <div className="checkout-left-row2">
                 <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
                   <span
@@ -536,11 +545,9 @@ const CheckoutPage = () => {
                       ensuring that every transaction is protected by advanced
                       encryption and robust security protocols.
                     </h6>
-
-                    {/* Pay Now button triggers payNowHandler */}
                     <button
                       className="pay-button"
-                      onClick={payNowHandler}
+                      type="submit"
                       style={{ background: "#ff0000" }}
                     >
                       {loader === "loading" ? "Processing..." : "Pay Now"}
@@ -559,110 +566,125 @@ const CheckoutPage = () => {
             {/* RIGHT Column (30%) */}
             <div className="checkout-right-col">
               <div className="checkout-right-row1">
-                <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
-                  Payment Summary
-                </h4>
-                <h5 style={{ fontWeight: "600", marginBottom: "5%" }}>
-                  {courseNametitle}
-                </h5>
+              <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
+                Payment Summary
+              </h4>
+              <h5 style={{ fontWeight: "600", marginBottom: "5%" }}>
+                {courseNametitle}
+              </h5>
 
-                {courseDate && (
-                  <>
-                    <div className="summary-item">
-                      <span>{courseDate}</span><br/>
-                    </div>
-                    <div className="summary-item">
-                      <span>{CourseTime}</span><br/>
-                    </div>
-                    <div className="summary-item">
-                      <span>{CourseLocation}</span>
-                    </div>
-                  </>
-                )}
-
-                {/* Ticket quantity UI */}
-                <div className="ticket-quantity">
-                  <button
-                    type="button"
-                    onClick={handleTicketDecrement}
-                  >
-                    -
-                  </button>
-                  <span style={{ margin: "0 10px" }}>{participants.length}</span>
-                  <button
-                    type="button"
-                    onClick={handleTicketIncrement}
-                  >
-                    +
-                  </button>
-                </div>
-
+              {/* Show the courseDate if needed */}
+              {courseDate && (
+                <>
                 <div className="summary-item">
-                  <span>Subtotal:</span>
-                  <span>{curencyString}{subTotal.toFixed(2)}</span>
+                  <span>{courseDate}</span><br/>
                 </div>
+                <div className="summary-item">
+                <span>{CourseTime}</span><br/>
+              </div>
+              <div className="summary-item">
+              <span>{CourseLocation}</span>
+            </div>
+            </>
+              )}
 
-                {/* If the coupon is applied, show discount */}
-                {couponValue > 0 && (
+              {/* Ticket quantity UI */}
+              <div className="ticket-quantity">
+                <button
+                  type="button"
+                  onClick={handleTicketDecrement}
+                >
+                  -
+                </button>
+                <span style={{ margin: "0 10px" }}>{participants.length}</span>
+                <button
+                  type="button"
+                  onClick={handleTicketIncrement}
+                >
+                  +
+                </button>
+              </div>
+
+              <div className="summary-item">
+                <span>Subtotal:</span>
+                <span>{curencyString}{subTotal.toFixed(2)}</span>
+              </div>
+
+             {/* If the coupon is applied, show discount above the total */}
+             {couponValue > 0 && (
                   <div className="summary-item discount">
                     <span>Discount:</span>
                     <span style={{ color: "green" }}>- ₹{couponValue}</span>
                   </div>
                 )}
-
-                <div className="summary-item total">
-                  <span>Total:</span>
-                  <span>{curencyString}{total.toFixed(2)}</span>
+              {/* Only show GST if user wants it */}
+              {/* {useTotal && (
+                <div className="summary-item">
+                  <span>GST (18%):</span>
+                  <span>₹{gstAmount.toFixed(2)}</span>
                 </div>
+              )} */}
+                {/* <div className="summary-item">
+                  <span>GST (18%):</span>
+                  <span>₹{gstAmount.toFixed(2)}</span>
+                </div> */}
+              {/* <div className="form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    id="useTotalCheckbox"
+                    checked={useTotal}
+                    onChange={(e) => setUseTotal(e.target.checked)}
+                  />{" "}
+                  Check if you want GST invoice
+                </label>
+              </div> */}
+
+              <div className="summary-item total">
+
+                <span>Total:</span>
+                <span>{curencyString}{total.toFixed(2)}</span>
               </div>
-
-              <div className="checkout-right-row2">
-                <h4 style={{ fontWeight: "700", marginBottom: "5%" }}>
-                  Promo Code
-                </h4>
-                <div style={{ display: 'flex' }}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      name="Enter Coupon Code"
-                      placeholder="Enter Coupon"
-                      value={coupon}
-                      onChange={(e) => setCoupon(e.target.value)}
-                      style={{borderRadius:"10px"}}
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className="promo-button"
-                    onClick={submitPromo}
-                    style={{
-                      background: "#ff0000",
-                      color:"#fff",
-                      borderRadius:"10px",
-                      border:"none",
-                      width:"40%",
-                      height:"50px",
-                      marginLeft: "5px"
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
-
-                {couponerror && (
+            </div>
+            <div className="checkout-right-row2 ">
+            <h4 style={{ fontWeight: "700", marginBottom: "5%", }}>
+                Promo Code
+              </h4>
+              <div style={{ display: 'flex' }}>
+              <div className="form-group">
+                            <input
+                              type="text"
+                              name="Enter Coupon Code"
+                              placeholder="Enter Coupon"
+                              value={coupon}            // Controlled: value comes from state
+                              onChange={(e) => setCoupon(e.target.value)}
+                        style={{borderRadius:"10px"}}/>
+                          </div>
+                          <button
+                          type="button"
+                      className="promo-button"
+                      onClick={submitPromo}
+                      style={{ background: "#ff0000", color:"#fff", borderRadius:"10px", border:"none", width:"40%", height:"50px"}}
+                    >
+                      Submit
+                    </button>
+                  
+              </div>
+              {couponerror && (
                   <p style={{ color: "red", marginTop: "5px" }}>{couponerror}</p>
                 )}
-                {submissionMessage && (
+
+                {/* Show success message for discount (visible for 5s) */}
+                {/* {submissionMessage && (
                   <p style={{ color: "green", marginTop: "5px" }}>
                     {submissionMessage}
                   </p>
-                )}
-              </div>
+                )} */}
             </div>
+          </div>
           </div>
         </div>
       </form>
-
       <Footer />
     </Layout>
   );
