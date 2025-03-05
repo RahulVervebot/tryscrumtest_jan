@@ -284,7 +284,7 @@ const CheckoutPage = () => {
         .map((p, i) => `${i + 1}: ${p.fullName}`)
         .join(", ");
       const allEmails = participants
-        .map((p, i) => `Ticket ${i + 1}: ${p.email}`)
+        .map((p, i) => `${p.email}`)
         .join(", ");
       const allMobiles = participants
         .map((p, i) => `Ticket ${i + 1}: ${p.mobile}`)
