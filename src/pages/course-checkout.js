@@ -281,7 +281,7 @@ const CheckoutPage = () => {
 
       // Flatten repeated fields
       const allFullNames = participants
-        .map((p, i) => `${i + 1}: ${p.fullName}`)
+        .map((p, i) => `${p.fullName}`)
         .join(", ");
       const allEmails = participants
         .map((p, i) => `${p.email}`)
