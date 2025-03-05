@@ -145,6 +145,14 @@ const CheckoutPage = () => {
       newOtherErrors.zip = "Zip code is required";
       allValid = false;
     }
+    if (!otherDetails.company.trim()) {
+      newOtherErrors.company = "Billing Name is required";
+      allValid = false;
+    }
+    if (!otherDetails.gst.trim()) {
+      newOtherErrors.gst = "Billing Email is required";
+      allValid = false;
+    }
     setOtherDetailsErrors(newOtherErrors);
 
     return allValid;
@@ -233,7 +241,7 @@ const CheckoutPage = () => {
       amount: total * 100,
       currency: "INR",
       order_id: orderId,
-      name: "TryScrum",
+      name: "tryScrum",
       description: "Payment to TryScrum",
       image: logo,
       // On successful payment:
@@ -273,7 +281,7 @@ const CheckoutPage = () => {
 
       // Flatten repeated fields
       const allFullNames = participants
-        .map((p, i) => `Ticket ${i + 1}: ${p.fullName}`)
+        .map((p, i) => `${i + 1}: ${p.fullName}`)
         .join(", ");
       const allEmails = participants
         .map((p, i) => `Ticket ${i + 1}: ${p.email}`)
@@ -287,8 +295,8 @@ const CheckoutPage = () => {
       formData.append("your-mobile", allMobiles);
 
       // Single fields
-      formData.append("your-company", otherDetails.company || "");
-      formData.append("your-gst", otherDetails.gst || "");
+      formData.append("your-billing-name", otherDetails.company || "");
+      formData.append("billing-email", otherDetails.gst || "");
       formData.append("your-address", otherDetails.address);
       formData.append("your-state", otherDetails.state);
       formData.append("your-zip", otherDetails.zip);
@@ -435,8 +443,13 @@ const CheckoutPage = () => {
                           name="company"
                           value={otherDetails.company}
                           onChange={handleOtherDetailsChange}
-                          placeholder="Company Name (optional)"
+                          placeholder="Enter Billing Name"
                         />
+                             {otherDetailsErrors.company && (
+                          <span className="error">
+                            {otherDetailsErrors.company}
+                          </span>
+                        )}
                       </div>
                       <div className="form-group">
                         <input
@@ -444,8 +457,13 @@ const CheckoutPage = () => {
                           name="gst"
                           value={otherDetails.gst}
                           onChange={handleOtherDetailsChange}
-                          placeholder="GST Number (optional)"
+                          placeholder="Billing Email"
                         />
+                             {otherDetailsErrors.gst && (
+                          <span className="error">
+                            {otherDetailsErrors.gst}
+                          </span>
+                        )}
                       </div>
                       <div className="form-group">
                         <input
