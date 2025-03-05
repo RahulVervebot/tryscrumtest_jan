@@ -305,7 +305,18 @@ const CheckoutPage = () => {
       formData.append("your-coursename", courseNametitle);
       formData.append("your-coursedate", courseDate);
       formData.append("your-totalprice", total);
+      const dateObj = new Date();
+      const day = String(dateObj.getDate()).padStart(2, "0");
+      const months = [
+        "January","February","March","April","May","June",
+        "July","August","September","October","November","December"
+      ];
+      const monthName = months[dateObj.getMonth()];
+      const year = dateObj.getFullYear();
+      const todayDate = `${monthName}-${day}-${year}`;
 
+      // Append the date to formData
+      formData.append("today-date", todayDate);
       // --------------- ADD TRANSACTION ID HERE ---------------
       formData.append("transaction-id", transactionId);
 
