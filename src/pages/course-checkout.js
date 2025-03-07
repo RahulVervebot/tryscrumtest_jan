@@ -238,7 +238,7 @@ const CheckoutPage = () => {
     }
 
     const options = {
-      key: "rzp_live_AmbcZMS1mbetqH", // or your test key
+      key: "rzp_test_dkMfA9xnfpsfI5", // or your test key
       amount: total * 100,
       currency: "INR",
       order_id: orderId,
@@ -305,6 +305,7 @@ const CheckoutPage = () => {
       formData.append("your-coursedate", courseDate);
       formData.append("your-totalprice", total);
       formData.append("ticket-qty", participants.length);
+      formData.append("uacf7_submission_id-2025", '');
       const dateObj = new Date();
       const day = String(dateObj.getDate()).padStart(2, "0");
       const months = [
