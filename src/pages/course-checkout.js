@@ -208,7 +208,7 @@ const CheckoutPage = () => {
 
   // 2) Create order in the backend
   const createRazorpayOrder = (price) => {
-    setLoader("loading");
+    setLoader("");
     const data = {
       amount: price * 100, // Convert to paise
       currency: curencyString || "INR",
