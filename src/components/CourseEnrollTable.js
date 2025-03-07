@@ -701,13 +701,13 @@ class CourseEnrollTable extends React.Component {
                         <i class="fa fa-tag"></i>&nbsp;{" "}
                         <strike>{filtered.regularPrice}</strike> &nbsp;
                         {filtered.salePrice} &nbsp;{" "}
-                        <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
+                        {/* <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
                           <i class="fa fa-info-circle info-detail"></i>
-                        </span>
+                        </span> */}
                       </p>
                     </ul>
                     <center>
-                    {filtered.salePrice.includes("INR") ? (
+      {filtered.salePrice.includes("INR") ? (
      <PriceProgressBar course={course} date={filtered.date1} time={filtered.time1} location={filtered.location} courseprice={filtered.salePrice} />
   ) :
 
@@ -893,9 +893,9 @@ class CourseEnrollTable extends React.Component {
                             <i class="fa fa-tag"></i>&nbsp;{" "}
                             <strike>{filtered.regularPrice}</strike> &nbsp;
                             {filtered.salePrice} &nbsp;{" "}
-                            <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
+                            {/* <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
                               <i className="fa fa-info-circle info-detail"></i>
-                            </span>
+                            </span> */}
                           </p>
                         </ul>
                         <center>
@@ -1183,9 +1183,9 @@ class CourseEnrollTable extends React.Component {
                         <i class="fa fa-tag"></i>&nbsp;{" "}
                         <strike>{filtered.regularPrice}</strike> &nbsp;
                         {filtered.salePrice} &nbsp;{" "}
-                        <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
+                        {/* <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
                           <i className="fa fa-info-circle info-detail"></i>
-                        </span>
+                        </span> */}
                       </p>
                     </ul>
                     <center>
@@ -1381,9 +1381,9 @@ class CourseEnrollTable extends React.Component {
                                 <i class="fa fa-tag"></i>&nbsp;{" "}
                                 <strike>{filtered.regularPrice}</strike> &nbsp;
                                 {filtered.salePrice} &nbsp;{" "}
-                                <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
+                                {/* <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
                                   <i className="fa fa-info-circle info-detail"></i>
-                                </span>
+                                </span> */}
                               </p>
                             </ul>
                             <center>
@@ -1678,9 +1678,9 @@ class CourseEnrollTable extends React.Component {
                           <i class="fa fa-tag"></i>&nbsp;{" "}
                           <strike>{filtered.regularPrice}</strike> &nbsp;
                           {filtered.salePrice} &nbsp;{" "}
-                          <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
+                          {/* <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
                             <i className="fa fa-info-circle info-detail"></i>
-                          </span>
+                          </span> */}
                         </p>
                       </ul>
                       <center>
@@ -1877,9 +1877,9 @@ class CourseEnrollTable extends React.Component {
                               <i class="fa fa-tag"></i>&nbsp;{" "}
                               <strike>{filtered.regularPrice}</strike> &nbsp;
                               {filtered.salePrice} &nbsp;{" "}
-                              <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
+                              {/* <span data-title="The price listed is only for Indian Markets. Please click the enroll button to know the prices for foreign markets.">
                                 <i className="fa fa-info-circle info-detail"></i>
-                              </span>
+                              </span> */}
                             </p>
                           </ul>
                           <center>
