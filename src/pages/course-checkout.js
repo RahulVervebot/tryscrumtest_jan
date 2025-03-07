@@ -314,14 +314,12 @@ const CheckoutPage = () => {
       const monthName = months[dateObj.getMonth()];
       const year = dateObj.getFullYear();
       const todayDate = `${monthName}-${day}-${year}`;
-
       // Append the date to formData
       formData.append("today-date", todayDate);
       // --------------- ADD TRANSACTION ID HERE ---------------
       formData.append("transaction-id", transactionId);
       const invid = transactionId.slice(-2);
       formData.append("uacf7_submission_id-2025", `0002025${invid}`);
-
       const config = {
         headers: {
           "content-type": "application/x-www-form-urlencoded",
