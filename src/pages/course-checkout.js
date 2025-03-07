@@ -305,7 +305,6 @@ const CheckoutPage = () => {
       formData.append("your-coursedate", courseDate);
       formData.append("your-totalprice", total);
       formData.append("ticket-qty", participants.length);
-      formData.append("uacf7_submission_id-2025", '');
       const dateObj = new Date();
       const day = String(dateObj.getDate()).padStart(2, "0");
       const months = [
@@ -320,6 +319,8 @@ const CheckoutPage = () => {
       formData.append("today-date", todayDate);
       // --------------- ADD TRANSACTION ID HERE ---------------
       formData.append("transaction-id", transactionId);
+      const invid = transactionId.slice(-2);
+      formData.append("uacf7_submission_id-2025", `0002025${invid}`);
 
       const config = {
         headers: {
