@@ -319,7 +319,7 @@ const CheckoutPage = () => {
       // --------------- ADD TRANSACTION ID HERE ---------------
       formData.append("transaction-id", transactionId);
       const invid = transactionId.slice(-4);
-      formData.append("uacf7_submission_id-2025", `0002025${invid}`);
+      formData.append("uacf7_submission_id-2025", `0002025${day}${invid}`);
       const config = {
         headers: {
           "content-type": "application/x-www-form-urlencoded",
