@@ -173,7 +173,7 @@ const CheckoutPage = () => {
   const submitPromo = () => {
     const trimmedCoupon = coupon.trim();
     if (trimmedCoupon === 'TRY-CSPO-SPL') {
-      setCouponValue(1000);
+      setCouponValue(17498);
       setCouponError("");
       setCoupon("");
       // Show success message for 5 seconds
@@ -237,7 +237,7 @@ const CheckoutPage = () => {
     }
 
     const options = {
-      key: "rzp_test_dkMfA9xnfpsfI5", // or your test key
+      key: "rzp_live_AmbcZMS1mbetqH", // or your test key
       amount: total * 100,
       currency: "INR",
       order_id: orderId,
@@ -293,18 +293,17 @@ const CheckoutPage = () => {
       formData.append("your-fullName", allFullNames);
       formData.append("your-email", allEmails);
       formData.append("your-mobile", allMobiles);
-
       // Single fields
       formData.append("your-billing-name", otherDetails.company || "");
       formData.append("billing-email", otherDetails.gst || "");
       formData.append("your-address", otherDetails.address);
       formData.append("your-state", otherDetails.state);
       formData.append("your-zip", otherDetails.zip);
-
       // Course info
       formData.append("your-coursename", courseNametitle);
       formData.append("your-coursedate", courseDate);
       formData.append("your-totalprice", total);
+      formData.append("ticket-qty", participants.length);
       const dateObj = new Date();
       const day = String(dateObj.getDate()).padStart(2, "0");
       const months = [
@@ -454,7 +453,7 @@ const CheckoutPage = () => {
                           name="company"
                           value={otherDetails.company}
                           onChange={handleOtherDetailsChange}
-                          placeholder="Enter Billing Name"
+                          placeholder="Enter Billing Name*"
                         />
                              {otherDetailsErrors.company && (
                           <span className="error">
@@ -468,7 +467,7 @@ const CheckoutPage = () => {
                           name="gst"
                           value={otherDetails.gst}
                           onChange={handleOtherDetailsChange}
-                          placeholder="Billing Email"
+                          placeholder="Billing Email*"
                         />
                              {otherDetailsErrors.gst && (
                           <span className="error">
