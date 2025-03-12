@@ -61,10 +61,13 @@ const CheckoutPage = () => {
   // Subtotal, total
   const subTotal = priceNum * participants.length;
   // For illustration, we do subTotal minus coupon. (Adjust logic as needed.)
-  const total = subTotal - couponValue;
+
+  const totalgst = 0.18;
+  const gstAmount = subTotal * totalgst;
+  const total = subTotal + gstAmount - couponValue;
 
   // We'll always use the same backend URL:
-  const backendURL = "https://tryscrumlive.vervebot.io/create-order-venkat.php";
+  const backendURL = "https://tryscrumlive.vervebot.io/create-order.php";
 
   // --- TICKET HANDLERS ---
   const handleTicketIncrement = () => {
@@ -238,7 +241,7 @@ const CheckoutPage = () => {
     }
 
     const options = {
-      key: "rzp_test_dkMfA9xnfpsfI5", // or your test key
+      key: "rzp_test_0Js9xikS78x72b", // or your test key
       amount: total * 100,
       currency: "INR",
       order_id: orderId,
@@ -629,6 +632,12 @@ const CheckoutPage = () => {
                   <span>Subtotal:</span>
                   <span>₹{curencyString}{subTotal.toFixed(2)}</span>
                 </div>
+
+                <div className="summary-item">
+                  <span>GST:</span>
+                  <span>₹{gstAmount.toFixed(2)}</span>
+                </div>
+                
 
                 {/* If the coupon is applied, show discount */}
                 {couponValue > 0 && (
