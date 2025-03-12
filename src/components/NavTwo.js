@@ -127,9 +127,9 @@ class NavTwo extends Component {
           >
               <img
                src={anyversarybanner}
+               style={{width: "100%"}}
                   alt="7th-any"
                  />
-                 
             <Feedbackform />
             <div className="container" style={{ background: "#fff", zIndex:'9' }}>
               <div
