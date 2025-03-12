@@ -47,6 +47,7 @@ import calcombo from "../assets/images/new-logos/cal.jpg";
 import ppdv from "../assets/images/ppdv.png";
 import ppdvsm from "../assets/images/ppdvsm.png";
 import pspbm from "../assets/images/pspbmsm.png";
+import anyversarybanner from "../assets/images/7th-Celebration.jpg"
 import { Backdrop, CircularProgress } from "@mui/material";
 
 const handleRedirect = () => {
@@ -106,7 +107,6 @@ class NavTwo extends Component {
 
     return (
       <>
-      
         <Backdrop
           open={this.state.loader}
           sx={{ zIndex: "9999999999", height: "100vh" }}
@@ -119,13 +119,17 @@ class NavTwo extends Component {
           style={{ background: "#fff" }}
         >
           {/*Desktop Nav start */}
-
           <nav
             className={`ribbon navbar navbar-expand-lg navbar-light header-navigation stricky  ${this.state.sticky ? "stricked-menu stricky-fixed ribbon" : ""
               }`}
 
           // style={{display:"flex",flexDirection:"column"}}
           >
+              <img
+               src={anyversarybanner}
+                  alt="7th-any"
+                 />
+                 
             <Feedbackform />
             <div className="container" style={{ background: "#fff", zIndex:'9' }}>
               <div
