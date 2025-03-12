@@ -8946,7 +8946,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
               </div>
  <div style={{ paddingLeft: "0", paddingRight: "0" }}></div>
 
-<div className="testimonials_course" style={{marginBottom: "5%"}}>
+<div className="testimonials_course" style={{marginBottom: "5%", maxWidth: "75%"}}>
 <ScrumTabs
         testimonialOne={course.acfcoursePage.testimonials?.testimonials1}
         testimonialTwo={course.acfcoursePage.testimonials?.testimonials2}
