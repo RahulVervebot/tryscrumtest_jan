@@ -56,7 +56,8 @@ import Cal2 from "../assets/images/new-logos/cal2.png";
 import Cspobanner from "../assets/images/cspobanner.png";
 import Cspol from "../assets/images/cspo.png";
 import PriceProgressBar from "../components/PricePrograss";
-
+import ScrumTabs from "../components/ScrumTabs";
+import { Margin } from "@mui/icons-material";
 ReactModal.setAppElement("#___gatsby");
 export const query = graphql`
   query($id: String!) {
@@ -1040,7 +1041,11 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
     course.title != "Certified Scrum Master(CSM)" &&
     course.title != "Certified Scrum Product Owner(CSPO)"
   )
+
+  
+
   {
+
     return (
 
       // <Layout pageTitle="tryScrum | Course Details">
@@ -8939,8 +8944,18 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                   title={data.wpPost.title}
                 />
               </div>
-              <div style={{ paddingLeft: "0", paddingRight: "0" }}></div>
-  
+ <div style={{ paddingLeft: "0", paddingRight: "0" }}></div>
+
+<div className="testimonials_course" style={{marginBottom: "5%"}}>
+<ScrumTabs
+        testimonialOne={course.acfcoursePage.testimonials?.testimonials1}
+        testimonialTwo={course.acfcoursePage.testimonials?.testimonials2}
+        testimonialThree={course.acfcoursePage.testimonials?.testimonials3}
+        testimonialFour={course.acfcoursePage.testimonials?.testimonials4}
+        testimonialFive={course.acfcoursePage.testimonials?.testimonials5}
+      />
+  </div>
+
               {course.acfcoursePage.faq1.heading === "" ? (
                 ""
               ) : (
@@ -8962,7 +8977,6 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                   <p> Here are answers to some frequently asked questions about  {course.title} training.</p>
                 </div>
               )}
-  
               <div
                 style={{ marginTop: "20px" }}
                 class="accordion gotofaq"

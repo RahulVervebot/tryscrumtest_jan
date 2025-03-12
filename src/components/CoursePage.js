@@ -144,7 +144,7 @@ export default function CoursePage(props) {
                           }}
                         />
       <div style={{ padding: 30, display: 'block' }} id="ad_scrum-master-tab"> 
-      <Carousel> 
+      <Carousel>
         <Carousel.Item interval={4000}> 
         <div className="item">
  <div class="wQuote__Marker card wCard-quote text-center text-lg-start"  style={{background: "#A7DFF2", fontFamily:"verdana"}}>
