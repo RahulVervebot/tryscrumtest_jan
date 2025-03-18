@@ -252,14 +252,13 @@ const CheckoutPage = () => {
       handler: async (response) => {
         // 1) Grab the transaction id
         const paymentId = response.razorpay_payment_id;
+        await submitToCF7(paymentId);
         setResponseId(paymentId);
         navigate(`/thankyou?razorpay_payment_id=${paymentId}`);
         setTimeout(() => {
           window.location.reload();
         }, 100);
         // 2) Now submit CF7 (including transaction id)
-        await submitToCF7(paymentId);
-
         // 3) Navigate to thank you
       },
       prefill: {
@@ -279,7 +278,6 @@ const CheckoutPage = () => {
     try {
       const url =
         "https://tryscrumlive.vervebot.io/wp-json/contact-form-7/v1/contact-forms/12456/feedback?_wpcf7_unit_tag=wpcf7-8d74a4f";
-
       // Build the FormData
       const formData = new FormData();
 
