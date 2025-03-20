@@ -262,8 +262,8 @@ const CheckoutPage = () => {
         // 3) Navigate to thank you
       },
       prefill: {
-        name: "Customer Name",
-        email: "customer@example.com",
+        name: "",
+        email: "",
       },
       theme: {
         color: "#F4C430",
@@ -304,7 +304,9 @@ const CheckoutPage = () => {
       // Course info
       formData.append("your-coursename", courseNametitle);
       formData.append("your-coursedate", courseDate);
-      formData.append("your-totalprice", total);
+      formData.append("your-subtotal", total);
+      formData.append("your-gst", gstAmount);
+      formData.append("your-totalprice", subTotal);
       formData.append("ticket-qty", participants.length);
       const dateObj = new Date();
       const day = String(dateObj.getDate()).padStart(2, "0");

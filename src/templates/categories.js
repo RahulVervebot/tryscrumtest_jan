@@ -174,12 +174,7 @@ console.log('course_categories',node.course_categories);
     };
   });
                   const urlString = url.split("/");
-                  {/* const headings = posts.map((item) => {          
-                    const firstHeading = item?.course_categories?.coursesIncludes?.courseDetails?.h2Title || "";
-                    const secondHeading = item?.course_categories?.coursesIncludes?.courseDetails?.subTitle || "";
-                    const thirdHeading = item?.course_categories?.coursesIncludes?.courseDetails?.semiTitle || "";
-                    return {firstHeading, secondHeading, thirdHeading}
-                  }); */}
+
 
                   const firstHeading = headings[0]?.firstHeading;
                   const secondHeading = headings[0]?.secondHeading;
