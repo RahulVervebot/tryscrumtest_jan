@@ -65,7 +65,9 @@ const CheckoutPage = () => {
   const totalgst = 0.18;
   const gstAmount = subTotal * totalgst;
   const total = subTotal + gstAmount - couponValue;
-
+  const formatIndianNumber = (num) => {
+    return new Intl.NumberFormat('en-IN').format(num);
+};
   // We'll always use the same backend URL:
   const backendURL = "https://tryscrumlive.vervebot.io/create-order.php";
 
@@ -304,11 +306,13 @@ const CheckoutPage = () => {
       // Course info
       formData.append("your-coursename", courseNametitle);
       formData.append("your-coursedate", courseDate);
-      formData.append("your-subtotal", total);
-      formData.append("your-gst", gstAmount);
-      formData.append("your-totalprice", subTotal);
+      formData.append("your-subtotal", formatIndianNumber(subTotal));
+      formData.append("your-gst", formatIndianNumber(gstAmount));
+      formData.append("your-totalprice", formatIndianNumber(total));
       formData.append("ticket-qty", participants.length);
       const dateObj = new Date();
+
+      
       const day = String(dateObj.getDate()).padStart(2, "0");
       const months = [
         "January","February","March","April","May","June",
