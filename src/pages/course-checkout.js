@@ -312,7 +312,8 @@ const CheckoutPage = () => {
       formData.append("ticket-qty", participants.length);
       const dateObj = new Date();
 
-      
+      const minutes = dateObj.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit format
+    const seconds = dateObj.getSeconds().toString().padStart(2, '0'); // Ensure 2-digit format
       const day = String(dateObj.getDate()).padStart(2, "0");
       const months = [
         "January","February","March","April","May","June",
@@ -326,7 +327,7 @@ const CheckoutPage = () => {
       // --------------- ADD TRANSACTION ID HERE ---------------
       formData.append("transaction-id", transactionId);
       const invid = transactionId.slice(-4);
-      formData.append("uacf7_submission_id-2025", `0002025${day}${invid}`);
+      formData.append("uacf7_submission_id-2025", `002025${day}${minutes}${seconds}`);
       const config = {
         headers: {
           "content-type": "application/x-www-form-urlencoded",
