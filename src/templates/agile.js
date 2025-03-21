@@ -500,8 +500,6 @@ export const query = graphql`
           heading
         }
         testimonials {
-        testimonialheader
-        testimonialheadtext
           testimonials1
           testimonials2
           testimonials3
@@ -8385,7 +8383,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
 
 
   else if (course.title === "Certified Scrum Master(CSM)") {
-    console.log("testimonial content",course.acfcoursePage.testimonials);
+   console.log("testimonial content",course.acfcoursePage.testimonials);
     return (
       // <Layout pageTitle="tryScrum | Course Details">
       <>
