@@ -500,10 +500,13 @@ export const query = graphql`
           heading
         }
         testimonials {
+        testimonialheader
+        testimonialheadtext
           testimonials1
           testimonials2
           testimonials3
           testimonials4
+          testimonials5
         }
         bundle {
           category
@@ -8945,7 +8948,25 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                 />
               </div>
  <div style={{ paddingLeft: "0", paddingRight: "0" }}></div>
-
+{
+  course.acfcoursePage.testimonials? 
+  <h2
+                    style={{
+                      color: "black",
+                      marginTop: "10px",
+                      scrollPaddingTop: "100px",
+                    }}
+                    id="testimonialheader"
+>{course.acfcoursePage.testimonials?.testimonialheader}</h2> :''
+}
+<div style={{ display: "inline-block" }}>
+                    <img src={horizontal} width="450px" alt="img" />
+                  </div>
+                  {
+  course.acfcoursePage.testimonials? 
+ <p>{course.acfcoursePage.testimonials?.testimonialheadtext}</p>
+ :""
+}
 <div className="testimonials_course" style={{marginBottom: "5%", maxWidth: "75%"}}>
 <ScrumTabs
         testimonialOne={course.acfcoursePage.testimonials?.testimonials1}

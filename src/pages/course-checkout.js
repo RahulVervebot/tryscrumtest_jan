@@ -57,11 +57,9 @@ const CheckoutPage = () => {
   const priceString = searchParams.get("price"); // e.g. "14500"
   const priceNum = parseFloat(priceString) || 0;
   const curencyString = searchParams.get("mycurrency");
-
   // Subtotal, total
   const subTotal = priceNum * participants.length;
   // For illustration, we do subTotal minus coupon. (Adjust logic as needed.)
-
   const totalgst = 0.18;
   const gstAmount = subTotal * totalgst;
   const total = subTotal + gstAmount - couponValue;
@@ -311,7 +309,6 @@ const CheckoutPage = () => {
       formData.append("your-totalprice", formatIndianNumber(total));
       formData.append("ticket-qty", participants.length);
       const dateObj = new Date();
-
       const minutes = dateObj.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit format
     const seconds = dateObj.getSeconds().toString().padStart(2, '0'); // Ensure 2-digit format
       const day = String(dateObj.getDate()).padStart(2, "0");
@@ -395,7 +392,6 @@ const CheckoutPage = () => {
                     </div>
                   )}
                 </div>
-
                 {/* If we haven't proceeded, show the form */}
                 {!isProceedClicked && (
                   <div className="proceed-form">
@@ -403,7 +399,6 @@ const CheckoutPage = () => {
                     {participants.map((participant, index) => (
                       <div key={index} style={{ marginBottom: "20px" }}>
                         <h5>Attendee {index + 1}</h5>
-
                         <div className="two-column-row">
                           <div className="form-group">
                             <input
@@ -419,7 +414,6 @@ const CheckoutPage = () => {
                               </span>
                             )}
                           </div>
-
                           <div className="form-group">
                             <input
                               type="email"
@@ -434,7 +428,6 @@ const CheckoutPage = () => {
                               </span>
                             )}
                           </div>
-
                           <div className="form-group">
                             <input
                               type="text"
@@ -452,7 +445,6 @@ const CheckoutPage = () => {
                         </div>
                       </div>
                     ))}
-
                     {/* Single (non-repeating) details */}
                     <div style={{ marginTop: "2rem" }}>
                       <h5>Billing Info</h5>
