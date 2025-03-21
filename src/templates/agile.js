@@ -8385,7 +8385,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
 
 
   else if (course.title === "Certified Scrum Master(CSM)") {
-    
+    console.log("testimonial content",course.acfcoursePage.testimonials);
     return (
       // <Layout pageTitle="tryScrum | Course Details">
       <>
@@ -8947,8 +8947,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                   title={data.wpPost.title}
                 />
               </div>
- <div style={{ paddingLeft: "0", paddingRight: "0" }}></div>
-{
+{/* {
   course.acfcoursePage.testimonials? 
   <h2
                     style={{
@@ -8962,11 +8961,11 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
 <div style={{ display: "inline-block" }}>
                     <img src={horizontal} width="450px" alt="img" />
                   </div>
-                  {
+{
   course.acfcoursePage.testimonials? 
  <p>{course.acfcoursePage.testimonials?.testimonialheadtext}</p>
  :""
-}
+} */}
 <div className="testimonials_course" style={{marginBottom: "5%", maxWidth: "75%"}}>
 <ScrumTabs
         testimonialOne={course.acfcoursePage.testimonials?.testimonials1}
@@ -8974,7 +8973,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
         testimonialThree={course.acfcoursePage.testimonials?.testimonials3}
         testimonialFour={course.acfcoursePage.testimonials?.testimonials4}
         testimonialFive={course.acfcoursePage.testimonials?.testimonials5}
-      />
+/>
   </div>
 
               {course.acfcoursePage.faq1.heading === "" ? (
