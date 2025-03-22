@@ -500,6 +500,8 @@ export const query = graphql`
           heading
         }
         testimonials {
+        testimonialheader
+        testimonialheadtext
           testimonials1
           testimonials2
           testimonials3
