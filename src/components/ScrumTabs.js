@@ -38,7 +38,6 @@ const ScrumTabs = ({
     <Carousel>
       {filteredTestimonials.map((testimonial, index) => (
         <div className="trest">
-          <h2>test</h2>
           
         <Carousel.Item interval={4000} key={index}>
           <div className="item">

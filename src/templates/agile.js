@@ -8963,7 +8963,13 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                   </div>
 {
   course.acfcoursePage.testimonials? 
- <p>{course.acfcoursePage.testimonials?.testimonialheadtext}</p>
+
+ 
+ <p className="wCard-quote__text"
+                dangerouslySetInnerHTML={{
+                            __html: course.acfcoursePage.testimonials?.testimonialheadtext,
+                          }}
+            />
  :""
 }
 <div className="testimonials_course" style={{marginBottom: "5%", maxWidth: "75%"}}>
