@@ -8945,7 +8945,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
                   title={data.wpPost.title}
                 />
               </div>
-{/* {
+{
   course.acfcoursePage.testimonials? 
   <h2
                     style={{
@@ -8963,7 +8963,7 @@ console.log('course.acfcoursePage.options.customMetaUrl', course.acfcoursePage.o
   course.acfcoursePage.testimonials? 
  <p>{course.acfcoursePage.testimonials?.testimonialheadtext}</p>
  :""
-} */}
+}
 <div className="testimonials_course" style={{marginBottom: "5%", maxWidth: "75%"}}>
 <ScrumTabs
         testimonialOne={course.acfcoursePage.testimonials?.testimonials1}

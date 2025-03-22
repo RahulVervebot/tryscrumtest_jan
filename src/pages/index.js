@@ -30,62 +30,21 @@ const HomePage = ({ data }) => {
   console.log(data, "newdata")
   const title = data.wpPage.seo.title
   const metadesc = data.wpPage.seo.metaDesc
-  // useEffect(() => {
-  //   // Define the link elements manually
-  //   const linkUS = document.createElement("link");
-  //   linkUS.rel = "alternate";
-  //   linkUS.hreflang = "en-US";
-  //   linkUS.href = "https://www.tryscrum.com/";
-
-  //   const linkIN = document.createElement("link");
-  //   linkIN.rel = "alternate";
-  //   linkIN.hreflang = "en-IN";
-  //   linkIN.href = "https://www.tryscrum.com/in/";
-
-  //   // Append to head
-  //   document.head.appendChild(linkUS);
-  //   document.head.appendChild(linkIN);
-
-  //   // Cleanup function to remove the elements when the component unmounts
-  //   return () => {
-  //     document.head.removeChild(linkUS);
-  //     document.head.removeChild(linkIN);
-  //   };
-  // }, []);
-   
   return(
   <Layout pageTitle={title} metaDesc={metadesc} pageName="home" >
-    {/* <WhatsAppShare /> */}
-    {/* <Topbar /> */}
     <NavTwo /> 
-
-    {/* <SliderOne /> */}
-
-
-    {/* <SliderOne title={data.allWpAlltable.nodes}/>  */}
     <SliderOne title={data.allWpPost.nodes}/>
-    {/* <Chat title={tabledata} />  */}
-
 
     <AboutTwo />
     <CareerNavigator/>
-    {/* <CourseOne /> */}
    <CourseHome/>
    <CourseMobile/>
     <VideoTwo />
     <CountdownKipso />
-
-    {/* <CallToActionNew /> */}
-    
-    {/* <CourseCatOne /> */}
-
     <CallToActionThree />
     
     <CallToActionTwo />
-    {/* <BlogTwo />  */}
-    {/* <CallToActionFour /> */}
     <SubscribeOne />
-    {/* <OurPartners /> */}
     <OurPartnerSlider />
 
     <div className="block-title__title" style={{ marginTop:"70px", marginBottom:"100px", textAlign:"center"}}>Trusted By</div> 
@@ -247,91 +206,3 @@ query WordPressPostArchive2 {
     }
   }
  }`
-
-
-
-
-// All Table list data 
-// export const pageQuery = graphql`
-//   query WordPressPostArchive2 {
-//     allWpAlltable {
-//       nodes {
-//         title
-//         tabledata {
-//           tableDescription {
-//             date
-//             description
-//             fieldGroupName
-//             keywords
-//             location
-//             regularPrice
-//             salePrice
-//             time
-//             trainer
-//             url
-//           }
-//           tableDescription2 {
-//             date
-//             description
-//             fieldGroupName
-//             keywords
-//             location
-//             regularPrice
-//             salePrice
-//             time
-//             trainer
-//             url
-//           }
-//           tableDescription3 {
-//             date
-//             description
-//             keywords
-//             location
-//             fieldGroupName
-//             regularPrice
-//             time
-//             salePrice
-//             trainer
-//             url
-//           }
-//           tableDescription4 {
-//             date
-//             description
-//             keywords
-//             location
-//             fieldGroupName
-//             regularPrice
-//             time
-//             salePrice
-//             trainer
-//             url
-//           }
-//           tableDescription5 {
-//             date
-//             description
-//             keywords
-//             location
-//             fieldGroupName
-//             regularPrice
-//             time
-//             salePrice
-//             trainer
-//             url
-//           }
-//           tableDescription6 {
-//             date
-//             description
-//             keywords
-//             location
-//             fieldGroupName
-//             regularPrice
-//             time
-//             salePrice
-//             trainer
-//             url
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
