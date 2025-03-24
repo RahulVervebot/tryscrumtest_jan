@@ -176,7 +176,7 @@ const CheckoutPage = () => {
   const submitPromo = () => {
     const trimmedCoupon = coupon.trim();
     if (trimmedCoupon === 'TRY-CSPO-SPL') {
-      setCouponValue(20650);
+      setCouponValue(20648);
       setCouponError("");
       setCoupon("");
       // Show success message for 5 seconds
