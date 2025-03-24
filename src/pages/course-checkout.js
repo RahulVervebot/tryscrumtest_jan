@@ -318,7 +318,7 @@ const CheckoutPage = () => {
       ];
       const monthName = months[dateObj.getMonth()];
       const year = dateObj.getFullYear();
-      const todayDate = `${monthName}-${day}-${year}`;
+      const todayDate = `${day}-${monthName}-${year}`;
       // Append the date to formData
       formData.append("today-date", todayDate);
       // --------------- ADD TRANSACTION ID HERE ---------------
