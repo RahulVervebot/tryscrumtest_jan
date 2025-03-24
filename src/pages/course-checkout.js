@@ -241,7 +241,7 @@ const CheckoutPage = () => {
     }
 
     const options = {
-      key: "rzp_test_0Js9xikS78x72b", // or your test key
+      key: "rzp_live_HhNW5remR47yrV", // or your test key
       amount: total * 100,
       currency: "INR",
       order_id: orderId,
@@ -358,7 +358,6 @@ const CheckoutPage = () => {
   return (
     <Layout pageTitle="tryScrum | Checkout" pageName="checkout">
       <NavTwo />
-
       {/* We can keep or remove form 'onSubmit'—just ensure it doesn't cause default submit */}
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="checkout-main-container">
