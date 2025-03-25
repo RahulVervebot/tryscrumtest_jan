@@ -226,7 +226,6 @@ const CheckoutPage = () => {
         setSubmissionMessage("");
       }, 5000);
     }
-
     else {
       setCouponValue(0);
       setCouponError("Invalid code");
