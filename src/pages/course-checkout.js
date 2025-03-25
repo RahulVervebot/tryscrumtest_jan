@@ -58,6 +58,7 @@ const CheckoutPage = () => {
   const priceNum = parseFloat(priceString) || 0;
   const curencyString = searchParams.get("mycurrency");
   // Subtotal, total
+  const withcouponsubTotal = priceNum * participants.length
   const subTotal = priceNum * participants.length - couponValue;
   // For illustration, we do subTotal minus coupon. (Adjust logic as needed.)
   const totalgst = 0.18;
@@ -672,23 +673,22 @@ const CheckoutPage = () => {
 
                 <div className="summary-item">
                   <span>Subtotal:</span>
-                  <span>₹{curencyString}{subTotal.toFixed(2)}</span>
-                </div>
-
-                <div className="summary-item">
-                  <span>GST:</span>
-                  <span>₹{gstAmount.toFixed(2)}</span>
-                </div>
-                
-
+                  <span>₹{curencyString}{withcouponsubTotal.toFixed(2)}</span>
+                </div> 
                 {/* If the coupon is applied, show discount */}
                 {couponValue > 0 && (
                   <div className="summary-item discount">
                     <span>Discount:</span>
                     <span style={{ color: "green" }}>- ₹{couponValue}</span>
-                  </div>
-                )}
 
+                  <span>Subtotal after discount:</span>
+                  <span>₹{curencyString}{subTotal.toFixed(2)}</span>
+                  </div>    
+                )}
+                  <div className="summary-item">
+                  <span>GST:</span>
+                  <span>₹{gstAmount.toFixed(2)}</span>
+                </div>
                 <div className="summary-item total">
                   <span>Total:</span>
                   <span>₹{curencyString}{total.toFixed(2)}</span>
