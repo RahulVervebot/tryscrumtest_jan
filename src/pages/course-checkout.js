@@ -206,8 +206,8 @@ const CheckoutPage = () => {
         setSubmissionMessage("");
       }, 5000);
     }
-    else if(trimmedCoupon === 'May 03-04, 2025' && courseDate === 'Apr 19-20, 2025') {
-      setCouponValue(1000);
+    else if(trimmedCoupon === 'TRYSCRUM-7' && courseDate === 'May 03-04, 2025') {
+      setCouponValue(500);
       setCouponError("");
       setCoupon("");
       // Show success message for 5 seconds
@@ -216,7 +216,7 @@ const CheckoutPage = () => {
         setSubmissionMessage("");
       }, 5000);
     }
-    else if(trimmedCoupon === 'May 03-04, 2025' && courseDate === 'Apr 19-20, 2025') {
+    else if(trimmedCoupon === 'CSPO-SPL' && courseDate === 'May 03-04, 2025') {
       setCouponValue(1000);
       setCouponError("");
       setCoupon("");
@@ -677,13 +677,16 @@ const CheckoutPage = () => {
                 </div> 
                 {/* If the coupon is applied, show discount */}
                 {couponValue > 0 && (
+                  <>
                   <div className="summary-item discount">
                     <span>Discount:</span>
                     <span style={{ color: "green" }}>- ₹{couponValue}</span>
-
-                  <span>Subtotal after discount:</span>
-                  <span>₹{curencyString}{subTotal.toFixed(2)}</span>
                   </div>    
+                  <div className="summary-item discount">
+                <span>Subtotal after discount:</span>
+                <span>₹{curencyString}{subTotal.toFixed(2)}</span>
+                </div>  
+                </>
                 )}
                   <div className="summary-item">
                   <span>GST:</span>
