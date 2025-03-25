@@ -58,11 +58,12 @@ const CheckoutPage = () => {
   const priceNum = parseFloat(priceString) || 0;
   const curencyString = searchParams.get("mycurrency");
   // Subtotal, total
-  const subTotal = priceNum * participants.length;
+  const subTotal = priceNum * participants.length - couponValue;
   // For illustration, we do subTotal minus coupon. (Adjust logic as needed.)
   const totalgst = 0.18;
   const gstAmount = subTotal * totalgst;
-  const total = subTotal + gstAmount - couponValue;
+  const tempcoupon = subTotal + gstAmount - 2;
+  const total = subTotal + gstAmount;
   const formatIndianNumber = (num) => {
     return new Intl.NumberFormat('en-IN').format(num);
 };
@@ -176,7 +177,7 @@ const CheckoutPage = () => {
   const submitPromo = () => {
     const trimmedCoupon = coupon.trim();
     if (trimmedCoupon === 'TRY-CSPO-SPL') {
-      setCouponValue(20648);
+      setCouponValue(tempcoupon);
       setCouponError("");
       setCoupon("");
       // Show success message for 5 seconds
@@ -184,7 +185,48 @@ const CheckoutPage = () => {
       setTimeout(() => {
         setSubmissionMessage("");
       }, 5000);
-    } else {
+    } else if(trimmedCoupon === 'TRYSCRUM-7' && courseDate === 'Apr 19-20, 2025') {
+      setCouponValue(500);
+      setCouponError("");
+      setCoupon("");
+      // Show success message for 5 seconds
+      setSubmissionMessage("Discount successfully applied!");
+      setTimeout(() => {
+        setSubmissionMessage("");
+      }, 5000);
+    }
+    else if(trimmedCoupon === 'CSPO-SPL' && courseDate === 'Apr 19-20, 2025') {
+      setCouponValue(1000);
+      setCouponError("");
+      setCoupon("");
+      // Show success message for 5 seconds
+      setSubmissionMessage("Discount successfully applied!");
+      setTimeout(() => {
+        setSubmissionMessage("");
+      }, 5000);
+    }
+    else if(trimmedCoupon === 'May 03-04, 2025' && courseDate === 'Apr 19-20, 2025') {
+      setCouponValue(1000);
+      setCouponError("");
+      setCoupon("");
+      // Show success message for 5 seconds
+      setSubmissionMessage("Discount successfully applied!");
+      setTimeout(() => {
+        setSubmissionMessage("");
+      }, 5000);
+    }
+    else if(trimmedCoupon === 'May 03-04, 2025' && courseDate === 'Apr 19-20, 2025') {
+      setCouponValue(1000);
+      setCouponError("");
+      setCoupon("");
+      // Show success message for 5 seconds
+      setSubmissionMessage("Discount successfully applied!");
+      setTimeout(() => {
+        setSubmissionMessage("");
+      }, 5000);
+    }
+
+    else {
       setCouponValue(0);
       setCouponError("Invalid code");
       setSubmissionMessage("");
@@ -295,13 +337,17 @@ const CheckoutPage = () => {
       formData.append("your-fullName", allFullNames);
       formData.append("your-email", allEmails);
       formData.append("your-mobile", allMobiles);
+
       // Single fields
+
       formData.append("your-billing-name", otherDetails.company || "");
       formData.append("billing-email", otherDetails.gst || "");
       formData.append("your-address", otherDetails.address);
       formData.append("your-state", otherDetails.state);
       formData.append("your-zip", otherDetails.zip);
+      
       // Course info
+
       formData.append("your-coursename", courseNametitle);
       formData.append("your-coursedate", courseDate);
       formData.append("your-subtotal", formatIndianNumber(subTotal));
