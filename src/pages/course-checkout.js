@@ -681,7 +681,7 @@ const CheckoutPage = () => {
                     <span>Discount:</span>
                     <span style={{ color: "green" }}>- ₹{couponValue}</span>
                   </div>    
-                  <div className="summary-item discount">
+                  <div className="summary-item">
                 <span>Subtotal after discount:</span>
                 <span>₹{curencyString}{subTotal.toFixed(2)}</span>
                 </div>  
