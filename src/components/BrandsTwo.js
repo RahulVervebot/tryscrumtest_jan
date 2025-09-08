@@ -23,7 +23,8 @@ import amicus from "../assets/images/amicus-technology-removebg.png";
 import cloudcover from "../assets/images/cloudcover.png";
 import solverminds from "../assets/images/solverminds.png";
 import TechnoTree from "../assets/images/TechnoTree.jpeg";
-
+import TataMotors from "../assets/images/Tata-Motors-Logo-Transparent-Images.png";
+import Lowcodeminds from "../assets/images/Lowcodeminds.svg";
 import AECS from "../assets/images/AECS.png"
 import BB from "../assets/images/3bb.png"
 
