@@ -41,7 +41,8 @@ import tiger from "../assets/images/tiger.png"
 import cedar from "../assets/images/cedar.png"
 import zeomega from "../assets/images/zeomega.png"
 import moneyForward from "../assets/images/moneyForward.png";
-
+import TataMotors from "../assets/images/Tata-Motors-Logo-Transparent-Images.png";
+import Lowcodeminds from "../assets/images/Lowcodeminds.svg";
 const BrandsTwo = () => {
   const params = {
     slidesPerView: 5,
@@ -284,6 +285,12 @@ const BrandsTwo = () => {
     {
       image: moneyForward
     }
+    {
+      image: TataMotors
+    },
+  {
+    image:Lowcodeminds
+  }
 
   ]
 
