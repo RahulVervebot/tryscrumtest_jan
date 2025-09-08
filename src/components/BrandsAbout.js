@@ -284,7 +284,7 @@ const BrandsTwo = () => {
     },
     {
       image: moneyForward
-    }
+    },
     {
       image: TataMotors
     },
